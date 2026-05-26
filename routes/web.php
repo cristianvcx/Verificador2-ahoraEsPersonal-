@@ -24,9 +24,12 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post')->mid
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth'); // Fallback para enlaces GET legacy
 
+
 Route::middleware(['auth'])->group(function () {
-    // Stubs que reemplazaremos en los siguientes pasos
     Route::get('/admin/actividades', function () { return 'Admin Dashboard Stub'; })->name('admin.actividades');
-    Route::get('/actividades/create', function () { return 'Crear Actividad Stub'; })->name('actividades.create');
+
+    Route::get('/actividades/create', [\App\Http\Controllers\ActividadController::class, 'create'])->name('actividades.create');
+
+    Route::post('/actividades', [\App\Http\Controllers\ActividadController::class, 'store'])->name('actividades.store');
 });
 

@@ -32,7 +32,6 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-// Redirección por rol (asegurando minúsculas y sin espacios)
         if ($user->usuario_rol === 'admin') {
             return redirect()->route('admin.actividades');
         }
