@@ -26,110 +26,11 @@
         </p>
     </div>
 
-    <form id="actividadForm" action="{{ route('actividades.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-
-        <div class="form-grid-columns-2">
-            <div class="form-group-item">
-                <label for="region">Región</label>
-                <select name="region" id="region" class="form-select-control" required>
-                    <option value="">Seleccione una región...</option>
-                    <option value="Región Metropolitana">Región Metropolitana</option>
-                    <option value="Región de Valparaíso">Región de Valparaíso</option>
-                    <option value="Región del Biobío">Región del Biobío</option>
-                    <option value="Región de Antofagasta">Región de Antofagasta</option>
-                    <option value="Región de la Araucanía">Región de la Araucanía</option>
-                </select>
-            </div>
-
-            <div class="form-group-item">
-                <label for="tipo_unidad">Tipo de Unidad</label>
-                <select name="tipo_unidad" id="tipo_unidad" class="form-select-control" required>
-                    <option value="">Seleccione tipo unidad...</option>
-                    <option value="División Tecnológica">División Tecnológica</option>
-                    <option value="Departamento de Operaciones">Departamento de Operaciones</option>
-                    <option value="Oficina de Atención Ciudadana">Oficina de Atención Ciudadana</option>
-                    <option value="Dirección Nacional">Dirección Nacional</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-grid-columns-2">
-            <div class="form-group-item">
-                <label for="unidad_operativa">Unidad Operativa</label>
-                <input type="text" name="unidad_operativa" id="unidad_operativa" class="form-input-control" placeholder="Ej: Unidad de Ciberseguridad" required>
-            </div>
-
-            <div class="form-group-item">
-                <label for="tipo">Tipo de Actividad</label>
-                <select name="tipo" id="tipo" class="form-select-control" required>
-                    <option value="">Seleccione un tipo...</option>
-                    <option value="Capacitación Interna">Capacitación Interna</option>
-                    <option value="Reunión Bilateral">Reunión Bilateral</option>
-                    <option value="Auditoría de Control">Auditoría de Control</option>
-                    <option value="Despliegue en Terreno">Despliegue en Terreno</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group-item">
-            <label for="nombre_actividad">Nombre de la Actividad (Máx. 100 caracteres)</label>
-            <input type="text" name="nombre_actividad" id="nombre_actividad" class="form-input-control" maxlength="100" placeholder="Ingrese nombre descriptivo de la actividad" required>
-        </div>
-
-        <div class="form-group-item">
-            <label for="objetivo">Objetivo de la Actividad (La Firma Electrónica) (Máx. 200 caracteres)</label>
-            <textarea name="objetivo" id="objetivo" class="form-input-control" maxlength="200" rows="3" placeholder="Describa el objetivo principal del reporte..." required></textarea>
-        </div>
-
-        <div class="form-grid-columns-2">
-            <div class="form-group-item">
-                <label for="n_participantes">Número de Participantes</label>
-                <input type="number" name="n_participantes" id="n_participantes" class="form-input-control" min="1" required>
-            </div>
-
-            <div class="form-group-item">
-                <label for="fecha_actividad">Fecha de Realización</label>
-                <input type="date" name="fecha_actividad" id="fecha_actividad" class="form-input-control" required>
-            </div>
-        </div>
-
-        <div class="form-group-item">
-            <label for="ubicacion">Ubicación física o Enlace Virtual (Máx. 150 caracteres)</label>
-            <input type="text" name="ubicacion" id="ubicacion" class="form-input-control" maxlength="150" placeholder="Ej: Auditorio del Piso 4 o Enlace de Teams" required>
-        </div>
-
-        <div class="form-group-item">
-            <label for="observacion">Observaciones Adicionales (Máx. 200 caracteres)</label>
-            <textarea name="observacion" id="observacion" class="form-input-control" maxlength="200" rows="3" placeholder="Ingrese cualquier observación pertinente..."></textarea>
-        </div>
-
-        <!-- Zona de Arrastrar y Soltar Archivo Respaldado (Drag and Drop) -->
-        <div class="form-group-item" style="margin-top: 30px;">
-            <label>
-                Archivos de Respaldo Firmados
-                (PDF, DOCX, XLS, JPG, PNG - Máx. 5MB c/u)
-            </label>
-
-            <div id="dropzone" class="drag-drop-file-zone" onclick="document.getElementById('archivo').click()">
-                <div class="file-zone-icon">⇪</div>
-                <p style="margin: 0; font-weight: 600; font-size: 1rem; color: var(--color-primary);">Arrastre aquí sus documentos o haga clic para examinar</p>
-                <p style="margin: 5px 0 0; font-size: 0.8rem; color: var(--color-text-light);">Máximo 10 archivos.</p>
-                <input type="file" name="archivos[]" id="archivo" multiple style="display: none;" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
-            </div>
-
-            <div id="file-list" style="margin-top: 15px;"></div>
-        </div>
-
-        <div class="buttons-row-action" style="display: flex; gap: 15px; margin-top: 30px; border-top: 1px solid var(--color-border); padding-top: 20px;">
-            <button type="button" class="btn-secondary" onclick="confirmarVolver()" style="margin-right: auto; padding: 11px 20px; font-weight: 500; font-size: 0.95rem; border-radius: var(--border-radius); border: 1px solid var(--color-border); cursor: pointer;">Volver</button>
-            <button type="reset" class="btn-secondary" onclick="clearFile()" style="padding: 11px 20px; font-weight: 500; font-size: 0.95rem; border-radius: var(--border-radius); border: 1px solid var(--color-border); cursor: pointer;">Limpiar Formulario</button>
-            <button type="button" class="btn-primary" onclick="confirmarGuardar()" style="background-color: var(--color-secondary); color: var(--color-white); border: none; padding: 13px 24px; border-radius: var(--border-radius); font-weight: 600; font-size: 1rem; cursor: pointer;">Guardar</button>
-        </div>
-    </form>
+<livewire:actividades.create-form />
 @endsection
 
 @stack('styles')
+
 <style>
     .form-grid-columns-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .file-selected-badge { background-color: #f8fafc; border: 1px solid var(--color-border); padding: 10px 15px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
