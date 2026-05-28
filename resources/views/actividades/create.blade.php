@@ -13,8 +13,10 @@
         <a href="{{ route('actividades.create') }}" class="active">Registrar Actividad</a>
     </li>
     <li>
-        <a href="#">Consultar</a>
-    </li>
+
+<a href="{{ route('actividades.index') }}">Consultar</a>
+
+</li>
 @endsection
 
 @section('content')
