@@ -62,7 +62,7 @@ new class extends Component {
             'ubicacion' => $this->ubicacion,
             'observacion' => $this->observacion,
             'activo' => true,
-
+            'fecha_actividad' => $this->fecha_actividad,
         ]);
 
         foreach ($this->archivos as $archivo) {
