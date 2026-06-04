@@ -11,15 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('usuario', function (Blueprint $table) {
-            $table->id('usuario_id');
-            $table->unsignedBigInteger('unidad_id')->nullable();
-            $table->string('usuario_nombre', 30)->nullable();
-            $table->string('usuario_pass', 35)->nullable();
-
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
             $table->foreign('unidad_id')
                 ->references('unidad_id')
                 ->on('unidad');
+        });
+
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -28,6 +36,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
     }
 };
