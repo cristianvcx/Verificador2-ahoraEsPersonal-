@@ -32,24 +32,18 @@ class TestExcelImport extends Command
         $this->info("Iniciando lectura de: {$file}...");
 
         try {
-            $rows = $service->parseXlsx($file);
+            $data = $service->parseXlsx($file);
+
+            $headers = $data['headers'];
+            $rows = $data['rows'];
             $total = count($rows);
 
             $this->info("¡Éxito! Total de registros encontrados: {$total}");
 
             // Tomar una muestra de las primeras 5 filas para renderizar una tabla de control
-            $sample = [];
-            foreach (array_slice($rows, 0, 5) as $row) {
-                $sample[] = [
-                    'COD' => $row['COD'] ?? 'N/A',
-                    'UNIDAD_EXCEL' => $row['UNIDAD'] ?? 'N/A',
-                    'ASIGNADO_ID' => $row['unidad_id_asignada'] ?? 'SIN COINCIDENCIA',
-                    'FUNCIONARIO' => $row['FUNCIONARIO'] ?? 'N/A',
-                    'TIPO_ACT' => $row['TIPO_ACTIVIDAD'] ?? 'N/A',
-                ];
-            }
+            $sample = array_slice($rows, 0, 5);
 
-            $this->table(['COD', 'UNIDAD_EXCEL', 'ASIGNADO_ID', 'FUNCIONARIO', 'TIPO_ACT'], $sample);
+            $this->table($headers, $sample);
 
             $noMatchCount = collect($rows)->whereNull('unidad_id_asignada')->count();
             if ($noMatchCount > 0) {
@@ -57,7 +51,6 @@ class TestExcelImport extends Command
             } else {
                 $this->info("¡Perfecto! Todas las filas se emparejaron con una unidad registrada.");
             }
-
         } catch (\Exception $e) {
             $this->error("Fallo al procesar: " . $e->getMessage());
             return 1;

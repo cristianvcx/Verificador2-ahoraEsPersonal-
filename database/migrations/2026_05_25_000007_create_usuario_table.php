@@ -12,29 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('usuario', function (Blueprint $table) {
-        $table->id('usuario_id');
+            $table->id('usuario_id');
+            $table->unsignedBigInteger('unidad_id')->nullable();
+            $table->string('usuario_nombre', 30)->nullable();
+            $table->string('usuario_pass', 35)->nullable();
 
-        $table->unsignedBigInteger('persona_id')->nullable();
-
-        $table->tinyInteger('usuario_estado_id')->nullable();
-
-        $table->string('usuario_nombre', 30)->nullable();
-
-        $table->string('usuario_pass', 35)->nullable();
-
-        $table->string('usuario_correo', 80)
-            ->nullable()
-            ->unique();
-
-        $table->string('usuario_rol', 20)
-            ->default('usuario');
-
-        $table->foreign('persona_id')
-            ->references('persona_id')
-            ->on('persona');
-    });
-
-        
+            $table->foreign('unidad_id')
+                ->references('unidad_id')
+                ->on('unidad');
+        });
     }
 
     /**
