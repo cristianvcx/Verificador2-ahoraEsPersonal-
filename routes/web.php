@@ -27,11 +27,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/actividades', function () { return 'Admin Dashboard Stub'; })->name('admin.actividades');
+    Route::get('/admin/actividades', function () {
+        return 'Admin Dashboard Stub';
+    })->name('admin.actividades');
 
     Route::get('/actividades/create', [\App\Http\Controllers\ActividadController::class, 'create'])->name('actividades.create');
 
     Route::get('/actividades', [\App\Http\Controllers\ActividadController::class, 'index'])->name('actividades.index');
-
 });
 
+require __DIR__ . '/settings.php';

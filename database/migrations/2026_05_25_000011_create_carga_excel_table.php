@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('carga_excel', function (Blueprint $table) {
             $table->id('carga_id');
-            $table->unsignedBigInteger('usuario_id'); // Operador de carga
+            $table->unsignedBigInteger('user_id'); // Operador de carga
             $table->string('nombre_archivo', 255);
             $table->integer('total_filas')->default(0);
             $table->string('estado', 50)->default('PROCESADA'); // PROCESADA, CANCELADA
             $table->timestamps();
 
-            $table->foreign('usuario_id')->references('usuario_id')->on('usuario');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
