@@ -66,4 +66,12 @@ class User extends Authenticatable implements PasskeyUser
     {
         return $this->hasMany(Actividad::class, 'usuario_id_asignado', 'id');
     }
+
+    /**
+     * Relación con las cargas de Excel realizadas por este usuario.
+     */
+    public function cargasExcel(): HasMany
+    {
+        return $this->hasMany(CargaExcel::class, 'user_id', 'id');
+    }
 }
