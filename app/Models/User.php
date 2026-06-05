@@ -30,9 +30,9 @@ class User extends Authenticatable implements PasskeyUser
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
 
 
-    protected $primaryKey = 'usuario_id';
+    protected $primaryKey = 'id';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
 
     /**
@@ -64,6 +64,6 @@ class User extends Authenticatable implements PasskeyUser
      */
     public function actividadesAsignadas(): HasMany
     {
-        return $this->hasMany(Actividad::class, 'usuario_id_asignado', 'usuario_id');
+        return $this->hasMany(Actividad::class, 'usuario_id_asignado', 'id');
     }
 }

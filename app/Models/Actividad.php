@@ -46,7 +46,7 @@ class Actividad extends Model
      */
     public function usuarioAsignado(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'usuario_id_asignado', 'usuario_id');
+        return $this->belongsTo(User::class, 'usuario_id_asignado', 'id');
     }
 
     /**
