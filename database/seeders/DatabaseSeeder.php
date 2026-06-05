@@ -22,12 +22,15 @@ class DatabaseSeeder extends Seeder
 
 
         foreach ($unidades as $u) {
-            $nombre = $u[0];
+            $id = $u[0];
+            $nombre = $u[1];
+            $correo = $u[2] ?? null;
 
             DB::table('unidad')->updateOrInsert(
-                ['unidad_nombre' => $nombre],
+                ['unidad_id' => $id],
                 [
-                    'unidad_correo' => $u[1],
+                    'unidad_nombre' => $nombre,
+                    'unidad_correo' => $correo,
                 ]
             );
         }
