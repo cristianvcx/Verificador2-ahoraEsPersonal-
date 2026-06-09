@@ -21,7 +21,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'email',
     'password',
     'rol',
-    'estado'
+    'estado',
+    'unidad_id'
 ])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
@@ -30,9 +31,9 @@ class User extends Authenticatable implements PasskeyUser
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
 
 
-    protected $primaryKey = 'usuario_id';
+    protected $primaryKey = 'id';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
 
     /**
@@ -59,11 +60,21 @@ class User extends Authenticatable implements PasskeyUser
             ->map(fn($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
+
+
     /**
-     * Relación con las actividades asignadas para su correspondiente verificación.
+     * Relación con las cargas de Excel realizadas por este usuario.
      */
-    public function actividadesAsignadas(): HasMany
+    public function cargasExcel(): HasMany
     {
-        return $this->hasMany(Actividad::class, 'usuario_id_asignado', 'usuario_id');
+        return $this->hasMany(CargaExcel::class, 'user_id', 'id');
+    }
+
+    /* 
+    * Relación con la unidad a la que pertenece el usuario (si aplica).
+     */
+    public function unidad()
+    {
+        return $this->belongsTo(Unidad::class, 'unidad_id', 'unidad_id');
     }
 }

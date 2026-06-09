@@ -12,7 +12,7 @@ class CargaExcel extends Model
     protected $primaryKey = 'carga_id';
 
     protected $fillable = [
-        'usuario_id',
+        'user_id',
         'nombre_archivo',
         'total_filas',
         'estado'
@@ -23,7 +23,7 @@ class CargaExcel extends Model
      */
     public function usuario(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'usuario_id', 'usuario_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     /**

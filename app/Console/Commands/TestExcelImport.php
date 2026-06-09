@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Actividad;
 use Illuminate\Console\Command;
 use App\Services\ExcelImporterService;
 
@@ -31,26 +32,25 @@ class TestExcelImport extends Command
 
         $this->info("Iniciando lectura de: {$file}...");
 
+
         try {
-            $data = $service->parseXlsx($file);
+            $data = $service->importActividades($file);
 
-            $headers = $data['headers'];
             $rows = $data['rows'];
-            $total = count($rows);
 
-            $this->info("¡Éxito! Total de registros encontrados: {$total}");
-
-            // Tomar una muestra de las primeras 5 filas para renderizar una tabla de control
-            $sample = array_slice($rows, 0, 5);
-
-            $this->table($headers, $sample);
-
-            $noMatchCount = collect($rows)->whereNull('unidad_id_asignada')->count();
-            if ($noMatchCount > 0) {
-                $this->warn("Advertencia: {$noMatchCount} filas no pudieron emparejarse con ninguna unidad de la base de datos.");
-            } else {
-                $this->info("¡Perfecto! Todas las filas se emparejaron con una unidad registrada.");
+            $NumberOfRows = 5;
+            $sample = [];
+            $contador = 1;
+            foreach (array_slice($rows, 0, $NumberOfRows) as $row) {
+                $sample[] = Actividad::createFromExcelRow(
+                    $row,
+                    1,
+                    2
+                );
+                $contador += 1;
             }
+
+            dump($sample);
         } catch (\Exception $e) {
             $this->error("Fallo al procesar: " . $e->getMessage());
             return 1;

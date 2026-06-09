@@ -15,37 +15,88 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $regiones = [
+            [
+                8,
+                "Biobio"
+            ],
+            [
+                9,
+                "Araucanía"
+            ],
+            [
+                10,
+                "Los Lagos"
+            ],
+            [
+                11,
+                "Aysén"
+            ],
+            [
+                14,
+                "Los Ríos"
+            ],
+            [
+                16,
+                "Ñuble"
+            ]
+        ];
+
+        foreach ($regiones as $r) {
+            $id = $r[0];
+            $name = $r[1];
+            DB::table('region')->updateOrInsert(['region_id' => $id], ['region_nombre' => $name]);
+        }
+
+
         /* 
         * FORMATO DE UNIDADES: [[ID, NOMBRE, CORREO], ...]
         */
         $unidades = require 'unidades.php';
 
 
+
         foreach ($unidades as $u) {
-            $nombre = $u[0];
+            $id = $u[0];
+            $nombre = $u[1];
+            $correo = $u[2] ?? null;
+            $region_id = $u[3] ?? null;
 
             DB::table('unidad')->updateOrInsert(
-                ['unidad_nombre' => $nombre],
+                ['unidad_id' => $id],
                 [
-                    'unidad_correo' => $u[1],
+                    'unidad_nombre' => $nombre,
+                    'unidad_correo' => $correo,
+                    'region_id' => $region_id,
                 ]
+            );
+
+            // crear usuarios de rol "unidad"
+            User::factory()->create(
+                [
+                    'estado' => 1,
+                    'name' => $nombre,
+                    'email' => $correo,
+                    'rol' => 'unidad',
+                    'unidad_id' => $id
+                ]
+
             );
         }
 
 
-
-        $usuarios = [
+        $usuariosPersonas = [
             ['nombre' => 'admin_caj', 'correo' => 'admin@cajbiobio.cl', 'rol' => 'admin'],
             ['nombre' => 'cargador_caj', 'correo' => 'cargador@cajbiobio.cl', 'rol' => 'cargador'],
             ['nombre' => 'auditor_caj', 'correo' => 'auditor@cajbiobio.cl', 'rol' => 'auditor'],
             ['nombre' => 'director_caj', 'correo' => 'region@cajbiobio.cl', 'rol' => 'director'],
-            ['nombre' => 'cchiguayante', 'correo' => 'cchiguayante@cajbiobio.cl', 'rol' => 'unidad'],
-            ['nombre' => 'ccanete', 'correo' => 'ccanete@cajbiobio.cl', 'rol' => 'unidad'],
-            ['nombre' => 'ccabrero', 'correo' => 'ccabrero@cajbiobio.cl', 'rol' => 'unidad'],
-            ['nombre' => 'cbarrionorte', 'correo' => 'cbarrionorte@cajbiobio.cl', 'rol' => 'unidad'],
+
         ];
 
-        foreach ($usuarios as $u) {
+        $usuariosUnidades = [];
+
+        foreach ($usuariosPersonas as $u) {
             User::factory()->create(
                 [
                     'estado' => 1,
@@ -53,6 +104,7 @@ class DatabaseSeeder extends Seeder
                     'email' => $u['correo'],
                     'rol' => $u['rol']
                 ]
+
             );
         }
     }

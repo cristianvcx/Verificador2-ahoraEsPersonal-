@@ -15,34 +15,52 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        info("(from login) login in..", $request->all());
+
+        // hay que validar por token tambien
         $request->validate([
-            'usuario_nombre' => 'required|string',
-            'usuario_pass'   => 'required|string',
+            '_token' => 'required|string',
+            'email' => 'required|email',
+            'password'   => 'required|string',
+        ], [
+            'email.required' => 'El campo de correo electrónico es obligatorio.',
+            'email.email' => 'El campo de correo electrónico debe ser una dirección de correo válida.',
+            'password.required' => 'El campo de contraseña es obligatorio.',
         ]);
+        info("(from login) login validated for " . $request->email);
 
-        // Autenticación manual con MD5 para compatibilidad con el sistema legado
-        $user = User::where('usuario_nombre', $request->usuario_nombre)
-                    ->where('usuario_pass', md5($request->usuario_pass))
-                    ->where('usuario_estado_id', 1)
-                    ->first();
+        $credentials = [
+            'email'    => $request->email,
+            'password' => $request->password,
+            'estado'   => true,
+        ];
 
-        if (!$user) {
-            return back()->with('error', 'Usuario o contraseña incorrecta, o cuenta deshabilitada.');
+        if (!Auth::attempt($credentials)) {
+            info("(from login) login failed for " . $request->email);
+            return back()->with('error', 'Usuario o contraseña incorrecta, o cuenta deshabilitada.'); //TO-DO: mensaje más específico según:[no autorizado, cuenta deshabilitada, etc]
         }
 
-        Auth::login($user);
-
-        if ($user->usuario_rol === 'admin') {
-            return redirect()->route('admin.actividades');
+        $user = Auth::user();
+        if ($user->rol === 'admin') {
+            info("(from login) login successful for admin " . $user->email);
+            return redirect()->route('admin.dashboard');
         }
-
-return redirect()->route('actividades.create');
+        if ($user->rol === 'cargador') {
+            info("(from login) login successful for cargador " . $user->email);
+            return redirect()->route('actividades.importar');
+        }
+        if ($user->rol === 'unidad') {
+            info("(from login) login successful for unidad " . $user->email);
+            return redirect()->route('unidad.dashboard');
+        }
+        info("(from login) login successful for user " . $user->email);
+        return redirect()->route('actividades.index');
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-        
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
