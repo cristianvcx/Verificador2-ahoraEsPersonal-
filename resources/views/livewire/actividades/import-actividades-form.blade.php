@@ -113,22 +113,24 @@
             <table class="table-custom-data" style="width: 100%; border-collapse: collapse; min-width: 800px;">
                 <thead>
                     <tr>
+                        <th style="padding: 12px 16px; background-color: #f1f5f9; text-align: left; font-size: 0.8rem; font-weight: 700; color: #475569;">MODALIDAD</th>
+                        <th style="padding: 12px 16px; background-color: #f1f5f9; text-align: left; font-size: 0.8rem; font-weight: 700; color: #475569;">TIPO ACTIVIDAD</th>
+                        <th style="padding: 12px 16px; background-color: #f1f5f9; text-align: left; font-size: 0.8rem; font-weight: 700; color: #475569;">SUB TIPO ACTIVIDAD</th>
                         <th style="padding: 12px 16px; background-color: #f1f5f9; text-align: left; font-size: 0.8rem; font-weight: 700; color: #475569;">COD</th>
                         <th style="padding: 12px 16px; background-color: #f1f5f9; text-align: left; font-size: 0.8rem; font-weight: 700; color: #475569;">FECHA</th>
                         <th style="padding: 12px 16px; background-color: #f1f5f9; text-align: left; font-size: 0.8rem; font-weight: 700; color: #475569;">UNIDAD</th>
-                        <th style="padding: 12px 16px; background-color: #f1f5f9; text-align: left; font-size: 0.8rem; font-weight: 700; color: #475569;">TIPO ACTIVIDAD</th>
-                        <th style="padding: 12px 16px; background-color: #f1f5f9; text-align: left; font-size: 0.8rem; font-weight: 700; color: #475569;">PARTICIPANTES</th>
                         <th style="padding: 12px 16px; background-color: #f1f5f9; text-align: left; font-size: 0.8rem; font-weight: 700; color: #475569;">FUNCIONARIO</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($previewRows as $row)
                     <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 12px 16px; font-size: 0.85rem; color: #334155;">{{ $row['MODALIDAD_MODIFICADO'] ?? 'N/A' }}</td>
+                        <td style="padding: 12px 16px; font-size: 0.85rem; color: #334155;">{{ $row['TIPO_MODIFICADO'] ?? 'N/A' }}</td>
+                        <td style="padding: 12px 16px; font-size: 0.85rem; color: #334155;">{{ $row['SUB_TIPO_MODIFICADO'] ?? 'N/A' }}</td>
                         <td style="padding: 12px 16px; font-size: 0.85rem; color: #334155;">{{ $row['COD'] ?? 'N/A' }}</td>
                         <td style="padding: 12px 16px; font-size: 0.85rem; color: #334155;">{{ $row['FECHA'] ?? 'N/A' }}</td>
                         <td style="padding: 12px 16px; font-size: 0.85rem; color: #334155; font-weight: 600;">{{ $row['UNIDAD'] ?? 'N/A' }}</td>
-                        <td style="padding: 12px 16px; font-size: 0.85rem; color: #334155;">{{ $row['TIPO_ACTIVIDAD'] ?? 'N/A' }}</td>
-                        <td style="padding: 12px 16px; font-size: 0.85rem; color: #334155; text-align: center;">{{ $row['PARTICIPANTES'] ?? '0' }}</td>
                         <td style="padding: 12px 16px; font-size: 0.85rem; color: #334155;">{{ $row['FUNCIONARIO'] ?? 'N/A' }}</td>
                     </tr>
                     @endforeach

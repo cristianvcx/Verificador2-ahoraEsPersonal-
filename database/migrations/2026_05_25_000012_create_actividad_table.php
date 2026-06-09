@@ -39,7 +39,6 @@ return new class extends Migration
             // 2. Columnas de Control Interno del MVP (Metadatos) y apoyo del formulario manual
             $table->string('estado', 30)->default('CARGADA'); // CARGADA, NOTIFICADA, PENDIENTE_VERIFICADOR, VERIFICADA
             $table->unsignedBigInteger('carga_id'); // Para agrupar las actividades de un mismo lote de Excel
-            $table->unsignedBigInteger('usuario_id_asignado'); // Funcionario interno asignado
             $table->unsignedBigInteger('unidad_id_asignada');   // Unidad interna asignada
 
             $table->boolean('activo')->default(true);

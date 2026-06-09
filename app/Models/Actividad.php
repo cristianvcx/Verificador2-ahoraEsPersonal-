@@ -124,7 +124,6 @@ class Actividad extends Model
             ...self::excelColumnsToPersist(),
             'estado',
             'carga_id',
-            'usuario_id_asignado',
             'unidad_id_asignada',
             'activo',
         ];
