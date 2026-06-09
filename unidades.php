@@ -2,948 +2,1225 @@
 //TO-DO : retornar el array de centros que tiene las unidads y correos que realmente usaremos
 return [
   [
-    173,
-    "CAJ ALTO BIO BIO",
-    "mateo.ossa.b+caltobiobio@gmail.com"
-  ],
-  [
-    140,
-    "CAJ ANTUCO",
-    "mateo.ossa.b+cantuco@gmail.com"
-  ],
-  [
-    5,
-    "CAJ ARAUCO",
-    "mateo.ossa.b+carauco@gmail.com"
-  ],
-  [
-    8,
-    "CAJ BARRIO NORTE",
-    "mateo.ossa.b+cbarrionorte@gmail.com"
-  ],
-  [
-    10,
-    "CAJ CABRERO",
-    "mateo.ossa.b+ccabrero@gmail.com"
-  ],
-  [
-    12,
-    "CAJ CAÑETE",
-    "mateo.ossa.b+ccanete@gmail.com"
-  ],
-  [
-    17,
-    "CAJ CHIGUAYANTE",
-    "mateo.ossa.b+cchiguayante@gmail.com"
-  ],
-  [
-    62,
-    "CAJ CIVIL LOS ANGELES",
-    "mateo.ossa.b+closangeles@gmail.com"
-  ],
-  [
-    31,
-    "CAJ CONCEPCION CIVIL",
-    "mateo.ossa.b+cconcepcion@gmail.com"
-  ],
-  [
-    32,
-    "CAJ CONCEPCION FAMILIA",
-    "mateo.ossa.b+cfamiliaconcepcion@gmail.com"
-  ],
-  [
-    33,
-    "CAJ CONCEPCION PENAL INFRA",
-    "mateo.ossa.b+penalinfraccional@gmail.com"
-  ],
-  [
-    37,
-    "CAJ CORONEL",
-    "mateo.ossa.b+ccoronel@gmail.com"
-  ],
-  [
-    42,
-    "CAJ CURANILAHUE",
-    "mateo.ossa.b+ccuranilahue@gmail.com"
-  ],
-  [
-    63,
-    "CAJ FAM LOS ANGELES",
-    "mateo.ossa.b+cfamilialosangeles@gmail.com"
-  ],
-  [
-    46,
-    "CAJ FLORIDA",
-    "mateo.ossa.b+cflorida@gmail.com"
-  ],
-  [
-    54,
-    "CAJ HUALPEN",
-    "mateo.ossa.b+chualpen@gmail.com"
-  ],
-  [
-    55,
-    "CAJ HUALQUI",
-    "mateo.ossa.b+chualqui@gmail.com"
-  ],
-  [
-    56,
-    "CAJ LAJA",
-    "mateo.ossa.b+claja@gmail.com"
-  ],
-  [
-    58,
-    "CAJ LEBU",
-    "mateo.ossa.b+clebu@gmail.com"
-  ],
-  [
-    61,
-    "CAJ LOS ALAMOS",
-    "mateo.ossa.b+closalamos@gmail.com"
-  ],
-  [
-    68,
-    "CAJ LOTA",
-    "mateo.ossa.b+clota@gmail.com"
-  ],
-  [
-    78,
-    "CAJ MULCHEN",
-    "mateo.ossa.b+cmulchen@gmail.com"
-  ],
-  [
-    79,
-    "CAJ NACIMIENTO",
-    "mateo.ossa.b+cnacimiento@gmail.com"
-  ],
-  [
-    80,
-    "CAJ NEGRETE",
-    "mateo.ossa.b+cnegrete@gmail.com"
-  ],
-  [
-    88,
-    "CAJ PENCO",
-    "mateo.ossa.b+cpenco@gmail.com"
-  ],
-  [
-    149,
-    "CAJ QUILACO",
-    "mateo.ossa.b+cquilaco@gmail.com"
-  ],
-  [
-    105,
-    "CAJ QUILLECO",
-    "mateo.ossa.b+cquilleco@gmail.com"
-  ],
-  [
-    118,
-    "CAJ SAN PEDRO DE LA PAZ",
-    "mateo.ossa.b+csanpedrodelapaz@gmail.com"
-  ],
-  [
-    119,
-    "CAJ SANTA BARBARA",
-    "mateo.ossa.b+csantabarbara@gmail.com"
-  ],
-  [
-    120,
-    "CAJ SANTA JUANA",
-    "mateo.ossa.b+csantajuana@gmail.com"
-  ],
-  [
-    121,
-    "CAJ TALCAHUANO",
-    "mateo.ossa.b+ctalcahuano@gmail.com"
-  ],
-  [
-    122,
-    "CAJ TALCAHUANO FAMILIA",
-    "mateo.ossa.b+familiatalcahuano@gmail.com"
-  ],
-  [
-    130,
-    "CAJ TOME",
-    "mateo.ossa.b+ctome@gmail.com"
-  ],
-  [
-    138,
-    "CAJ YUMBEL",
-    "mateo.ossa.b+cyumbel@gmail.com"
-  ],
-  [
-    169,
-    "CONVENIO SENADIS BIOBIO",
+    1,
+    "DIRECCION GENERAL",
+    "micorreo+oirs@gmail.com",
     null
-  ],
-  [
-    73,
-    "UNIDAD MOVIL CONCEPCION",
-    null
-  ],
-  [
-    74,
-    "UNIDAD MÓVIL CONTULMO TIRÚA",
-    null
-  ],
-  [
-    3,
-    "CAJ ANGOL",
-    "mateo.ossa.b+cangol@gmail.com"
-  ],
-  [
-    13,
-    "CAJ CARAHUE",
-    "mateo.ossa.b+ccarahue@gmail.com"
-  ],
-  [
-    25,
-    "CAJ CHOLCHOL",
-    "mateo.ossa.b+ccholchol@gmail.com"
-  ],
-  [
-    30,
-    "CAJ COLLIPULLI",
-    "mateo.ossa.b+ccollipulli@gmail.com"
-  ],
-  [
-    40,
-    "CAJ CUNCO",
-    "mateo.ossa.b+ccunco@gmail.com"
-  ],
-  [
-    41,
-    "CAJ CURACAUTIN",
-    "mateo.ossa.b+ccuracautin@gmail.com"
-  ],
-  [
-    43,
-    "CAJ CURARREHUE",
-    "mateo.ossa.b+ccurarrehue@gmail.com"
-  ],
-  [
-    45,
-    "CAJ ERCILLA",
-    "mateo.ossa.b+cercilla@gmail.com"
-  ],
-  [
-    47,
-    "CAJ FREIRE",
-    "mateo.ossa.b+cfreire@gmail.com"
-  ],
-  [
-    52,
-    "CAJ GALVARINO",
-    "mateo.ossa.b+cgalvarino@gmail.com"
-  ],
-  [
-    53,
-    "CAJ GORBEA",
-    "mateo.ossa.b+cgorbea@gmail.com"
-  ],
-  [
-    57,
-    "CAJ LAUTARO",
-    "mateo.ossa.b+clautaro@gmail.com"
-  ],
-  [
-    59,
-    "CAJ LONCOCHE",
-    "mateo.ossa.b+cloncoche@gmail.com"
-  ],
-  [
-    60,
-    "CAJ LONQUIMAY",
-    "mateo.ossa.b+clonquimay@gmail.com"
-  ],
-  [
-    67,
-    "CAJ LOS SAUCES",
-    "mateo.ossa.b+clossauces@gmail.com"
-  ],
-  [
-    69,
-    "CAJ LUMACO",
-    "mateo.ossa.b+clumaco@gmail.com"
-  ],
-  [
-    146,
-    "CAJ MELIPEUCO",
-    "mateo.ossa.b+cmelipeuco@gmail.com"
-  ],
-  [
-    81,
-    "CAJ NUEVA IMPERIAL",
-    "mateo.ossa.b+cnvaimperial@gmail.com"
-  ],
-  [
-    84,
-    "CAJ PADRE LAS CASAS",
-    "mateo.ossa.b+cpadrelascasas@gmail.com"
-  ],
-  [
-    89,
-    "CAJ PERQUENCO",
-    "mateo.ossa.b+cperquenco@gmail.com"
-  ],
-  [
-    91,
-    "CAJ PITRUFQUEN",
-    "mateo.ossa.b+cpitrufquen@gmail.com"
-  ],
-  [
-    93,
-    "CAJ PUCÓN",
-    "mateo.ossa.b+cpucon@gmail.com"
-  ],
-  [
-    100,
-    "CAJ PUERTO SAAVEDRA",
-    "mateo.ossa.b+cptosaavedra@gmail.com"
-  ],
-  [
-    102,
-    "CAJ PUREN",
-    "mateo.ossa.b+cpuren@gmail.com"
-  ],
-  [
-    110,
-    "CAJ RENAICO",
-    "mateo.ossa.b+crenaico@gmail.com"
-  ],
-  [
-    123,
-    "CAJ TEMUCO CIVIL",
-    "mateo.ossa.b+ctemuco@gmail.com"
-  ],
-  [
-    124,
-    "CAJ TEMUCO FAMILIA",
-    "mateo.ossa.b+familiatemuco@gmail.com"
-  ],
-  [
-    128,
-    "CAJ TEODORO SCHMIDT",
-    "mateo.ossa.b+ctschmidt@gmail.com"
-  ],
-  [
-    129,
-    "CAJ TOLTÉN",
-    "mateo.ossa.b+ctolten@gmail.com"
-  ],
-  [
-    131,
-    "CAJ TRAIGUEN",
-    "mateo.ossa.b+ctraiguen@gmail.com"
-  ],
-  [
-    135,
-    "CAJ VICTORIA",
-    "mateo.ossa.b+cvictoria@gmail.com"
-  ],
-  [
-    136,
-    "CAJ VILCUN",
-    "mateo.ossa.b+cvilcun@gmail.com"
-  ],
-  [
-    137,
-    "CAJ VILLARRICA",
-    "mateo.ossa.b+cvillarrica@gmail.com"
-  ],
-  [
-    167,
-    "CONVENIO SENADIS ARAUCANIA",
-    null
-  ],
-  [
-    72,
-    "UNIDAD MÓVIL CAUTÍN",
-    "mateo.ossa.b+movilcautin@gmail.com"
-  ],
-  [
-    75,
-    "UNIDAD MÓVIL COSTA",
-    "mateo.ossa.b+movilcosta@gmail.com"
-  ],
-  [
-    76,
-    "UNIDAD MÓVIL MALLECO",
-    "mateo.ossa.b+movilmalleco@gmail.com"
   ],
   [
     2,
     "CAJ ANCUD",
-    "mateo.ossa.b+cancud@gmail.com"
+    "micorreo+cancud@gmail.com",
+    10
   ],
   [
-    11,
-    "CAJ CALBUCO",
-    "mateo.ossa.b+ccalbuco@gmail.com"
-  ],
-  [
-    14,
-    "CAJ CASTRO",
-    "mateo.ossa.b+ccastro@gmail.com"
-  ],
-  [
-    16,
-    "CAJ CHAITEN",
-    "mateo.ossa.b+cchaiten@gmail.com"
-  ],
-  [
-    96,
-    "CAJ CIVIL PUERTO MONTT",
-    "mateo.ossa.b+cptomontt@gmail.com"
-  ],
-  [
-    97,
-    "CAJ FAMILIA PUERTO MONTT",
-    "mateo.ossa.b+cfamiliaptomontt@gmail.com"
-  ],
-  [
-    48,
-    "CAJ FRESIA",
-    "mateo.ossa.b+cfresia@gmail.com"
-  ],
-  [
-    49,
-    "CAJ FRUTILLAR",
-    "mateo.ossa.b+cfrutillar@gmail.com"
-  ],
-  [
-    50,
-    "CAJ FUTALEUFU",
-    "mateo.ossa.b+cfutaleufu@gmail.com"
-  ],
-  [
-    141,
-    "CAJ HUALAIHUE",
-    "mateo.ossa.b+cptomontt@gmail.com"
-  ],
-  [
-    66,
-    "CAJ LOS MUERMOS",
-    "mateo.ossa.b+closmuermos@gmail.com"
-  ],
-  [
-    71,
-    "CAJ MAULLIN",
-    "mateo.ossa.b+cmaullin@gmail.com"
-  ],
-  [
-    82,
-    "CAJ OSORNO",
-    "mateo.ossa.b+cosorno@gmail.com"
-  ],
-  [
-    148,
-    "CAJ PALENA",
-    "mateo.ossa.b+cpalena@gmail.com"
-  ],
-  [
-    101,
-    "CAJ PUERTO VARAS",
-    "mateo.ossa.b+cpuertovaras@gmail.com"
-  ],
-  [
-    103,
-    "CAJ PURRANQUE",
-    "mateo.ossa.b+cpurranque@gmail.com"
-  ],
-  [
-    104,
-    "CAJ QUELLON",
-    "mateo.ossa.b+cquellon@gmail.com"
-  ],
-  [
-    107,
-    "CAJ QUINCHAO",
-    null
-  ],
-  [
-    112,
-    "CAJ RIO NEGRO",
-    "mateo.ossa.b+crionegro@gmail.com"
-  ],
-  [
-    170,
-    "CONVENIO SENADIS LOS LAGOS",
-    null
-  ],
-  [
-    157,
-    "UNIDAD MÓVIL CASTRO",
-    null
-  ],
-  [
-    77,
-    "UNIDAD MÓVIL OSORNO",
-    null
-  ],
-  [
-    18,
-    "CAJ CHILE CHICO",
-    "mateo.ossa.b+cchilechico@gmail.com"
-  ],
-  [
-    27,
-    "CAJ COCHRANE",
-    "mateo.ossa.b+ccochrane@gmail.com"
-  ],
-  [
-    38,
-    "CAJ COYHAIQUE",
-    "mateo.ossa.b+ccoyhaique@gmail.com"
-  ],
-  [
-    6,
-    "CAJ PUERTO AYSEN",
-    "mateo.ossa.b+caysen@gmail.com"
-  ],
-  [
-    94,
-    "CAJ PUERTO CISNES",
-    "mateo.ossa.b+cpuertocisnes@gmail.com"
-  ],
-  [
-    168,
-    "CONVENIO SENADIS AYSEN",
-    null
-  ],
-  [
-    51,
-    "CAJ FUTRONO",
-    "mateo.ossa.b+cfutrono@gmail.com"
-  ],
-  [
-    143,
-    "CAJ LA UNIÓN",
-    "mateo.ossa.b+claunion@gmail.com"
-  ],
-  [
-    144,
-    "CAJ LAGO RANCO",
-    "mateo.ossa.b+clagoranco@gmail.com"
-  ],
-  [
-    145,
-    "CAJ LANCO",
-    "mateo.ossa.b+clanco@gmail.com"
-  ],
-  [
-    65,
-    "CAJ LOS LAGOS",
-    "mateo.ossa.b+closlagos@gmail.com"
-  ],
-  [
-    70,
-    "CAJ MÁFIL",
-    "mateo.ossa.b+cmafil@gmail.com"
-  ],
-  [
-    85,
-    "CAJ PAILLACO",
-    "mateo.ossa.b+cpaillaco@gmail.com"
-  ],
-  [
-    86,
-    "CAJ PANGUIPULLI",
-    "mateo.ossa.b+cpanguipulli@gmail.com"
-  ],
-  [
-    111,
-    "CAJ RÍO BUENO",
-    "mateo.ossa.b+criobueno@gmail.com"
-  ],
-  [
-    116,
-    "CAJ SAN JOSÉ DE LA MARIQUINA",
-    "mateo.ossa.b+csjmariquina@gmail.com"
-  ],
-  [
-    133,
-    "CAJ VALDIVIA",
-    "mateo.ossa.b+cvaldivia@gmail.com"
-  ],
-  [
-    171,
-    "CONVENIO SENADIS LOS RIOS",
-    null
-  ],
-  [
-    9,
-    "CAJ BULNES",
-    "mateo.ossa.b+cbulnes@gmail.com"
-  ],
-  [
-    20,
-    "CAJ CHILLAN CIVIL",
-    "mateo.ossa.b+cchillan@gmail.com"
-  ],
-  [
-    19,
-    "CAJ CHILLAN FAMILIA",
-    "mateo.ossa.b+cfamiliachillan@gmail.com"
-  ],
-  [
-    24,
-    "CAJ CHILLAN VIEJO",
-    "mateo.ossa.b+cchillanviejo@gmail.com"
-  ],
-  [
-    26,
-    "CAJ COBQUECURA",
-    "mateo.ossa.b+ccobquecura@gmail.com"
-  ],
-  [
-    28,
-    "CAJ COELEMU",
-    "mateo.ossa.b+ccoelemu@gmail.com"
-  ],
-  [
-    29,
-    "CAJ COIHUECO",
-    "mateo.ossa.b+ccoihueco@gmail.com"
-  ],
-  [
-    44,
-    "CAJ EL CARMEN",
-    "mateo.ossa.b+celcarmen@gmail.com"
-  ],
-  [
-    142,
-    "CAJ HUEPIL",
-    "mateo.ossa.b+ctucapel@gmail.com"
-  ],
-  [
-    147,
-    "CAJ NINHUE",
-    "mateo.ossa.b+cninhue@gmail.com"
-  ],
-  [
-    87,
-    "CAJ PEMUCO",
-    "mateo.ossa.b+cpemuco@gmail.com"
-  ],
-  [
-    90,
-    "CAJ PINTO",
-    "mateo.ossa.b+cpinto@gmail.com"
-  ],
-  [
-    92,
-    "CAJ PORTEZUELO",
-    "mateo.ossa.b+cportezuelo@gmail.com"
-  ],
-  [
-    106,
-    "CAJ QUILLON",
-    "mateo.ossa.b+cquillon@gmail.com"
-  ],
-  [
-    108,
-    "CAJ QUIRIHUE",
-    "mateo.ossa.b+cquirihue@gmail.com"
-  ],
-  [
-    109,
-    "CAJ RANQUIL",
-    "mateo.ossa.b+cranquil@gmail.com"
-  ],
-  [
-    113,
-    "CAJ SAN CARLOS",
-    "mateo.ossa.b+csancarlos@gmail.com"
-  ],
-  [
-    114,
-    "CAJ SAN GREGORIO/ÑIQUEN",
-    "mateo.ossa.b+csangregorio@gmail.com"
-  ],
-  [
-    115,
-    "CAJ SAN IGNACIO",
-    "mateo.ossa.b+csanignacio@gmail.com"
-  ],
-  [
-    117,
-    "CAJ SAN NICOLAS",
-    "mateo.ossa.b+csannicolas@gmail.com"
-  ],
-  [
-    132,
-    "CAJ TREHUACO",
-    "mateo.ossa.b+ctrehuaco@gmail.com"
-  ],
-  [
-    139,
-    "CAJ YUNGAY",
-    "mateo.ossa.b+cyungay@gmail.com"
-  ],
-  [
-    172,
-    "CONVENIO SENADIS ÑUBLE",
-    null
-  ],
-  [
-    151,
-    "PAM ARAUCANÍA",
-    "mateo.ossa.b+pamaraucania@gmail.com"
-  ],
-  [
-    152,
-    "PAM AYSÉN",
-    "mateo.ossa.b+pamaysen@gmail.com"
-  ],
-  [
-    154,
-    "PAM CONCEPCIÓN",
-    "mateo.ossa.b+pamconcepcion@gmail.com"
-  ],
-  [
-    155,
-    "PAM LOS LAGOS",
-    "mateo.ossa.b+pamloslagos@gmail.com"
-  ],
-  [
-    156,
-    "PAM LOS RÍOS",
-    "mateo.ossa.b+pamlosrios@gmail.com"
-  ],
-  [
-    153,
-    "PAM CHILLÁN",
-    "mateo.ossa.b+pamchillan@gmail.com"
-  ],
-  [
-    162,
-    "CAVI CONCEPCION",
-    "mateo.ossa.b+caviprovinciaconcepcion@gmail.com"
-  ],
-  [
-    165,
-    "CAVI TEMUCO",
-    "mateo.ossa.b+caivtemuco@gmail.com"
-  ],
-  [
-    164,
-    "CAVI PUERTO MONTT",
-    "mateo.ossa.b+caivptomontt@gmail.com"
-  ],
-  [
-    163,
-    "CAVI COYHAIQUE",
-    "mateo.ossa.b+caivcoyhaique@gmail.com"
-  ],
-  [
-    166,
-    "CAVI VALDIVIA",
-    "mateo.ossa.b+cavivaldivia@gmail.com"
-  ],
-  [
-    158,
-    "CAVI CHILLÁN",
-    "mateo.ossa.b+caivchillan@gmail.com"
-  ],
-  [
-    125,
-    "CENTRO MEDIACION TEMUCO",
-    "mateo.ossa.b+mediaciontemuco@gmail.com"
-  ],
-  [
-    34,
-    "CENTRO MEDIACION CONCEPCION",
-    "mateo.ossa.b+mediacion@gmail.com"
-  ],
-  [
-    95,
-    "CENTRO MEDIACION PUERTO MONTT",
-    "mateo.ossa.b+mediacionpmontt@gmail.com"
-  ],
-  [
-    21,
-    "OFICINA  MEDIACION CHILLAN",
-    null
-  ],
-  [
-    7,
-    "ODL AYSÉN",
-    "mateo.ossa.b+odlaysen@gmail.com"
-  ],
-  [
-    36,
-    "ODL CONCEPCIÓN",
-    "mateo.ossa.b+odlconcepcion@gmail.com"
-  ],
-  [
-    23,
-    "ODL CHILLAN",
-    "mateo.ossa.b+odlchillan@gmail.com"
-  ],
-  [
-    150,
-    "ODL VALDIVIA",
-    "mateo.ossa.b+odlvaldivia@gmail.com"
-  ],
-  [
-    99,
-    "ODL PUERTO MONTT",
-    "mateo.ossa.b+odlpmontt@gmail.com"
-  ],
-  [
-    83,
-    "ODL OSORNO",
-    "mateo.ossa.b+odlosorno@gmail.com"
-  ],
-  [
-    15,
-    "ODL CASTRO",
-    "mateo.ossa.b+odlcastro@gmail.com"
-  ],
-  [
-    127,
-    "ODL TEMUCO",
-    "mateo.ossa.b+odltemuco@gmail.com"
+    3,
+    "CAJ ANGOL",
+    "micorreo+cangol@gmail.com",
+    9
   ],
   [
     4,
     "ODL ANGOL",
-    "mateo.ossa.b+odlangol@gmail.com"
+    "micorreo+odlangol@gmail.com",
+    9
   ],
   [
-    64,
-    "ODL LOS ANGELES",
-    "mateo.ossa.b+odllosangeles@gmail.com"
+    5,
+    "CAJ ARAUCO",
+    "micorreo+carauco@gmail.com",
+    8
+  ],
+  [
+    6,
+    "CAJ PUERTO AYSEN",
+    "micorreo+caysen@gmail.com",
+    11
+  ],
+  [
+    7,
+    "ODL AYSÉN",
+    "micorreo+odlaysen@gmail.com",
+    11
+  ],
+  [
+    8,
+    "CAJ BARRIO NORTE",
+    "micorreo+cbarrionorte@gmail.com",
+    8
+  ],
+  [
+    9,
+    "CAJ BULNES",
+    "micorreo+cbulnes@gmail.com",
+    16
+  ],
+  [
+    10,
+    "CAJ CABRERO",
+    "micorreo+ccabrero@gmail.com",
+    8
+  ],
+  [
+    11,
+    "CAJ CALBUCO",
+    "micorreo+ccalbuco@gmail.com",
+    10
+  ],
+  [
+    12,
+    "CAJ CAÑETE",
+    "micorreo+ccanete@gmail.com",
+    8
+  ],
+  [
+    13,
+    "CAJ CARAHUE",
+    "micorreo+ccarahue@gmail.com",
+    9
+  ],
+  [
+    14,
+    "CAJ CASTRO",
+    "micorreo+ccastro@gmail.com",
+    10
+  ],
+  [
+    15,
+    "ODL CASTRO",
+    "micorreo+odlcastro@gmail.com",
+    10
+  ],
+  [
+    16,
+    "CAJ CHAITEN",
+    "micorreo+cchaiten@gmail.com",
+    10
+  ],
+  [
+    17,
+    "CAJ CHIGUAYANTE",
+    "micorreo+cchiguayante@gmail.com",
+    8
+  ],
+  [
+    18,
+    "CAJ CHILE CHICO",
+    "micorreo+cchilechico@gmail.com",
+    11
+  ],
+  [
+    19,
+    "CAJ CHILLAN FAMILIA",
+    "micorreo+cchillan@gmail.com",
+    16
+  ],
+  [
+    20,
+    "CAJ CHILLAN CIVIL",
+    "micorreo+cchillan@gmail.com",
+    16
+  ],
+  [
+    21,
+    "OFICINA  MEDIACION CHILLAN",
+    "micorreo+mediacionchillan@gmail.com",
+    16
+  ],
+  [
+    22,
+    "OFICINA SEGUNDA INSTANCIA CHILLAN",
+    "micorreo+segundainstanciachillan@gmail.com",
+    null
+  ],
+  [
+    23,
+    "ODL CHILLAN",
+    "micorreo+odlchillan@gmail.com",
+    16
+  ],
+  [
+    24,
+    "CAJ CHILLAN VIEJO",
+    "micorreo+cchillanviejo@gmail.com",
+    16
+  ],
+  [
+    25,
+    "CAJ CHOLCHOL",
+    "micorreo+ccholchol@gmail.com",
+    9
+  ],
+  [
+    26,
+    "CAJ COBQUECURA",
+    "micorreo+ccobquecura@gmail.com",
+    16
+  ],
+  [
+    27,
+    "CAJ COCHRANE",
+    "micorreo+ccochrane@gmail.com",
+    11
+  ],
+  [
+    28,
+    "CAJ COELEMU",
+    "micorreo+ccoelemu@gmail.com",
+    16
+  ],
+  [
+    29,
+    "CAJ COIHUECO",
+    "micorreo+ccoihueco@gmail.com",
+    16
+  ],
+  [
+    30,
+    "CAJ COLLIPULLI",
+    "micorreo+ccollipulli@gmail.com",
+    9
+  ],
+  [
+    31,
+    "CAJ CONCEPCION CIVIL",
+    "micorreo+cconcepcion@gmail.com",
+    8
+  ],
+  [
+    32,
+    "CAJ CONCEPCION FAMILIA",
+    "micorreo+familiaconcepcion@gmail.com",
+    8
+  ],
+  [
+    33,
+    "CAJ CONCEPCION PENAL INFRA",
+    "micorreo+penalinfraccional@gmail.com",
+    8
+  ],
+  [
+    34,
+    "CENTRO MEDIACION CONCEPCION",
+    "micorreo+mediacion@gmail.com",
+    8
+  ],
+  [
+    35,
+    "OFICINA SEGUNDA INSTANCIA CONCEPCION",
+    "micorreo+segundainstanciaconcepcion@gmail.com",
+    null
+  ],
+  [
+    36,
+    "ODL CONCEPCIÓN",
+    "micorreo+odlconcepcion@gmail.com",
+    8
+  ],
+  [
+    37,
+    "CAJ CORONEL",
+    "micorreo+ccoronel@gmail.com",
+    8
+  ],
+  [
+    38,
+    "CAJ COYHAIQUE",
+    "micorreo+ccoyhaique@gmail.com",
+    11
   ],
   [
     39,
     "ODL COYHAIQUE",
-    "mateo.ossa.b+odlcoyhaique@gmail.com"
+    "micorreo+odlcoyhaique@gmail.com",
+    11
   ],
   [
-    174,
-    "NAD CURANILAHUE",
-    "mateo.ossa.b+nadbiobio@gmail.com"
+    40,
+    "CAJ CUNCO",
+    "micorreo+ccunco@gmail.com",
+    9
   ],
   [
-    175,
-    "NAD LOS ÁNGELES",
+    41,
+    "CAJ CURACAUTIN",
+    "micorreo+ccuracautin@gmail.com",
+    9
+  ],
+  [
+    42,
+    "CAJ CURANILAHUE",
+    "micorreo+ccuranilahue@gmail.com",
+    8
+  ],
+  [
+    43,
+    "CAJ CURARREHUE",
+    "micorreo+ccurarrehue@gmail.com",
+    9
+  ],
+  [
+    44,
+    "CAJ EL CARMEN",
+    "micorreo+celcarmen@gmail.com",
+    16
+  ],
+  [
+    45,
+    "CAJ ERCILLA",
+    "micorreo+cercilla@gmail.com",
+    9
+  ],
+  [
+    46,
+    "CAJ FLORIDA",
+    "micorreo+cflorida@gmail.com",
+    8
+  ],
+  [
+    47,
+    "CAJ FREIRE",
+    "micorreo+cfreire@gmail.com",
+    9
+  ],
+  [
+    48,
+    "CAJ FRESIA",
+    "micorreo+cfresia@gmail.com",
+    10
+  ],
+  [
+    49,
+    "CAJ FRUTILLAR",
+    "micorreo+cfrutillar@gmail.com",
+    10
+  ],
+  [
+    50,
+    "CAJ FUTALEUFU",
+    "micorreo+cfutaleufu@gmail.com",
+    10
+  ],
+  [
+    51,
+    "CAJ FUTRONO",
+    "micorreo+cfutrono@gmail.com",
+    14
+  ],
+  [
+    52,
+    "CAJ GALVARINO",
+    "micorreo+cgalvarino@gmail.com",
+    9
+  ],
+  [
+    53,
+    "CAJ GORBEA",
+    "micorreo+cgorbea@gmail.com",
+    9
+  ],
+  [
+    54,
+    "CAJ HUALPEN",
+    "micorreo+chualpen@gmail.com",
+    8
+  ],
+  [
+    55,
+    "CAJ HUALQUI",
+    "micorreo+chualqui@gmail.com",
+    8
+  ],
+  [
+    56,
+    "CAJ LAJA",
+    "micorreo+claja@gmail.com",
+    8
+  ],
+  [
+    57,
+    "CAJ LAUTARO",
+    "micorreo+clautaro@gmail.com",
+    9
+  ],
+  [
+    58,
+    "CAJ LEBU",
+    "micorreo+clebu@gmail.com",
+    8
+  ],
+  [
+    59,
+    "CAJ LONCOCHE",
+    "micorreo+cloncoche@gmail.com",
+    9
+  ],
+  [
+    60,
+    "CAJ LONQUIMAY",
+    "micorreo+clonquimay@gmail.com",
+    9
+  ],
+  [
+    61,
+    "CAJ LOS ALAMOS",
+    "micorreo+closalamos@gmail.com",
+    8
+  ],
+  [
+    62,
+    "CAJ CIVIL LOS ANGELES",
+    "micorreo+closangeles@gmail.com",
+    8
+  ],
+  [
+    63,
+    "CAJ FAM LOS ANGELES",
+    "micorreo+cfamilialosangeles@gmail.com",
+    8
+  ],
+  [
+    64,
+    "ODL LOS ANGELES",
+    "micorreo+odllosangeles@gmail.com",
+    8
+  ],
+  [
+    65,
+    "CAJ LOS LAGOS",
+    "micorreo+closlagos@gmail.com",
+    14
+  ],
+  [
+    66,
+    "CAJ LOS MUERMOS",
+    "micorreo+closmuermos@gmail.com",
+    10
+  ],
+  [
+    67,
+    "CAJ LOS SAUCES",
+    "micorreo+clossauces@gmail.com",
+    9
+  ],
+  [
+    68,
+    "CAJ LOTA",
+    "micorreo+clota@gmail.com",
+    8
+  ],
+  [
+    69,
+    "CAJ LUMACO",
+    "micorreo+clumaco@gmail.com",
+    9
+  ],
+  [
+    70,
+    "CAJ MÁFIL",
+    "micorreo+cmafil@gmail.com",
+    14
+  ],
+  [
+    71,
+    "CAJ MAULLIN",
+    "micorreo+cmaullin@gmail.com",
+    10
+  ],
+  [
+    72,
+    "UNIDAD MÓVIL CAUTÍN",
+    "micorreo+movilcautin@gmail.com",
+    9
+  ],
+  [
+    73,
+    "UNIDAD MÓVIL CONCEPCION",
+    "micorreo+movilconcepcion@gmail.com",
+    8
+  ],
+  [
+    74,
+    "UNIDAD MÓVIL CONTULMO TIRÚA",
+    "micorreo+movilcontulmotirua@gmail.com",
+    8
+  ],
+  [
+    75,
+    "UNIDAD MÓVIL COSTA",
+    "micorreo+movilcosta@gmail.com",
+    9
+  ],
+  [
+    76,
+    "UNIDAD MÓVIL MALLECO",
+    "micorreo+movilmalleco@gmail.com",
+    9
+  ],
+  [
+    77,
+    "UNIDAD MÓVIL OSORNO",
+    "micorreo+movosorno@gmail.com",
+    10
+  ],
+  [
+    78,
+    "CAJ MULCHEN",
+    "micorreo+cmulchen@gmail.com",
+    8
+  ],
+  [
+    79,
+    "CAJ NACIMIENTO",
+    "micorreo+cnacimiento@gmail.com",
+    8
+  ],
+  [
+    80,
+    "CAJ NEGRETE",
+    "micorreo+cnegrete@gmail.com",
+    8
+  ],
+  [
+    81,
+    "CAJ NUEVA IMPERIAL",
+    "micorreo+cnvaimperial@gmail.com",
+    9
+  ],
+  [
+    82,
+    "CAJ OSORNO",
+    "micorreo+cosorno@gmail.com",
+    10
+  ],
+  [
+    83,
+    "ODL OSORNO",
+    "micorreo+odlosorno@gmail.com",
+    10
+  ],
+  [
+    84,
+    "CAJ PADRE LAS CASAS",
+    "micorreo+cpadrelascasas@gmail.com",
+    9
+  ],
+  [
+    85,
+    "CAJ PAILLACO",
+    "micorreo+cpaillaco@gmail.com",
+    14
+  ],
+  [
+    86,
+    "CAJ PANGUIPULLI",
+    "micorreo+cpanguipulli@gmail.com",
+    14
+  ],
+  [
+    87,
+    "CAJ PEMUCO",
+    "micorreo+cpemuco@gmail.com",
+    16
+  ],
+  [
+    88,
+    "CAJ PENCO",
+    "micorreo+cpenco@gmail.com",
+    8
+  ],
+  [
+    89,
+    "CAJ PERQUENCO",
+    "micorreo+cperquenco@gmail.com",
+    9
+  ],
+  [
+    90,
+    "CAJ PINTO",
+    "micorreo+cpinto@gmail.com",
+    16
+  ],
+  [
+    91,
+    "CAJ PITRUFQUEN",
+    "micorreo+cpitrufquen@gmail.com",
+    9
+  ],
+  [
+    92,
+    "CAJ PORTEZUELO",
+    "micorreo+cportezuelo@gmail.com",
+    16
+  ],
+  [
+    93,
+    "CAJ PUCÓN",
+    "micorreo+cpucon@gmail.com",
+    9
+  ],
+  [
+    94,
+    "CAJ PUERTO CISNES",
+    "micorreo+cpuertocisnes@gmail.com",
+    11
+  ],
+  [
+    95,
+    "CENTRO MEDIACION PUERTO MONTT",
+    "micorreo+mediacionpmontt@gmail.com",
+    10
+  ],
+  [
+    96,
+    "CAJ CIVIL PUERTO MONTT",
+    "micorreo+cptomontt@gmail.com",
+    10
+  ],
+  [
+    97,
+    "CAJ FAMILIA PUERTO MONTT",
+    "micorreo+familiapuertomontt@gmail.com",
+    10
+  ],
+  [
+    98,
+    "OFICINA SEGUNDA INSTANCIA PUERTO MONTT",
+    "micorreo+segundainstanciapmontt@gmail.com",
     null
   ],
   [
-    176,
-    "NAD CONCEPCIÓN",
-    "mateo.ossa.b+nadbiobio@gmail.com"
+    99,
+    "ODL PUERTO MONTT",
+    "micorreo+odlpmontt@gmail.com",
+    10
   ],
   [
-    177,
-    "NAD TEMUCO",
-    "mateo.ossa.b+nadaraucania@gmail.com"
+    100,
+    "CAJ PUERTO SAAVEDRA",
+    "micorreo+cptosaavedra@gmail.com",
+    9
   ],
   [
-    178,
-    "NAD ANGOL",
-    "mateo.ossa.b+nadaraucania@gmail.com"
+    101,
+    "CAJ PUERTO VARAS",
+    "micorreo+cpuertovaras@gmail.com",
+    10
   ],
   [
-    179,
-    "NAD CASTRO",
-    "mateo.ossa.b+nadloslagos@gmail.com"
+    102,
+    "CAJ PUREN",
+    "micorreo+cpuren@gmail.com",
+    9
   ],
   [
-    180,
-    "NAD OSORNO",
-    "mateo.ossa.b+nadloslagos@gmail.com"
+    103,
+    "CAJ PURRANQUE",
+    "micorreo+cpurranque@gmail.com",
+    10
   ],
   [
-    181,
-    "NAD PUERTO MONTT",
-    "mateo.ossa.b+nadloslagos@gmail.com"
+    104,
+    "CAJ QUELLON",
+    "micorreo+cquellon@gmail.com",
+    10
   ],
   [
-    182,
-    "NAD PALENA",
-    "mateo.ossa.b+nadloslagos@gmail.com"
+    105,
+    "CAJ QUILLECO",
+    "micorreo+cquilleco@gmail.com",
+    8
+  ],
+  [
+    106,
+    "CAJ QUILLON",
+    "micorreo+cquillon@gmail.com",
+    16
+  ],
+  [
+    107,
+    "CAJ QUINCHAO",
+    "micorreo+cachao@gmail.com",
+    10
+  ],
+  [
+    108,
+    "CAJ QUIRIHUE",
+    "micorreo+cquirihue@gmail.com",
+    16
+  ],
+  [
+    109,
+    "CAJ RANQUIL",
+    "micorreo+cranquil@gmail.com",
+    16
+  ],
+  [
+    110,
+    "CAJ RENAICO",
+    "micorreo+crenaico@gmail.com",
+    9
+  ],
+  [
+    111,
+    "CAJ RÍO BUENO",
+    "micorreo+criobueno@gmail.com",
+    14
+  ],
+  [
+    112,
+    "CAJ RIO NEGRO",
+    "micorreo+crionegro@gmail.com",
+    10
+  ],
+  [
+    113,
+    "CAJ SAN CARLOS",
+    "micorreo+csancarlos@gmail.com",
+    16
+  ],
+  [
+    114,
+    "CAJ SAN GREGORIO/ÑIQUEN",
+    "micorreo+csangregorio@gmail.com",
+    16
+  ],
+  [
+    115,
+    "CAJ SAN IGNACIO",
+    "micorreo+csanignacio@gmail.com",
+    16
+  ],
+  [
+    116,
+    "CAJ SAN JOSÉ DE LA MARIQUINA",
+    "micorreo+csjmariquina@gmail.com",
+    14
+  ],
+  [
+    117,
+    "CAJ SAN NICOLAS",
+    "micorreo+csannicolas@gmail.com",
+    16
+  ],
+  [
+    118,
+    "CAJ SAN PEDRO DE LA PAZ",
+    "micorreo+csanpedrodelapaz@gmail.com",
+    8
+  ],
+  [
+    119,
+    "CAJ SANTA BARBARA",
+    "micorreo+csantabarbara@gmail.com",
+    8
+  ],
+  [
+    120,
+    "CAJ SANTA JUANA",
+    "micorreo+csantajuana@gmail.com",
+    8
+  ],
+  [
+    121,
+    "CAJ TALCAHUANO",
+    "micorreo+ctalcahuano@gmail.com",
+    8
+  ],
+  [
+    122,
+    "CAJ TALCAHUANO FAMILIA",
+    "micorreo+familiatalcahuano@gmail.com",
+    8
+  ],
+  [
+    123,
+    "CAJ TEMUCO CIVIL",
+    "micorreo+ctemuco@gmail.com",
+    9
+  ],
+  [
+    124,
+    "CAJ TEMUCO FAMILIA",
+    "micorreo+familiatemuco@gmail.com",
+    9
+  ],
+  [
+    125,
+    "CENTRO MEDIACION TEMUCO",
+    "micorreo+mediaciontemuco@gmail.com",
+    9
+  ],
+  [
+    126,
+    "OFICINA SEGUNDA INSTANCIA TEMUCO",
+    "micorreo+segundainstanciatemuco@gmail.com",
+    null
+  ],
+  [
+    127,
+    "ODL TEMUCO",
+    "micorreo+odltemuco@gmail.com",
+    9
+  ],
+  [
+    128,
+    "CAJ TEODORO SCHMIDT",
+    "micorreo+ctschmidt@gmail.com",
+    9
+  ],
+  [
+    129,
+    "CAJ TOLTÉN",
+    "micorreo+ctolten@gmail.com",
+    9
+  ],
+  [
+    130,
+    "CAJ TOME",
+    "micorreo+ctome@gmail.com",
+    8
+  ],
+  [
+    131,
+    "CAJ TRAIGUEN",
+    "micorreo+ctraiguen@gmail.com",
+    9
+  ],
+  [
+    132,
+    "CAJ TREHUACO",
+    "micorreo+ctrehuaco@gmail.com",
+    16
+  ],
+  [
+    133,
+    "CAJ VALDIVIA",
+    "micorreo+cvaldivia@gmail.com",
+    14
+  ],
+  [
+    134,
+    "OFICINA SEGUNDA INSTANCIA VALDIVIA",
+    "micorreo+segundainstanciavaldivia@gmail.com",
+    null
+  ],
+  [
+    135,
+    "CAJ VICTORIA",
+    "micorreo+cvictoria@gmail.com",
+    9
+  ],
+  [
+    136,
+    "CAJ VILCUN",
+    "micorreo+cvilcun@gmail.com",
+    9
+  ],
+  [
+    137,
+    "CAJ VILLARRICA",
+    "micorreo+cvillarrica@gmail.com",
+    9
+  ],
+  [
+    138,
+    "CAJ YUMBEL",
+    "micorreo+cyumbel@gmail.com",
+    8
+  ],
+  [
+    139,
+    "CAJ YUNGAY",
+    "micorreo+cyungay@gmail.com",
+    16
+  ],
+  [
+    140,
+    "CAJ ANTUCO",
+    "micorreo+cantuco@gmail.com",
+    8
+  ],
+  [
+    141,
+    "CAJ HUALAIHUE",
+    "micorreo+cptomontt@gmail.com",
+    10
+  ],
+  [
+    142,
+    "CAJ HUEPIL",
+    "micorreo+ctucapel@gmail.com",
+    16
+  ],
+  [
+    143,
+    "CAJ LA UNIÓN",
+    "micorreo+claunion@gmail.com",
+    14
+  ],
+  [
+    144,
+    "CAJ LAGO RANCO",
+    "micorreo+clagoranco@gmail.com",
+    14
+  ],
+  [
+    145,
+    "CAJ LANCO",
+    "micorreo+clanco@gmail.com",
+    14
+  ],
+  [
+    146,
+    "CAJ MELIPEUCO",
+    "micorreo+cmelipeuco@gmail.com",
+    9
+  ],
+  [
+    147,
+    "CAJ NINHUE",
+    "micorreo+cninhue@gmail.com",
+    16
+  ],
+  [
+    148,
+    "CAJ PALENA",
+    "micorreo+cpalena@gmail.com",
+    10
+  ],
+  [
+    149,
+    "CAJ QUILACO",
+    "micorreo+cquilaco@gmail.com",
+    8
+  ],
+  [
+    150,
+    "ODL VALDIVIA",
+    "micorreo+odlvaldivia@gmail.com",
+    14
+  ],
+  [
+    151,
+    "PAM ARAUCANÍA",
+    "micorreo+pamaraucania@gmail.com",
+    9
+  ],
+  [
+    152,
+    "PAM AYSÉN",
+    "micorreo+pamaysen@gmail.com",
+    11
+  ],
+  [
+    153,
+    "PAM CHILLÁN",
+    "micorreo+pamchillan@gmail.com",
+    16
+  ],
+  [
+    154,
+    "PAM CONCEPCIÓN",
+    "micorreo+pamconcepcion@gmail.com",
+    8
+  ],
+  [
+    155,
+    "PAM LOS LAGOS",
+    "micorreo+pamloslagos@gmail.com",
+    10
+  ],
+  [
+    156,
+    "PAM LOS RÍOS",
+    "micorreo+pamlosrios@gmail.com",
+    14
+  ],
+  [
+    157,
+    "UNIDAD MÓVIL CASTRO",
+    "micorreo+movilcastro@gmail.com",
+    10
+  ],
+  [
+    158,
+    "CAVI CHILLÁN",
+    "micorreo+caivchillan@gmail.com",
+    16
+  ],
+  [
+    162,
+    "CAVI CONCEPCION",
+    "micorreo+caviprovinciaconcepcion@gmail.com",
+    8
+  ],
+  [
+    163,
+    "CAVI COYHAIQUE",
+    "micorreo+caivcoyhaique@gmail.com",
+    11
+  ],
+  [
+    164,
+    "CAVI PUERTO MONTT",
+    "micorreo+caivptomontt@gmail.com",
+    10
+  ],
+  [
+    165,
+    "CAVI TEMUCO",
+    "micorreo+caivtemuco@gmail.com",
+    9
+  ],
+  [
+    166,
+    "CAVI VALDIVIA",
+    "micorreo+cavivaldivia@gmail.com",
+    14
+  ],
+  [
+    167,
+    "CONVENIO SENADIS ARAUCANIA",
+    "micorreo+no tiene@gmail.com",
+    9
+  ],
+  [
+    168,
+    "CONVENIO SENADIS AYSEN",
+    "micorreo+no tiene@gmail.com",
+    11
+  ],
+  [
+    169,
+    "CONVENIO SENADIS BIOBIO",
+    "micorreo+no tiene@gmail.com",
+    8
+  ],
+  [
+    170,
+    "CONVENIO SENADIS LOS LAGOS",
+    "micorreo+no tiene@gmail.com",
+    10
+  ],
+  [
+    171,
+    "CONVENIO SENADIS LOS RIOS",
+    "micorreo+karina.ortega@gmail.com",
+    14
+  ],
+  [
+    172,
+    "CONVENIO SENADIS ÑUBLE",
+    "micorreo+no tiene@gmail.com",
+    16
+  ],
+  [
+    173,
+    "CAJ ALTO BIO BIO",
+    "micorreo+caltobiobio@gmail.com",
+    null
   ],
   [
     183,
-    "NAD COYHAIQUE",
-    "mateo.ossa.b+curadoresaysen@gmail.com"
+    "DIRECCIÓN REGIONAL AYSÉN",
+    "micorreo+dirundecima@gmail.com",
+    null
   ],
   [
     184,
-    "NAD AYSÉN",
-    "mateo.ossa.b+curadoresaysen@gmail.com"
+    "PMA CONCEPCIÓN",
+    "micorreo+miabogadobiobio@gmail.com",
+    8
   ],
   [
     185,
-    "NAD VALDIVIA",
-    "mateo.ossa.b+nadlosrios@gmail.com"
+    "PMA LOS ÁNGELES",
+    "micorreo+miabogadobiobio@gmail.com",
+    8
   ],
   [
     186,
-    "NAD CHILLAN",
-    null
+    "PMA ARAUCANIA",
+    "micorreo+miabogadolaaraucania@gmail.com",
+    9
+  ],
+  [
+    187,
+    "PMA AYSEN",
+    "micorreo+oficinamiabogadoay@gmail.com",
+    11
   ],
   [
     188,
-    "NAD SAN CARLOS",
-    "mateo.ossa.b+curadoresnuble@gmail.com"
+    "PMA LOS LAGOS",
+    "micorreo+miabogadoloslagos@gmail.com",
+    10
   ],
   [
     189,
-    "PMA ARAUCANIA",
-    null
+    "PMA LOS RÍOS",
+    "micorreo+miabogadolosrios@gmail.com",
+    14
   ],
   [
     190,
-    "PMA AYSEN",
-    null
-  ],
-  [
-    191,
-    "PMA CHILLÁN",
-    null
+    "PMA CHILLAN",
+    "micorreo+miabogadonuble@gmail.com",
+    16
   ],
   [
     192,
-    "PMA CONCEPCIÓN",
+    "[DG] DIRECCIÓN DE GESTIÓN ESTRATÉGICA",
+    "micorreo+bastian.aburto@gmail.com",
     null
   ],
   [
     193,
-    "PMA LOS ÁNGELES",
+    "[DG] DIRECCIÓN DE ACCESO A LA JUSTICIA",
+    "micorreo+mauricio.vergara@gmail.com",
     null
   ],
   [
     194,
-    "PMA LOS LAGOS",
+    "[DG] DIRECCIÓN DE RRHH",
+    "micorreo+bastian.aburto@gmail.com",
     null
   ],
   [
     195,
-    "PMA LOS RÍOS",
+    "[DG] DIRECCIÓN DE ADMINISTRACIÓN Y FINANZAS",
+    "micorreo+manuel.medina@gmail.com",
     null
   ],
   [
-    196,
-    "CAJ CORRAL",
-    "mateo.ossa.b+ccorral@gmail.com"
+    199,
+    "UCOE",
+    "micorreo+martin.taub@gmail.com",
+    null
   ],
   [
-    197,
-    "NAD VILLARRICA",
-    "mateo.ossa.b+nadaraucania@gmail.com"
+    200,
+    "SECRETARIA JURIDICA",
+    "micorreo+loreto.araya@gmail.com",
+    null
   ],
   [
-    198,
+    201,
+    "BIENESTAR",
+    "micorreo+carolina.sanhueza@gmail.com",
+    null
+  ],
+  [
+    207,
+    "NAD LOS ANGELES",
+    "micorreo+nadbiobio@gmail.com",
+    8
+  ],
+  [
+    209,
+    "NAD CURANILAHUE ",
+    "micorreo+nadbiobio@gmail.com",
+    8
+  ],
+  [
+    210,
+    "NAD CONCEPCIÓN",
+    "micorreo+nadbiobio@gmail.com",
+    8
+  ],
+  [
+    211,
+    "NAD CHILLÁN",
+    "micorreo+nadnuble@gmail.com",
+    16
+  ],
+  [
+    212,
     "NAD QUIRIHUE",
+    "micorreo+nadnuble@gmail.com",
+    16
+  ],
+  [
+    213,
+    "NAD SAN CARLOS",
+    "micorreo+nadnuble@gmail.com",
+    16
+  ],
+  [
+    214,
+    "NAD ANGOL",
+    "micorreo+nadaraucania@gmail.com",
+    9
+  ],
+  [
+    215,
+    "NAD TEMUCO",
+    "micorreo+nadaraucania@gmail.com",
+    9
+  ],
+  [
+    216,
+    "NAD VALDIVIA",
+    "micorreo+nadlosrios@gmail.com",
+    14
+  ],
+  [
+    217,
+    "NAD PUERTO MONTT",
+    "micorreo+nadloslagos@gmail.com",
+    10
+  ],
+  [
+    218,
+    "NAD OSORNO",
+    "micorreo+nadloslagos@gmail.com",
+    10
+  ],
+  [
+    219,
+    "NAD CASTRO",
+    "micorreo+nadloslagos@gmail.com",
+    10
+  ],
+  [
+    220,
+    "NAD PALENA",
+    "micorreo+nadloslagos@gmail.com",
+    10
+  ],
+  [
+    221,
+    "NAD COYHAIQUE",
+    "micorreo+curadoresaysen@gmail.com",
+    11
+  ],
+  [
+    222,
+    "NAD AYSÉN",
+    "micorreo+curadoresaysen@gmail.com",
+    11
+  ],
+  [
+    223,
+    "UCEGE",
+    "micorreo+ucege@gmail.com",
     null
+  ],
+  [
+    224,
+    "CAJ CORRAL",
+    "micorreo+ccorral@gmail.com",
+    14
+  ],
+  [
+    225,
+    "NAD VILLARRICA",
+    "micorreo+nadaraucania@gmail.com",
+    9
   ]
 ];
 ?>
-
 <!-- centros finales 100%REalNoFake 1 link Megaupload (yo no lo descargo porque ya lo tengo)
 const centros = [
   [
