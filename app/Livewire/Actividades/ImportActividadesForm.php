@@ -73,6 +73,11 @@ class ImportActividadesForm extends Component
 
             $validRows = [];
 
+            // Tabla de redirecciones territoriales dinámicas en memoria (normalizadas)
+            $redirecciones = [
+                $this->normalizarTexto('PMA LOS ANGELES') => $this->normalizarTexto('PMA CONCEPCIÓN')
+            ];
+
             foreach ($allRows as $index => $row) {
                 $rowNum = $index + 2; // Fila Excel física
                 $hasError = false;
@@ -93,6 +98,12 @@ class ImportActividadesForm extends Component
                     $hasError = true;
                 } else {
                     $unidadNombreNorm = $this->normalizarTexto($unidadNombreRaw);
+
+                    // Redirección dinámica si corresponde a Los Ángeles
+                    if (isset($redirecciones[$unidadNombreNorm])) {
+                        $unidadNombreNorm = $redirecciones[$unidadNombreNorm];
+                    }
+
                     if (!isset($mapaNormalizado[$unidadNombreNorm])) {
                         $this->warnings[] = "Fila #{$rowNum}: La unidad '{$unidadNombreRaw}' no coincide con ningún registro del catálogo del sistema";
                         $hasError = true;
@@ -170,9 +181,19 @@ class ImportActividadesForm extends Component
 
                 $actividadesParaInsertar = [];
 
+                // Tabla de redirecciones territoriales dinámicas en memoria (normalizadas)
+                $redirecciones = [
+                    $this->normalizarTexto('PMA LOS ANGELES') => $this->normalizarTexto('PMA CONCEPCIÓN')
+                ];
+
                 foreach ($allRows as $row) {
                     $unidadNombreRaw = trim($row['UNIDAD'] ?? '');
                     $unidadNombreNorm = $this->normalizarTexto($unidadNombreRaw);
+
+                    // Redirección dinámica si corresponde a Los Ángeles
+                    if (isset($redirecciones[$unidadNombreNorm])) {
+                        $unidadNombreNorm = $redirecciones[$unidadNombreNorm];
+                    }
 
                     $unidadIdAsignada = $mapaNormalizado[$unidadNombreNorm] ?? null;
 
