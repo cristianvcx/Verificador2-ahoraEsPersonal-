@@ -18,13 +18,8 @@ use App\Services\ExcelService;
 class ImportActividadesForm extends Component
 {
     use WithFileUploads;
-
-    private function normalizarTexto(string $texto): string
-    {
-        return ExcelService::normalizarTexto($texto);
-    }
-
-    public $excelFile;
+    private const MANDATORY_FIELDS = Actividad::MANDATORY_FIELDS_TO_CREATE_ACTIVIDAD;
+    public object $excelFile;
     public int $step = 1; // 1: Subida, 2: Previsualización, 3: Cuenta regresiva (Confirmación), 4: Éxito
 
     // Datos de la carga
@@ -38,6 +33,48 @@ class ImportActividadesForm extends Component
     // Temporizador
     public int $countdown = 10;
     public bool $isCountingDown = false;
+
+    private function normalizarTexto(string $texto): string
+    {
+        return ExcelService::normalizarTexto($texto);
+    }
+    private function obtenerMapaUnidadesNormalizado(): array
+    {
+        $unidadesMap = Unidad::pluck('unidad_id', 'unidad_nombre')->toArray();
+
+        $resultado = [];
+
+        foreach ($unidadesMap as $nombre => $id) {
+            $resultado[$this->normalizarTexto($nombre)] = $id;
+        }
+
+        return $resultado;
+    }
+
+    private function obtenerRedirecciones(): array
+    {
+        return [
+            $this->normalizarTexto('PMA LOS ANGELES')
+            => $this->normalizarTexto('PMA CONCEPCIÓN'),
+        ];
+    }
+
+    private function resolverUnidadId(
+        string $unidadNombre,
+        array $mapaNormalizado
+    ): ?int {
+        $unidadNombreNorm = $this->normalizarTexto($unidadNombre);
+
+        $redirecciones = $this->obtenerRedirecciones();
+
+        if (isset($redirecciones[$unidadNombreNorm])) {
+            $unidadNombreNorm = $redirecciones[$unidadNombreNorm];
+        }
+
+        return $mapaNormalizado[$unidadNombreNorm] ?? null;
+    }
+
+
 
     public function rules()
     {
@@ -64,52 +101,30 @@ class ImportActividadesForm extends Component
 
             // Ejecutar análisis de advertencias en memoria O(1) con normalización
             $this->warnings = [];
-            $unidadesMap = Unidad::pluck('unidad_id', 'unidad_nombre')->toArray();
-
-            $mapaNormalizado = [];
-            foreach ($unidadesMap as $nombre => $id) {
-                $mapaNormalizado[$this->normalizarTexto($nombre)] = $id;
-            }
+            $mapaNormalizado = $this->obtenerMapaUnidadesNormalizado();
 
             $validRows = [];
 
-            // Tabla de redirecciones territoriales dinámicas en memoria (normalizadas)
-            $redirecciones = [
-                $this->normalizarTexto('PMA LOS ANGELES') => $this->normalizarTexto('PMA CONCEPCIÓN')
-            ];
+            $redirecciones = $this->obtenerRedirecciones();
 
             foreach ($allRows as $index => $row) {
                 $rowNum = $index + 2; // Fila Excel física
                 $hasError = false;
 
                 // Validar campos obligatorios inferidos de la migración
-                $mandatoryFields = ['COD', 'UNIDAD', 'REGION', 'MES', 'AÑO', 'FECHA_SAJ', 'MODALIDAD_MODIFICADO', 'TIPO_MODIFICADO', 'SUB_TIPO_MODIFICADO'];
+                $mandatoryFields = self::MANDATORY_FIELDS;
                 foreach ($mandatoryFields as $field) {
                     if (!isset($row[$field]) || trim((string)$row[$field]) === '') {
                         $this->warnings[] = "Fila #{$rowNum}: Falta el campo obligatorio requerido '{$field}'";
                         $hasError = true;
                     }
                 }
-
                 // Validar correspondencia territorial de la unidad
                 $unidadNombreRaw = trim($row['UNIDAD'] ?? '');
-                if ($unidadNombreRaw === '') {
-                    $this->warnings[] = "Fila #{$rowNum}: El campo 'UNIDAD' se encuentra vacío";
-                    $hasError = true;
-                } else {
-                    $unidadNombreNorm = $this->normalizarTexto($unidadNombreRaw);
-
-                    // Redirección dinámica si corresponde a Los Ángeles
-                    if (isset($redirecciones[$unidadNombreNorm])) {
-                        $unidadNombreNorm = $redirecciones[$unidadNombreNorm];
-                    }
-
-                    if (!isset($mapaNormalizado[$unidadNombreNorm])) {
-                        $this->warnings[] = "Fila #{$rowNum}: La unidad '{$unidadNombreRaw}' no coincide con ningún registro del catálogo del sistema";
-                        $hasError = true;
-                    }
-                }
-
+                $unidadIdAsignada = $this->resolverUnidadId(
+                    $unidadNombreRaw,
+                    $mapaNormalizado
+                );
                 // Solo agregar a la colección limpia si no presenta errores estructurales
                 if (!$hasError) {
                     $validRows[] = $row;
@@ -172,30 +187,22 @@ class ImportActividadesForm extends Component
                 ]);
 
                 // Cachear catálogo de unidades para emparejamiento veloz O(1) con normalización
-                $unidadesMap = Unidad::pluck('unidad_id', 'unidad_nombre')->toArray();
-
-                $mapaNormalizado = [];
-                foreach ($unidadesMap as $nombre => $id) {
-                    $mapaNormalizado[$this->normalizarTexto($nombre)] = $id;
-                }
+                $mapaNormalizado = $this->obtenerMapaUnidadesNormalizado();
 
                 $actividadesParaInsertar = [];
 
                 // Tabla de redirecciones territoriales dinámicas en memoria (normalizadas)
-                $redirecciones = [
-                    $this->normalizarTexto('PMA LOS ANGELES') => $this->normalizarTexto('PMA CONCEPCIÓN')
-                ];
+                $redirecciones = $this->obtenerRedirecciones();
 
                 foreach ($allRows as $row) {
                     $unidadNombreRaw = trim($row['UNIDAD'] ?? '');
                     $unidadNombreNorm = $this->normalizarTexto($unidadNombreRaw);
-
                     // Redirección dinámica si corresponde a Los Ángeles
-                    if (isset($redirecciones[$unidadNombreNorm])) {
-                        $unidadNombreNorm = $redirecciones[$unidadNombreNorm];
-                    }
+                    $unidadIdAsignada = $this->resolverUnidadId(
+                        $unidadNombreRaw,
+                        $mapaNormalizado
+                    );
 
-                    $unidadIdAsignada = $mapaNormalizado[$unidadNombreNorm] ?? null;
 
                     // Omitir inserción de registros huérfanos para proteger restricciones "NOT NULL" de la BD
                     if (!$unidadIdAsignada) {

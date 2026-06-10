@@ -2,35 +2,18 @@
 
 namespace App\Services;
 
+use App\Models\Actividad;
+
 class ExcelService
 {
+
   public const REQUIRED_EXCEL_HEADERS = [
-    // obligatorias
-    'COD',
-    'UNIDAD',
-    'REGION',
-    'MES',
-    'AÑO',
-    'FECHA_SAJ',
-
-    // se remapea a su version no modificada
-    'MODALIDAD_MODIFICADO',
-    'TIPO_MODIFICADO',
-    'SUB_TIPO_MODIFICADO',
-
-    // opcionales y de control
-    'FECHA',
-    'PARTICIPANTES',
-    'TOTAL_HOMBRES',
-    'TOTAL_MUJERES',
-    'TOTAL_NOBINARIO',
-    'DET_ACTIVIDAD',
-    'FUNCIONARIO',
+    ...Actividad::MANDATORY_FIELDS_TO_CREATE_ACTIVIDAD,
+    ...Actividad::OPTIONAL_ACTIVIDAD_FIELDS,
     'TIPO_UNIDAD',
     'TIPO_ACT_COD',
   ];
 
-  public const COLUMNS_EXCLUDED = ['TIPO_UNIDAD', 'TIPO_ACT_COD'];
 
   /**
    * Preserva los límites entre palabras durante la normalización.

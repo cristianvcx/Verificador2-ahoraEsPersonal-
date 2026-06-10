@@ -10,7 +10,34 @@ use App\Services\ExcelService;
 
 class Actividad extends Model
 {
-    private const EXCLUDE = ExcelService::COLUMNS_EXCLUDED;
+
+    /** 
+     *Columnas obligatorias que debe contener el excel para poder luego crear una actividad
+     */
+    public const MANDATORY_FIELDS_TO_CREATE_ACTIVIDAD = [
+        'COD',
+        'UNIDAD',
+        'REGION',
+        'MES',
+        'AÑO',
+        'FECHA_SAJ',
+        'MODALIDAD_MODIFICADO',
+        'TIPO_MODIFICADO',
+        'SUB_TIPO_MODIFICADO',
+    ];
+    /**
+     * Columnas que si no vienen en el excel se guardan con un valor por defecto o null
+     */
+    public const OPTIONAL_ACTIVIDAD_FIELDS = [
+        'FECHA',
+        'PARTICIPANTES',
+        'TOTAL_HOMBRES',
+        'TOTAL_MUJERES',
+        'TOTAL_NOBINARIO',
+        'DET_ACTIVIDAD',
+        'FUNCIONARIO',
+    ];
+
 
     protected $table = 'actividad';
     protected $primaryKey = 'actividad_id';
@@ -28,17 +55,6 @@ class Actividad extends Model
         'activo' => 'boolean',
     ];
 
-    /**
-     * Mapeo de columnas del Excel hacia columnas persistidas.
-     *
-     * Cuando exista una columna *_MODIFICADO, su valor tendrá prioridad
-     * sobre la columna original.
-     */
-    private const EXCEL_COLUMN_MAPPING = [
-        'MODALIDAD_MODIFICADO' => 'MODALIDAD',
-        'TIPO_MODIFICADO' => 'TIPO_ACTIVIDAD',
-        'SUB_TIPO_MODIFICADO' => 'SUB_TIPO_ACTIVIDAD',
-    ];
 
     // Cabeceras requeridas minimas
 
@@ -48,67 +64,63 @@ class Actividad extends Model
      * 2.- Puede tener un valor nulo?
     
     */
-    // detActividad podria no venir ??
-    // añadir filtro por mes operativo
     //To-do: si estamos en enero 
     // ya existen archivos de enero 2026 (A.E anterior) estas seguro que quieres subirlo? (si sube algo de enero 2026 y estamos realmente a 2027, pero solo en enero )
     // si estamos en enero 2027 y en el excel aparece un M.E de enero 2026, estas seguro que quieres subirlo? (si sube algo de enero 2026 y estamos realmente a 2027, pero solo en enero )
 
-    public static function excelColumnsToPersist(): array
+
+    private const excelColumnsToPersist = [...self::MANDATORY_FIELDS_TO_CREATE_ACTIVIDAD, self::OPTIONAL_ACTIVIDAD_FIELDS];
+
+
+    /**
+     * Acepta una fila del excel y lo remapea. Tambien filtra lo que no exista en excelColumnsToPersist
+     * 
+     */
+    private static function mapRowToPersistableData(array $row): array
     {
-        $columns = [];
-
-
-        foreach (ExcelService::REQUIRED_EXCEL_HEADERS as $header) {
-            if (in_array($header, self::EXCLUDE)) {
-                continue;
-            }
-
-            $columns[] =
-                self::EXCEL_COLUMN_MAPPING[$header]
-                ?? $header;
-        }
-
-        return array_values(array_unique($columns));
-    }
-
-    public static function fromExcelRow(
-        array $row,
-        int $cargaId,
-        ?int $unidadIdAsignada
-    ): array {
-
-        $allowedColumns = array_flip(self::excelColumnsToPersist());
+        $EXCEL_COLUMN_MAPPING = [
+            'MODALIDAD_MODIFICADO' => 'MODALIDAD',
+            'TIPO_MODIFICADO' => 'TIPO_ACTIVIDAD',
+            'SUB_TIPO_MODIFICADO' => 'SUB_TIPO_ACTIVIDAD',
+        ];
+        $allowedColumns = array_flip(self::excelColumnsToPersist);
 
         $data = [];
 
         foreach (ExcelService::REQUIRED_EXCEL_HEADERS as $header) {
-            $column = self::EXCEL_COLUMN_MAPPING[$header] ?? $header;
+            $column = $EXCEL_COLUMN_MAPPING[$header] ?? $header;
 
             if (!isset($allowedColumns[$column])) {
                 continue;
             }
             $data[$column] = $row[$header];
         }
+        return $data;
+    }
+
+
+    public static function fromExcelRow(
+        array $row,
+        int $cargaId,
+        ?int $unidadIdAsignada
+    ): array {
+        // mapeo y filtro
+        $data = [...self::mapRowToPersistableData($row)];
         // control interno 
         $data['estado'] = 'CARGADA';
         $data['carga_id'] = $cargaId;
         $data['unidad_id_asignada'] = $unidadIdAsignada;
         $data['activo'] = true;
 
-
-
-
         return $data;
     }
 
-    public static function createFromExcelRow(
+    /*     public static function createFromExcelRow(
         array $row,
         int $cargaId,
         ?int $unidadIdAsignada
     ): array {
-        /*    esto lo uso como test */
-        /* return self::fromExcelRow($row, $cargaId, $unidadIdAsignada); */
+
 
         return self::create(
             self::fromExcelRow(
@@ -117,14 +129,14 @@ class Actividad extends Model
                 $unidadIdAsignada
             )
         );
-    }
+    } */
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
         $this->fillable = [
-            ...self::excelColumnsToPersist(),
+            ...self::excelColumnsToPersist,
             'estado',
             'carga_id',
             'unidad_id_asignada',
