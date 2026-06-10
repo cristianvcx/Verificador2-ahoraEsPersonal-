@@ -13,10 +13,16 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NuevasActividadesPendientes;
+use App\Services\ExcelService;
 
 class ImportActividadesForm extends Component
 {
     use WithFileUploads;
+
+    private function normalizarTexto(string $texto): string
+    {
+        return ExcelService::normalizarTexto($texto);
+    }
 
     public $excelFile;
     public int $step = 1; // 1: Subida, 2: Previsualización, 3: Cuenta regresiva (Confirmación), 4: Éxito
@@ -24,6 +30,7 @@ class ImportActividadesForm extends Component
     // Datos de la carga
     public array $headers = [];
     public array $previewRows = [];
+    public array $warnings = [];
     public int $totalRows = 0;
     public string $tempFilePath = '';
     public string $originalFileName = '';
@@ -58,6 +65,38 @@ class ImportActividadesForm extends Component
 
             // Muestra limitada de 10 filas para proteger la transmisión de red del componente Livewire
             $this->previewRows = array_slice($allRows, 0, 10);
+
+            // Ejecutar análisis de advertencias en memoria O(1) con normalización
+            $this->warnings = [];
+            $unidadesMap = Unidad::pluck('unidad_id', 'unidad_nombre')->toArray();
+
+            $mapaNormalizado = [];
+            foreach ($unidadesMap as $nombre => $id) {
+                $mapaNormalizado[$this->normalizarTexto($nombre)] = $id;
+            }
+
+            foreach ($allRows as $index => $row) {
+                $rowNum = $index + 2; // Fila Excel física
+
+                // Validar campos obligatorios inferidos de la migración
+                $mandatoryFields = ['COD', 'UNIDAD', 'REGION', 'MES', 'AÑO', 'FECHA_SAJ', 'MODALIDAD_MODIFICADO', 'TIPO_MODIFICADO', 'SUB_TIPO_MODIFICADO'];
+                foreach ($mandatoryFields as $field) {
+                    if (!isset($row[$field]) || trim((string)$row[$field]) === '') {
+                        $this->warnings[] = "Fila #{$rowNum}: Falta el campo obligatorio requerido '{$field}'";
+                    }
+                }
+
+                // Validar correspondencia territorial de la unidad
+                $unidadNombreRaw = trim($row['UNIDAD'] ?? '');
+                if ($unidadNombreRaw === '') {
+                    $this->warnings[] = "Fila #{$rowNum}: El campo 'UNIDAD' se encuentra vacío";
+                } else {
+                    $unidadNombreNorm = $this->normalizarTexto($unidadNombreRaw);
+                    if (!isset($mapaNormalizado[$unidadNombreNorm])) {
+                        $this->warnings[] = "Fila #{$rowNum}: La unidad '{$unidadNombreRaw}' no coincide con ningún registro del catálogo del sistema";
+                    }
+                }
+            }
 
             $this->step = 2;
         } catch (\Exception $e) {
@@ -110,30 +149,49 @@ class ImportActividadesForm extends Component
                     'estado' => 'PROCESADA'
                 ]);
 
-                // Cachear catálogo de unidades para emparejamiento veloz O(1)
-                $unidadesMap = Unidad::pluck(
-                    'unidad_id',
-                    'unidad_nombre'
-                )->toArray();
+                // Cachear catálogo de unidades para emparejamiento veloz O(1) con normalización
+                $unidadesMap = Unidad::pluck('unidad_id', 'unidad_nombre')->toArray();
+
+                $mapaNormalizado = [];
+                foreach ($unidadesMap as $nombre => $id) {
+                    $mapaNormalizado[\App\Services\ExcelService::normalizarTexto($nombre)] = $id;
+                }
+
+                $actividadesParaInsertar = [];
 
                 foreach ($allRows as $row) {
+                    $unidadNombreRaw = trim($row['UNIDAD'] ?? '');
+                    $unidadNombreNorm = \App\Services\ExcelService::normalizarTexto($unidadNombreRaw);
 
-                    $unidadNombre = trim($row['UNIDAD'] ?? '');
+                    $unidadIdAsignada = $mapaNormalizado[$unidadNombreNorm] ?? null;
 
-                    // Emparejar ID de unidad si coincide con el catálogo
-                    $unidadIdAsignada =
-                        $unidadesMap[$unidadNombre] ?? null;
+                    // Omitir inserción de registros huérfanos para proteger restricciones "NOT NULL" de la BD
+                    if (!$unidadIdAsignada) {
+                        continue;
+                    }
 
-                    Actividad::createFromExcelRow(
+                    // Formatear array de atributos crudos
+                    $actividadData = Actividad::fromExcelRow(
                         $row,
                         $carga->carga_id,
                         $unidadIdAsignada
                     );
 
+                    // Estampar marcas de tiempo requeridas para Bulk Insert síncrono
+                    $actividadData['created_at'] = now();
+                    $actividadData['updated_at'] = now();
+
+                    $actividadesParaInsertar[] = $actividadData;
+
                     // Registrar de forma única la unidad afectada si fue emparejada
-                    if ($unidadIdAsignada && !in_array($unidadIdAsignada, $unidadesAfectadas)) {
+                    if (!in_array($unidadIdAsignada, $unidadesAfectadas)) {
                         $unidadesAfectadas[] = $unidadIdAsignada;
                     }
+                }
+
+                // Inserción masiva en base de datos en un solo viaje redondo de red
+                if (!empty($actividadesParaInsertar)) {
+                    Actividad::insert($actividadesParaInsertar);
                 }
             });
 
@@ -157,7 +215,7 @@ class ImportActividadesForm extends Component
 
     public function resetForm()
     {
-        $this->reset(['excelFile', 'step', 'headers', 'previewRows', 'totalRows', 'tempFilePath', 'originalFileName', 'countdown', 'isCountingDown']);
+        $this->reset(['excelFile', 'step', 'headers', 'previewRows', 'warnings', 'totalRows', 'tempFilePath', 'originalFileName', 'countdown', 'isCountingDown']);
     }
 
     private function cleanupTempFile()
