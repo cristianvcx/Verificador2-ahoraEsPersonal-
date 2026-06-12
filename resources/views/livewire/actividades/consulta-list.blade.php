@@ -1,9 +1,6 @@
-<div x-data="{ advancedOpen: false }">
+<div x-data="{ advancedOpen: false }" @if(Auth::user()->rol === 'auditor') wire:poll.600s @endif>
     <!-- 1. Filtros Básicos y Avanzados -->
     @include('livewire.actividades.partials.filtros')
-
-    <!-- 2. Barra de Control y Acciones Masivas -->
-    @include('livewire.actividades.partials.barra-acciones')
 
     @if ($isDateRangeActive)
     <div
@@ -92,7 +89,4 @@
     <div style="margin-top: 25px;">
         {{ $actividades->links() }}
     </div>
-
-    <!-- Scripts de Portapapeles -->
-    @include('livewire.actividades.partials.scripts-copiado')
 </div>

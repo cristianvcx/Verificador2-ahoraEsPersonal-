@@ -107,6 +107,15 @@ $isAdmin = $isAdmin ?? false;
     </div>
 
     <div style="margin-top: 15px; display: flex; justify-content: flex-end; gap: 10px;">
+        <!-- Botón de actualización manual inmediata (Item 4.5) -->
+        <button type="button" 
+                wire:click="$refresh" 
+                class="btn-secondary" 
+                style="padding: 8px 16px; font-size: 0.85rem; border: 1px solid #0F69C4; color: #0F69C4; border-radius: 4px; cursor: pointer; background: rgba(15, 105, 196, 0.05); font-weight: 600;"
+                wire:loading.attr="disabled">
+            <span wire:loading.remove wire:target="$refresh">🔄 Actualizar Datos</span>
+            <span wire:loading wire:target="$refresh">⏳ Actualizando...</span>
+        </button>
         <button type="button" wire:click="$set('buscar', ''); $set('ano', ''); $set('fecha_inicio', ''); $set('fecha_fin', ''); $set('region', ''); $set('tipo_unidad', ''); $set('tipo', ''); $set('actividad_id', ''); {{ $isAdmin ? '$set(\'funcionario_id\', \'\'); $set(\'estado\', \'1\');' : '' }}" class="btn-secondary" style="padding: 8px 16px; font-size: 0.85rem; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; background: transparent;">
             Limpiar Filtros
         </button>
