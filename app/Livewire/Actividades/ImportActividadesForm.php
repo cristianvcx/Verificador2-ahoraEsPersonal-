@@ -40,8 +40,11 @@ class ImportActividadesForm extends Component
     }
     private function obtenerMapaUnidadesNormalizado(): array
     {
-        $unidadesMap = Unidad::pluck('unidad_id', 'unidad_nombre')->toArray();
-
+        // Cruzar con la tabla users para obtener el nombre de la unidad operativa (users.name)
+        $unidadesMap = Unidad::query()
+            ->join('users', 'unidad.user_id', '=', 'users.id')
+            ->pluck('unidad.id', 'users.name')
+            ->toArray();
 
         $resultado = [];
 
@@ -105,6 +108,11 @@ class ImportActividadesForm extends Component
             $this->warnings = [];
             $mapaNormalizado = $this->obtenerMapaUnidadesNormalizado();
 
+            // Consultar preventivamente colisiones de código de actividad COD en un único viaje redondo a BD (O(1))
+            $incomingCods = array_filter(array_map(fn($row) => trim((string)($row['COD'] ?? '')), $allRows));
+            $existingCods = Actividad::query()->whereIn('COD', $incomingCods)->pluck('COD')->toArray();
+            $existingCodsMap = array_flip($existingCods);
+
             $validRows = [];
 
             foreach ($allRows as $index => $row) {
@@ -117,6 +125,13 @@ class ImportActividadesForm extends Component
                         $this->warnings[] = "Fila #{$rowNum}: Falta el campo obligatorio requerido '{$field}'";
                         $hasError = true;
                     }
+                }
+
+                // Validar colisiones del identificador único COD en base de datos
+                $codRaw = trim((string)($row['COD'] ?? ''));
+                if ($codRaw !== '' && isset($existingCodsMap[$codRaw])) {
+                    $this->warnings[] = "Fila #{$rowNum}: El código de actividad '{$codRaw}' ya se encuentra registrado y persistido en la plataforma";
+                    $hasError = true;
                 }
                 // Validar correspondencia territorial de la unidad
                 $unidadNombreRaw = trim($row['UNIDAD'] ?? '');
@@ -241,11 +256,18 @@ class ImportActividadesForm extends Component
                 }
             });
 
-            // Despachar un único correo consolidado por cada dirección de correo electrónico afectada
-            $unidadesAgrupadas = Unidad::whereIn('unidad_id', $unidadesAfectadas)
-                ->whereNotNull('unidad_correo')
-                ->get()
-                ->groupBy('unidad_correo');
+            // Cargar la relación 'user' para acceder al correo electrónico de las unidades afectadas
+            $unidades = Unidad::query()
+                ->with('user')
+                ->whereIn('id', $unidadesAfectadas)
+                ->get();
+
+            // Filtrar unidades válidas y agruparlas por el email de su usuario operador asociado
+            $unidadesAgrupadas = $unidades->filter(function ($u) {
+                return $u->user && !empty($u->user->email);
+            })->groupBy(function ($u) {
+                return $u->user->email;
+            });
 
             foreach ($unidadesAgrupadas as $correoDestinatario => $grupoUnidades) {
                 // Seleccionar la primera unidad del grupo como representante para la construcción de la plantilla

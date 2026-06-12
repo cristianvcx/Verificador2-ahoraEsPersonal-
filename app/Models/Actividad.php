@@ -160,7 +160,7 @@ class Actividad extends Model
      */
     public function unidadAsignada(): BelongsTo
     {
-        return $this->belongsTo(Unidad::class, 'unidad_id_asignada', 'unidad_id');
+        return $this->belongsTo(Unidad::class, 'unidad_id_asignada', 'id');
     }
 
     /**

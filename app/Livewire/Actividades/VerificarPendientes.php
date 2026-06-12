@@ -2,15 +2,17 @@
 
 namespace App\Livewire\Actividades;
 
-use Livewire\Component;
 use App\Models\Actividad;
+use App\Models\Archivo;
+use App\Models\Unidad;
 use Illuminate\Support\Facades\Auth;
-use Livewire\WithPagination;
+use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class VerificarPendientes extends Component
 {
-    use WithPagination, WithFileUploads;
+    use WithFileUploads, WithPagination;
 
     // Almacena temporalmente los archivos de subida mapeados por ID de actividad
     public $verificadores = [];
@@ -21,19 +23,23 @@ class VerificarPendientes extends Component
     public function verificarActividad($actividadId)
     {
         $this->validate([
-            'verificadores.' . $actividadId => 'required|array|min:1',
-            'verificadores.' . $actividadId . '.*' => 'file|max:5120', // Límite de 5MB por archivo
+            'verificadores.'.$actividadId => 'required|array|min:1',
+            'verificadores.'.$actividadId.'.*' => 'file|max:5120', // Límite de 5MB por archivo
         ], [
-            'verificadores.' . $actividadId . '.required' => 'Debe adjuntar al menos un archivo verificador para comprobar la realización.',
-            'verificadores.' . $actividadId . '.*.max' => 'Los archivos no deben superar los 5MB.'
+            'verificadores.'.$actividadId.'.required' => 'Debe adjuntar al menos un archivo verificador para comprobar la realización.',
+            'verificadores.'.$actividadId.'.*.max' => 'Los archivos no deben superar los 5MB.',
         ]);
 
+        // Recuperar la unidad asociada al usuario autenticado usando query() explícito
+        $unidad = Unidad::query()->where('user_id', Auth::id())->first();
+        $unidadId = $unidad ? $unidad->id : null;
+
         // Asegurar por integridad que la actividad pertenezca a la unidad del usuario y esté CARGADA
-        $actividad = Actividad::where('estado', 'CARGADA')
-            ->where('unidad_id_asignada', Auth::user()->unidad_id)
+        $actividad = Actividad::query()->where('estado', 'CARGADA')
+            ->where('unidad_id_asignada', $unidadId)
             ->findOrFail($actividadId);
 
-        // Actualizar estado y asignar al funcionario de la unidad
+        // Actualizar estado
         $actividad->update([
             'estado' => 'VERIFICADA',
         ]);
@@ -42,7 +48,7 @@ class VerificarPendientes extends Component
         foreach ($this->verificadores[$actividadId] as $archivo) {
             $path = $archivo->store('uploads', 'public');
 
-            \App\Models\Archivo::create([
+            Archivo::create([
                 'actividad_id' => $actividad->actividad_id,
                 'archivo_nombre' => $archivo->getClientOriginalName(),
                 'archivo_ruta' => $path,
@@ -52,21 +58,25 @@ class VerificarPendientes extends Component
         }
 
         unset($this->verificadores[$actividadId]);
-        session()->flash('success', 'La actividad #' . $actividadId . ' ha sido verificada y guardada con éxito.');
+        session()->flash('success', 'La actividad #'.$actividadId.' ha sido verificada y guardada con éxito.');
     }
 
     public function render()
     {
-        $unidadId = Auth::user()->unidad_id;
+        // Recuperar la unidad asociada al usuario autenticado usando query() explícito
+        $unidad = Unidad::query()->where('user_id', Auth::id())->first();
+        $unidadId = $unidad ? $unidad->id : null;
 
         // Mostrar solo las actividades cargadas por el excel que pertenezcan a la unidad asignada
-        $actividades = Actividad::where('estado', 'CARGADA')
-            ->where('unidad_id_asignada', $unidadId)
-            ->orderBy('FECHA', 'desc')
-            ->paginate(10);
+        $actividades = $unidadId
+            ? Actividad::query()->where('estado', 'CARGADA')
+                ->where('unidad_id_asignada', $unidadId)
+                ->orderBy('FECHA', 'desc')
+                ->paginate(10)
+            : collect(); // Retornar colección vacía si el usuario no tiene una unidad operativa asignada
 
         return view('livewire.actividades.verificar-pendientes', [
-            'actividades' => $actividades
+            'actividades' => $actividades,
         ]);
     }
 }
