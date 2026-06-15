@@ -16,6 +16,9 @@ Route::get('/', function () {
         if ($rol === 'admin') {
             return redirect()->route('admin.dashboard');
         }
+        if ($rol === 'auditor') {
+            return redirect()->route('auditor.dashboard');
+        }
         if ($rol === 'cargador') {
             return redirect()->route('actividades.importar');
         }
@@ -42,6 +45,64 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/historial', [ActividadController::class, 'historial'])
         ->middleware('role:admin,director,auditor,cargador,unidad')
         ->name('actividades.historial');
+
+    // Rutas exclusivas del Auditor (Dashboard con estadísticas de solo lectura)
+    Route::middleware(['role:auditor'])->group(function () {
+        Route::get('/auditor/dashboard', function () {
+            // Métricas operacionales consolidadas
+            $totalCargadas = Actividad::where('estado', 'CARGADA')->count();
+            $totalVerificadas = Actividad::where('estado', 'VERIFICADA')->count();
+            $totalActividades = $totalCargadas + $totalVerificadas;
+            $porcentajeVerificacion = $totalActividades > 0 ? round(($totalVerificadas / $totalActividades) * 100, 1) : 0;
+            $totalPlanillas = CargaExcel::count();
+
+            // Estadísticas territoriales consolidadas por región (Eager Loading para prevenir N+1)
+            $regionesEstadisticas = Region::query()
+                ->with(['user', 'unidades' => function ($query) {
+                    $query->withCount([
+                        'actividadesAsignadas as cargadas_count' => function ($q) {
+                            $q->where('estado', 'CARGADA');
+                        },
+                        'actividadesAsignadas as verificadas_count' => function ($q) {
+                            $q->where('estado', 'VERIFICADA');
+                        },
+                    ]);
+                }])
+                ->get()
+                ->map(function ($region) {
+                    $cargadas = $region->unidades->sum('cargadas_count');
+                    $verificadas = $region->unidades->sum('verificadas_count');
+                    $total = $cargadas + $verificadas;
+
+                    return [
+                        'nombre' => $region->region_nombre,
+                        'director' => $region->user->name ?? 'Sin director',
+                        'unidades_count' => $region->unidades->count(),
+                        'cargadas' => $cargadas,
+                        'verificadas' => $verificadas,
+                        'total' => $total,
+                        'avance' => $total > 0 ? round(($verificadas / $total) * 100, 1) : 0,
+                    ];
+                });
+
+            // Últimas planillas importadas en el sistema
+            $cargasRecientes = CargaExcel::query()
+                ->with('usuario')
+                ->latest()
+                ->take(5)
+                ->get();
+
+            return view('auditor.dashboard', compact(
+                'totalCargadas',
+                'totalVerificadas',
+                'totalActividades',
+                'porcentajeVerificacion',
+                'totalPlanillas',
+                'regionesEstadisticas',
+                'cargasRecientes'
+            ));
+        })->name('auditor.dashboard');
+    });
 
     // / Rutas exclusivas de Administración
     Route::middleware(['role:admin'])->group(function () {

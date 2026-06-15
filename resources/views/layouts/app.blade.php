@@ -60,6 +60,12 @@
                             Dashboard Principal
                         </a>
                     </li>
+                    @elseif(Auth::user()->rol === 'auditor')
+                    <li>
+                        <a href="{{ route('auditor.dashboard') }}" class="{{ request()->routeIs('auditor.dashboard') ? 'active' : '' }}">
+                            Dashboard Auditoría
+                        </a>
+                    </li>
                     @elseif(Auth::user()->rol === 'unidad')
                     <li>
                         <a href="{{ route('unidad.dashboard') }}" class="{{ request()->routeIs('unidad.dashboard') ? 'active' : '' }}">
