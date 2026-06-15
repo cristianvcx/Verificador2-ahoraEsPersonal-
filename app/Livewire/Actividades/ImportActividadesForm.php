@@ -23,6 +23,10 @@ class ImportActividadesForm extends Component
     public  $excelFile;
     public int $step = 1; // 1: Subida, 2: Previsualización, 3: Cuenta regresiva (Confirmación), 4: Éxito
 
+    // Control de Mes Estadístico (M.E.)
+    public int $mesEstadistico;
+    public int $anoEstadistico;
+
     // Datos de la carga
     public array $headers = [];
     public array $previewRows = [];
@@ -34,6 +38,26 @@ class ImportActividadesForm extends Component
     // Temporizador
     public int $countdown = 10;
     public bool $isCountingDown = false;
+
+    public function mount()
+    {
+        // Preselección dinámica por defecto del Mes Estadístico y Año actual
+        $this->mesEstadistico = (int) date('m');
+        $this->anoEstadistico = (int) date('Y');
+    }
+
+    /**
+     * Asegura de manera reactiva que no se seleccionen meses futuros si el año se cambia al actual.
+     */
+    public function updatedAnoEstadistico($value)
+    {
+        $currentYear = (int) date('Y');
+        $currentMonth = (int) date('m');
+
+        if ((int)$value === $currentYear && $this->mesEstadistico > $currentMonth) {
+            $this->mesEstadistico = $currentMonth;
+        }
+    }
 
     private function normalizarTexto(string $texto): string
     {
@@ -125,10 +149,18 @@ class ImportActividadesForm extends Component
                 $rowNum = $index + 2; // Fila Excel física
                 $hasError = false;
 
-                // Validar campos obligatorios inferidos de la migración
+                // 1. Filtrar en memoria únicamente las actividades del Mes y Año Estadístico seleccionado
+                $rowMes = isset($row['MES']) ? (int)$row['MES'] : null;
+                $rowAno = isset($row['AÑO']) ? (int)$row['AÑO'] : null;
+
+                if ($rowMes !== $this->mesEstadistico || $rowAno !== $this->anoEstadistico) {
+                    continue; // Omitir de forma silenciosa ya que no pertenecen al M.E. actual
+                }
+
+                // 2. Validar campos obligatorios inferidos de la migración
                 foreach (self::MANDATORY_FIELDS as $field) {
                     if (!isset($row[$field]) || trim((string)$row[$field]) === '') {
-                        $this->warnings[] = "Fila #{$rowNum}: Falta el campo obligatorio requerido '{$field}'";
+                        $this->warnings[] = "Fila #{$rowNum} [M.E. Coincidente]: Falta el campo obligatorio requerido '{$field}'";
                         $hasError = true;
                     }
                 }
