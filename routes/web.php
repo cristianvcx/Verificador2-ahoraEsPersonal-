@@ -102,26 +102,42 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/admin/actividades', [ActividadController::class, 'index'])->name('admin.actividades');
 
-        // Modo edición administrativa / Configuración crítica: Protegida estrictamente por confirmación de contraseña en red (Item 4.8)
-        Route::get('/admin/edicion', function () {
+        // Vista de Unidades en el menú lateral: Listado de usuarios del sistema
+        Route::get('/admin/unidades', function () {
+            $search = request('search');
             $usuarios = User::query()
+                ->when($search, function ($query) use ($search) {
+                    $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                })
                 ->orderBy('rol', 'asc')
                 ->orderBy('name', 'asc')
                 ->paginate(15);
 
-            return view('admin.edicion', compact('usuarios'));
+            return view('admin.edicion', compact('usuarios', 'search'));
+        })->name('admin.unidades');
+
+        Route::get('/admin/edicion', function () {
+            session(['modo_edicion' => true]);
+
+            return redirect()->route('actividades.historial')->with('success', 'Modo edición activado. Ahora puede administrar verificadores directamente en las tarjetas de actividad.');
         })->middleware('password.confirm')->name('admin.edicion');
 
-        // Acción crítica: Alternar estado de cuentas de usuario protegido por reconfirmación
+        // Salir del modo edición administrativa
+        Route::get('/admin/salir-edicion', function () {
+            session()->forget('modo_edicion');
+
+            return redirect()->route('actividades.historial')->with('success', 'Modo edición desactivado.');
+        })->name('admin.salir-edicion');
+
+        // Acción crítica: Alternar estado de cuentas de usuario protegido por reconfirmación (usado en Unidades)
         Route::patch('/admin/usuarios/{user}/toggle', function (User $user) {
             if ($user->id === auth()->id()) {
                 return back()->with('error', 'No puede deshabilitar su propia cuenta de administrador.');
             }
-
             $user->update([
                 'estado' => ! $user->estado,
             ]);
-
             $statusText = $user->estado ? 'habilitada' : 'deshabilitada';
 
             return back()->with('success', "La cuenta de {$user->name} ha sido {$statusText} con éxito.");

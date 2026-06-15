@@ -52,7 +52,7 @@ class FortifyServiceProvider extends ServiceProvider
         // Mapeo defensivo para evitar excepciones por desconfiguración de namespaces inexistentes (pages::)
         Fortify::verifyEmailView(fn () => view('auth.login'));
         Fortify::twoFactorChallengeView(fn () => view('auth.login'));
-        Fortify::confirmPasswordView(fn () => view('auth.login'));
+        Fortify::confirmPasswordView(fn () => view('auth.confirm-password'));
         Fortify::registerView(fn () => view('auth.login'));
         Fortify::resetPasswordView(fn () => view('auth.login'));
         Fortify::requestPasswordResetLinkView(fn () => view('auth.login'));

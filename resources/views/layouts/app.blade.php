@@ -53,12 +53,51 @@
                     @endif
                 </div>
                 <ul>
+                    <!-- Enlace dinámico al Dashboard según Rol -->
+                    @if(Auth::user()->rol === 'admin')
+                    <li>
+                        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                            Dashboard Principal
+                        </a>
+                    </li>
+                    @elseif(Auth::user()->rol === 'unidad')
+                    <li>
+                        <a href="{{ route('unidad.dashboard') }}" class="{{ request()->routeIs('unidad.dashboard') ? 'active' : '' }}">
+                            Dashboard Unidad
+                        </a>
+                    </li>
+                    @endif
+
+                    <!-- Secciones exclusivas de Administración -->
+                    @if(Auth::user()->rol === 'admin')
+                    <li>
+                        <a href="{{ route('admin.unidades') }}" class="{{ request()->routeIs('admin.unidades') ? 'active' : '' }}">
+                            Unidades
+                        </a>
+                    </li>
+                    @endif
+
                     <!-- Enlaces dinámicos centralizados por Rol -->
                     @if(Auth::user()->rol === 'admin' || Auth::user()->rol === 'cargador')
                     <li>
                         <a href="{{ route('actividades.importar') }}" class="{{ request()->routeIs('actividades.importar') ? 'active' : '' }}">
                             Importar Planilla
                         </a>
+                    </li>
+                    @endif
+                    
+                    <!-- Control rápido del Modo Edición para Administrador -->
+                    @if(Auth::user()->rol === 'admin')
+                    <li style="margin-top: 15px; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+                        @if(session('modo_edicion'))
+                        <a href="{{ route('admin.salir-edicion') }}" style="color: #ef3340 !important; font-weight: 700; background-color: rgba(239, 51, 64, 0.05); border-radius: 4px; display: block; padding: 10px 15px;">
+                            Desactivar Edición 🔓
+                        </a>
+                        @else
+                        <a href="{{ route('admin.edicion') }}" style="color: #2b8a3e !important; font-weight: 700; background-color: rgba(43, 138, 62, 0.05); border-radius: 4px; display: block; padding: 10px 15px;">
+                            Activar Modo Edición 🔒
+                        </a>
+                        @endif
                     </li>
                     @endif
 

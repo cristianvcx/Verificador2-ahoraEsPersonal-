@@ -1,36 +1,56 @@
 @extends('layouts.app')
 
-@section('title', 'Modo Edición Crítica - Intranet CAJBIOBIO')
+@section('title', 'Unidades y Accesos - Intranet CAJBIOBIO')
 
 @section('breadcrumbs')
 <a href="{{ route('admin.dashboard') }}">Administrador</a>
 <span class="separator">‣</span>
-<span>Edición Crítica</span>
+<span>Unidades</span>
 @endsection
 
 @section('content')
 <div class="panel-header-section" style="margin-bottom: 30px;">
-    <h2>Edición de Configuración del Sistema</h2>
+    <h2>Gestión de Unidades Operativas y Accesos</h2>
     <p style="margin: 5px 0 0; color: #64748b; font-size: 0.95rem;">
-        Habilite o deshabilite accesos de usuarios y modifique parámetros operacionales de seguridad.
+        Consulte, busque y gestione el estado de las unidades y operadores del sistema de forma centralizada.
     </p>
 </div>
 
 <!-- Alerta de Advertencia de Zona Crítica -->
-<div style="background-color: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 20px; margin-bottom: 30px; display: flex; align-items: flex-start; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.01);">
+<div style="background-color: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 20px; margin-bottom: 25px; display: flex; align-items: flex-start; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.01);">
     <span style="font-size: 1.5rem; line-height: 1;">🔒</span>
     <div>
-        <strong style="color: #9f1239; font-size: 1rem; display: block; margin-bottom: 4px;">Zona de Seguridad Crítica Protegida</strong>
+        <strong style="color: #9f1239; font-size: 1rem; display: block; margin-bottom: 4px;">Zona de Seguridad de Cuentas Protegida</strong>
         <p style="color: #be123c; font-size: 0.85rem; margin: 0; line-height: 1.5;">
-            Cualquier modificación o alternancia de estados de cuentas de usuario en esta sección impactará de forma inmediata en las sesiones de los operadores del sistema. Estas operaciones de administración requieren la reconfirmación de su contraseña por motivos de auditoría y defensa.
+            Cualquier modificación o alternancia de estados de cuentas en esta sección impactará de forma inmediata en las sesiones de los operadores del sistema. Estas operaciones de habilitación o deshabilitación requieren la reconfirmación de su contraseña de administrador por motivos de auditoría de red.
         </p>
     </div>
+</div>
+
+<!-- Buscador de Unidades -->
+<div style="background-color: #ffffff; border: 1px solid rgba(226, 232, 240, 0.8); padding: 20px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
+    <form action="{{ route('admin.unidades') }}" method="GET" style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 250px;">
+            <label for="search" style="font-size: 0.85rem; font-weight: 700; color: #475569; display: block; margin-bottom: 6px;">Filtrar Unidades / Usuarios</label>
+            <input type="text" name="search" id="search" value="{{ $search }}" class="form-input-control-caj" placeholder="Ej: Los Ángeles, Concepción, auditor, etc." style="width: 100%;">
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn-primary-caj" style="padding: 12px 24px; font-size: 0.9rem;">
+                🔍 Filtrar
+            </button>
+            @if($search)
+            <a href="{{ route('admin.unidades') }}" class="btn-acc" style="text-align: center; padding: 12px 20px; text-decoration: none; border-color: #cbd5e1; font-weight: 600; font-size: 0.9rem; border-radius: 6px; display: inline-block;">
+                Limpiar Filtros
+            </a>
+            @endif
+        </div>
+    </form>
 </div>
 
 <!-- Tabla de Usuarios y Control de Acceso -->
 <div style="background-color: #ffffff; border: 1px solid rgba(226, 232, 240, 0.8); border-radius: 8px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
     <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.15rem; color: #0d1b2a; font-weight: 700; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px;">
-        👤 Catálogo General de Usuarios y Control de Estado
+        👤 Catálogo General de Unidades y Operadores
     </h3>
 
     <div style="overflow-x: auto;">

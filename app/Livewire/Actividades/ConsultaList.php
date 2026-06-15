@@ -3,16 +3,23 @@
 namespace App\Livewire\Actividades;
 
 use App\Models\Actividad;
+use App\Models\Archivo;
 use App\Models\Region;
 use App\Models\Unidad;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class ConsultaList extends Component
 {
-    use WithPagination;
+    use WithFileUploads, WithPagination;
+
+    // Propiedades para administración interactiva de verificadores (Modo Edición)
+    public $nuevosVerificadores = [];
 
     // Filtros de URL (Query Params)
     #[Url(as: 'q')]
@@ -136,6 +143,84 @@ class ConsultaList extends Component
         return $query->with(['archivos', 'unidadAsignada'])
             ->orderBy('FECHA', 'desc')
             ->orderBy('actividad_id', 'desc');
+    }
+
+    /**
+     * Eliminar de forma permanente un archivo verificador (Solo Administradores en Modo Edición).
+     */
+    public function eliminarArchivo($archivoId)
+    {
+        // Defensa: Bloquear mutación si no es admin en modo edición
+        if (Auth::user()->rol !== 'admin' || ! session('modo_edicion')) {
+            abort(403, 'No autorizado para realizar esta acción.');
+        }
+
+        $archivo = Archivo::find($archivoId);
+        if ($archivo) {
+            // Eliminar físico del almacenamiento privado
+            if (Storage::disk('local')->exists($archivo->archivo_ruta)) {
+                Storage::disk('local')->delete($archivo->archivo_ruta);
+            }
+
+            $archivo->delete();
+            session()->flash('success', 'El archivo verificador ha sido eliminado con éxito de forma administrativa.');
+        }
+    }
+
+    /**
+     * Adjuntar un nuevo archivo verificador a una actividad (Solo Administradores en Modo Edición).
+     */
+    public function adjuntarVerificadorAdministrativo($actividadId)
+    {
+        // Defensa: Bloquear mutación si no es admin en modo edición
+        if (Auth::user()->rol !== 'admin' || ! session('modo_edicion')) {
+            abort(403, 'No autorizado para realizar esta acción.');
+        }
+
+        $this->validate([
+            'nuevosVerificadores' => 'required|array|min:1',
+            'nuevosVerificadores.*' => 'file|mimes:pdf,doc,docx,png,jpg,jpeg|max:5120',
+        ], [
+            'nuevosVerificadores.required' => 'Debe adjuntar al menos un archivo.',
+            'nuevosVerificadores.*.mimes' => 'Formato no permitido (Use PDF, Word o Imágenes).',
+            'nuevosVerificadores.*.max' => 'Los archivos no deben superar los 5MB.',
+        ]);
+
+        $actividad = Actividad::find($actividadId);
+        if (! $actividad) {
+            session()->flash('error', 'Actividad no encontrada.');
+
+            return;
+        }
+
+        // Si la actividad estaba en estado CARGADA, transiciona de forma automática a VERIFICADA
+        if ($actividad->estado === 'CARGADA') {
+            $actividad->update(['estado' => 'VERIFICADA']);
+        }
+
+        foreach ($this->nuevosVerificadores as $archivo) {
+            $originalName = $archivo->getClientOriginalName();
+            $mimeType = $archivo->getMimeType();
+            $size = $archivo->getSize();
+
+            $filename = pathinfo($originalName, PATHINFO_FILENAME);
+            $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+            $sanitizedFilename = Str::slug($filename).'.'.$extension;
+
+            // Guardar en el almacenamiento privado local
+            $path = $archivo->store('uploads', 'local');
+
+            Archivo::create([
+                'actividad_id' => $actividad->actividad_id,
+                'archivo_nombre' => $sanitizedFilename,
+                'archivo_ruta' => $path,
+                'archivo_tipo' => $mimeType,
+                'archivo_size' => $size,
+            ]);
+        }
+
+        $this->reset('nuevosVerificadores');
+        session()->flash('success', 'El archivo verificador ha sido adjuntado e indexado con éxito de forma administrativa.');
     }
 
     public function render()
