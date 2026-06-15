@@ -39,10 +39,10 @@ class VerificarActividadCard extends Component
 
         $this->validate([
             'verificador' => 'required|array|min:1',
-            'verificador.*' => 'file|mimes:pdf,doc,docx,xls,xlsx,png,jpg,jpeg|max:5120',
+            'verificador.*' => 'file|mimes:pdf,doc,docx,png,jpg,jpeg|max:5120',
         ], [
             'verificador.required' => 'Debe adjuntar al menos un archivo verificador.',
-            'verificador.*.mimes' => 'El archivo debe tener un formato válido y seguro (PDF, Word, Excel, PNG, JPG).',
+            'verificador.*.mimes' => 'El archivo debe tener un formato válido y seguro (PDF, Word, PNG, JPG).',
             'verificador.*.max' => 'Los archivos no deben superar los 5MB.',
         ]);
 
@@ -144,6 +144,7 @@ class VerificarActividadCard extends Component
                                wire:model="verificador" 
                                id="verificador-{{ $act->actividad_id }}" 
                                multiple 
+                               accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
                                style="font-size: 0.85rem; color: #475569;"
                                wire:loading.attr="disabled"
                                wire:target="verificador">

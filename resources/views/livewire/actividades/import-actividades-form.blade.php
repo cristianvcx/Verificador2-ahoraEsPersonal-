@@ -26,6 +26,34 @@
             Cargue el archivo Excel (.xlsx) estructurado bajo las cabeceras institucionales requeridas para poblar automáticamente el verificador de actividades.
         </p>
 
+        <!-- Selector del Periodo del Mes Estadístico (M.E.) -->
+        @php
+            $maxMonth = ($anoEstadistico == (int)date('Y')) ? (int)date('m') : 12;
+            $meses = [
+                1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
+                5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
+                9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
+            ];
+        @endphp
+        <div style="background-color: #f1f5f9; border: 1px solid #cbd5e1; padding: 20px; border-radius: 8px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <div>
+                <label for="mesEstadistico" style="font-size: 0.85rem; font-weight: 700; color: #334155; display: block; margin-bottom: 6px;">Mes Estadístico (M.E.) de Carga</label>
+                <select wire:model.live="mesEstadistico" id="mesEstadistico" class="form-select-control" style="width: 100%; box-sizing: border-box; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; background-color: #ffffff; font-size: 0.95rem;">
+                    @for($num = $maxMonth; $num >= 1; $num--)
+                        <option value="{{ $num }}">{{ $meses[$num] }}</option>
+                    @endfor
+                </select>
+            </div>
+            <div>
+                <label for="anoEstadistico" style="font-size: 0.85rem; font-weight: 700; color: #334155; display: block; margin-bottom: 6px;">Año Estadístico</label>
+                <select wire:model.live="anoEstadistico" id="anoEstadistico" class="form-select-control" style="width: 100%; box-sizing: border-box; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; background-color: #ffffff; font-size: 0.95rem;">
+                    @for($y = date('Y'); $y >= 2020; $y--)
+                        <option value="{{ $y }}">{{ $y }}</option>
+                    @endfor
+                </select>
+            </div>
+        </div>
+
         <!-- 1. Estado: Subiendo archivo (Centralizado con barra de progreso) -->
         <div x-show="isUploading" style="background-color: #f8fafc; border: 2px dashed #2b8a3e; border-radius: 8px; padding: 50px; text-align: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);" x-cloak>
             <div style="font-size: 3.5rem; margin-bottom: 15px; animation: pulse 1.5s infinite;">⏳</div>
