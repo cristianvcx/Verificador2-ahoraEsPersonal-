@@ -146,6 +146,7 @@ class ImportActividadesForm extends Component
 
         if ($hashDuplicado) {
             $this->cleanupTempFile();
+            $this->excelFile = null;
             session()->flash('error', 'Esta planilla (o una con exactamente el mismo contenido) ya ha sido procesada de manera exitosa anteriormente.');
 
             return;
@@ -230,6 +231,7 @@ class ImportActividadesForm extends Component
             $this->step = 2;
         } catch (\Exception $e) {
             $this->cleanupTempFile();
+            $this->excelFile = null;
             session()->flash('error', 'Error en la validación del archivo: '.$e->getMessage());
         }
     }
