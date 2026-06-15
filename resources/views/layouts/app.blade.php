@@ -48,11 +48,44 @@
                     Módulo Importación
                     @elseif(Auth::user()->rol === 'unidad')
                     Menú Unidad
+                    @elseif(Auth::user()->rol === 'director')
+                    Menú Dirección
                     @else
                     Menú Consultas
                     @endif
                 </div>
                 <ul>
+                    <!-- Enlace dinámico al Dashboard según Rol -->
+                    @if(Auth::user()->rol === 'admin')
+                    <li>
+                        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                            Dashboard Principal
+                        </a>
+                    </li>
+                    @elseif(Auth::user()->rol === 'auditor')
+                    <li>
+                        <a href="{{ route('auditor.dashboard') }}" class="{{ request()->routeIs('auditor.dashboard') ? 'active' : '' }}">
+                            Dashboard Auditoría
+                        </a>
+                    </li>
+
+                    @elseif(Auth::user()->rol === 'director')
+                    <li>
+                        <a href="{{ route('director.dashboard') }}" class="{{ request()->routeIs('director.dashboard') ? 'active' : '' }}">
+                            Dashboard Regional
+                        </a>
+                    </li>
+                    @endif
+
+                    <!-- Secciones exclusivas de Administración -->
+                    @if(Auth::user()->rol === 'admin')
+                    <li>
+                        <a href="{{ route('admin.unidades') }}" class="{{ request()->routeIs('admin.unidades') ? 'active' : '' }}">
+                            Unidades
+                        </a>
+                    </li>
+                    @endif
+
                     <!-- Enlaces dinámicos centralizados por Rol -->
                     @if(Auth::user()->rol === 'admin' || Auth::user()->rol === 'cargador')
                     <li>
@@ -61,6 +94,7 @@
                         </a>
                     </li>
                     @endif
+                    
 
                     @if(Auth::user()->rol === 'unidad')
                     <li>

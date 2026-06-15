@@ -12,6 +12,7 @@
     </div>
     @endif
 
+
     <!-- PASO 1: SUBIDA DE ARCHIVO -->
     @if($step === 1)
     <div class="form-group-item"

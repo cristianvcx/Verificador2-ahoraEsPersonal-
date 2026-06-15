@@ -64,7 +64,12 @@
                         </div>
 
                         <div class="form-group-item-caj">
-                            <label for="password">Contraseña</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="password" style="margin: 0;">Contraseña</label>
+                                <a href="{{ route('password.request') }}" style="font-size: 0.82rem; font-weight: 600; color: #0F69C4; text-decoration: none;">
+                                    ¿Olvidó su contraseña?
+                                </a>
+                            </div>
                             <input type="password" id="password" name="password" class="form-input-control-caj" placeholder="••••••••••••" required>
                             @error('password')
                             <span style="color: red;">{{ $message }}</span>

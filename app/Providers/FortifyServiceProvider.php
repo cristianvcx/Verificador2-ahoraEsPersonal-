@@ -52,10 +52,10 @@ class FortifyServiceProvider extends ServiceProvider
         // Mapeo defensivo para evitar excepciones por desconfiguración de namespaces inexistentes (pages::)
         Fortify::verifyEmailView(fn () => view('auth.login'));
         Fortify::twoFactorChallengeView(fn () => view('auth.login'));
-        Fortify::confirmPasswordView(fn () => view('auth.login'));
+        Fortify::confirmPasswordView(fn () => view('auth.confirm-password'));
         Fortify::registerView(fn () => view('auth.login'));
-        Fortify::resetPasswordView(fn () => view('auth.login'));
-        Fortify::requestPasswordResetLinkView(fn () => view('auth.login'));
+        Fortify::resetPasswordView(fn () => view('auth.reset-password'));
+        Fortify::requestPasswordResetLinkView(fn () => view('auth.forgot-password'));
     }
 
     /**
@@ -88,11 +88,17 @@ class FortifyServiceProvider extends ServiceProvider
                         if ($rol === 'admin') {
                             return redirect()->route('admin.dashboard');
                         }
+                        if ($rol === 'auditor') {
+                            return redirect()->route('auditor.dashboard');
+                        }
                         if ($rol === 'cargador') {
                             return redirect()->route('actividades.importar');
                         }
                         if ($rol === 'unidad') {
                             return redirect()->route('unidad.dashboard');
+                        }
+                        if ($rol === 'director') {
+                            return redirect()->route('director.dashboard');
                         }
 
                         return redirect()->route('actividades.historial');

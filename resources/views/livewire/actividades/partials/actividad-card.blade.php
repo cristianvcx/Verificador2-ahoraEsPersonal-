@@ -58,9 +58,10 @@
         @endif
 
         <!-- Documentos de Respaldo Firmados -->
-        @if($act->archivos->isNotEmpty())
+        @if($act->archivos->isNotEmpty() || (Auth::user()->rol === 'admin' && session('modo_edicion')))
             <div style="border-top: 1px dashed #e2e8f0; padding-top: 15px;">
                 <h4 style="margin: 0 0 10px 0; font-size: 0.85rem; color: #0F69C4; text-transform: uppercase; font-weight: 700;">Documentos de Respaldo</h4>
+                @if($act->archivos->isNotEmpty())
                 <div style="overflow-x: auto;">
                     <table class="table-custom-data" style="width: 100%;">
                         <thead>
@@ -68,7 +69,7 @@
                                 <th>Nombre del Documento</th>
                                 <th>Tipo</th>
                                 <th>Tamaño</th>
-                                <th style="text-align: right;">Descarga</th>
+                                <th style="text-align: right;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,13 +84,49 @@
                                         @endphp
                                     </td>
                                     <td style="text-align: right;">
-                                        <a href="{{ route('archivos.descargar', $archivo->archivo_id) }}" style="font-weight: 700; color: #0F69C4;">Descargar</a>
+                                        <a href="{{ route('archivos.descargar', $archivo->archivo_id) }}" style="font-weight: 700; color: #0F69C4; margin-right: 15px;">Descargar</a>
+                                        @if(Auth::user()->rol === 'admin' && session('modo_edicion'))
+                                        <button type="button" 
+                                                wire:click="eliminarArchivo({{ $archivo->archivo_id }})" 
+                                                wire:confirm="¿Está seguro de que desea eliminar permanentemente este archivo verificador de forma administrativa?"
+                                                style="background: none; border: none; color: #ef3340; font-weight: 700; cursor: pointer; padding: 0;">
+                                            Eliminar 🗑️
+                                        </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+                @else
+                <p style="margin: 0; font-size: 0.9rem; color: #64748b; font-style: italic;">Esta actividad no posee archivos verificadores cargados.</p>
+                @endif
+
+                <!-- Formulario Administrativo para Adjuntar Nuevos Verificadores -->
+                @if(Auth::user()->rol === 'admin' && session('modo_edicion'))
+                    <div style="margin-top: 20px; background-color: rgba(15, 105, 196, 0.02); border-radius: 8px; padding: 20px; border: 1px dashed #0F69C4;">
+                        <strong style="font-size: 0.8rem; color: #0F69C4; text-transform: uppercase; display: block; margin-bottom: 8px;">📥 Subida Administrativa de Verificadores (Modo Edición)</strong>
+                        <div style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 250px;">
+                                <input type="file" wire:model="nuevosVerificadores" multiple accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" style="font-size: 0.85rem; color: #475569;">
+                                @error('nuevosVerificadores') <span style="color: #ef3340; font-size: 0.8rem; display: block; margin-top: 5px;">⚠️ {{ $message }}</span> @enderror
+                                @error('nuevosVerificadores.*') <span style="color: #ef3340; font-size: 0.8rem; display: block; margin-top: 5px;">⚠️ {{ $message }}</span> @enderror
+                            </div>
+                            <button type="button" 
+                                    wire:click="adjuntarVerificadorAdministrativo({{ $act->actividad_id }})" 
+                                    class="btn-primary-caj" 
+                                    style="padding: 10px 20px; font-size: 0.85rem;"
+                                    wire:loading.attr="disabled"
+                                    wire:target="nuevosVerificadores">
+                                Adjuntar Respaldos
+                            </button>
+                        </div>
+                        <div wire:loading wire:target="nuevosVerificadores" style="color: #0F69C4; font-size: 0.8rem; font-weight: 600; margin-top: 8px;">
+                            ⏳ Cargando archivos temporales al servidor, por favor espere...
+                        </div>
+                    </div>
+                @endif
             </div>
         @endif
 
