@@ -51,9 +51,8 @@ class VerificarActividadCard extends Component
             'estado' => 'VERIFICADA',
         ]);
 
-        // Persistencia segura de archivos
         foreach ($this->verificador as $archivo) {
-            $path = $archivo->store('uploads', 'public');
+            $path = $archivo->store('uploads', 'local');
 
             $originalName = $archivo->getClientOriginalName();
             $filename = pathinfo($originalName, PATHINFO_FILENAME);
