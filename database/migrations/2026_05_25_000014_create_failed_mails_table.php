@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('failed_mails', function (Blueprint $table) {
+        Schema::create('mails', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('recipient', 255);
             $table->string('subject', 255);
             $table->string('mailable_class', 255);
@@ -24,6 +25,7 @@ return new class extends Migration
 
             $table->index('status');
             $table->index('recipient');
+            $table->index('user_id');
         });
     }
 
