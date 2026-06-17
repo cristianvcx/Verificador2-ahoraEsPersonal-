@@ -60,12 +60,9 @@
                         </button>
                     </form>
 
-                    <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
-                        @csrf
-                        <button type="submit" class="btn-acc" style="width: 100%; padding: 12px; border-color: #cbd5e1; font-weight: 600; cursor: pointer;">
-                            Cerrar sesión ↩
-                        </button>
-                    </form>
+                    <a href="{{ route('login') }}" class="btn-acc" style="width: 100%; padding: 12px; border-color: #cbd5e1; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; box-sizing: border-box; display: block; color: #475569;">
+                        Volver al inicio de sesión ↩
+                    </a>
                 </div>
             </div>
 

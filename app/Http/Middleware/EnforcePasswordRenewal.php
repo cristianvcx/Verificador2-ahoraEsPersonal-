@@ -28,8 +28,8 @@ class EnforcePasswordRenewal
 
         $user = Auth::user();
 
-        // 1. Evitar bucles de redirección en rutas de autenticación, la pantalla especial de expiración y reenvíos
-        if ($request->routeIs('login', 'logout', 'password.expired', 'password.request-renewal', 'verification.*')) {
+        // 1. Evitar bucles de redirección en rutas de autenticación, la pantalla especial de expiración, el restablecimiento de contraseñas y reenvíos
+        if ($request->routeIs('login', 'logout', 'password.expired', 'password.request-renewal', 'password.reset', 'password.update', 'verification.*')) {
             return $next($request);
         }
         // 2. Administradores exentos de expiración
@@ -37,10 +37,22 @@ class EnforcePasswordRenewal
             return $next($request);
         }
 
-        // 3. Contraseña vencida (> 90 días): Redirección forzada a la pantalla de fallback
+        // 3. Contraseña vencida (> 90 días): Almacenar datos en sesión, forzar deslogueo y redirección
         if ($this->policyService->isExpired($user)) {
-            // Mantenemos al usuario autenticado en la sesión web para que pueda usar el reenvío,
-            // pero lo restringimos exclusivamente a la pantalla de expiración y logout.
+            $email = $user->email;
+            $name = $user->name;
+
+            // Forzar cierre de sesión síncrono para prevenir que el middleware 'guest' de Fortify bloquee /reset-password
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            // Preservar el contexto de forma segura para la siguiente petición de renderizado de fallback
+            session([
+                'expired_user_email' => $email,
+                'expired_user_name' => $name,
+            ]);
+
             return redirect()->route('password.expired');
         }
 
