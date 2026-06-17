@@ -3,12 +3,15 @@
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\DescargaVerificadorController;
 use App\Mail\NuevasActividadesPendientes;
+use App\Mail\PasswordRenewalMail;
 use App\Models\Actividad;
 use App\Models\CargaExcel;
 use App\Models\Region;
 use App\Models\Unidad;
 use App\Models\User;
 use App\Services\MailService;
+use App\Services\PasswordPolicyService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +43,39 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
+    // Solicitud de renovación sin fricción iniciada desde el banner de advertencia
+    Route::post('/password/request-renewal', function (Request $request, PasswordPolicyService $policyService) {
+        $user = Auth::user();
+
+        if ($user->rol === 'admin') {
+            return back()->with('error', 'Los administradores no requieren renovación de contraseña.');
+        }
+
+        if ($policyService->hasActiveToken($user->email)) {
+            return back()->with('success', 'Revisa tu correo electrónico. Ya existe un enlace de renovación activo.');
+        }
+
+        $token = $policyService->generateRenewalToken($user);
+        $url = url(route('password.reset', [
+            'token' => $token,
+            'email' => $user->email,
+        ], false));
+
+        $expirationString = $policyService->getExpirationDate($user)->format('d-m-Y');
+
+        $sent = MailService::sendSafe(
+            $user->email,
+            new PasswordRenewalMail($user, $url, $expirationString),
+            ['user_id' => $user->id]
+        );
+
+        if ($sent) {
+            return back()->with('success', 'Se ha enviado un nuevo enlace seguro de renovación a su correo electrónico institucional.');
+        }
+
+        return back()->with('error', 'El envío de correo falló. Por favor intente nuevamente más tarde.');
+    })->name('password.request-renewal');
+
     // Descarga segura de archivos verificadores (Almacenamiento Privado)
     Route::get('/archivos/{archivo}/descargar', [DescargaVerificadorController::class, 'descargar'])
         ->name('archivos.descargar');

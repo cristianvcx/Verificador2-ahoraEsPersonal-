@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('rol')->default('usuario');
             $table->boolean('estado')->default(true);
+            $table->timestamp('password_changed_at')->nullable()->after('password');
 
         });
 
