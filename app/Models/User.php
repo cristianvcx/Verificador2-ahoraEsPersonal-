@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'password',
     'rol',
     'estado',
+    'password_changed_at',
 ])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
@@ -45,6 +46,7 @@ class User extends Authenticatable implements PasskeyUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'password_changed_at' => 'datetime',
         ];
     }
 

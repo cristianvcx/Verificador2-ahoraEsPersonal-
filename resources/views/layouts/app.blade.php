@@ -135,6 +135,28 @@
         </aside>
 
         <section class="panel-dashboard-content">
+            @if(session('password_warning_active'))
+            <div style="background-color: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px; padding: 20px; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); flex-wrap: wrap;">
+                <div style="display: flex; align-items: flex-start; gap: 12px; flex: 1; min-width: 280px;">
+                    <span style="font-size: 1.5rem; line-height: 1;">⚠️</span>
+                    <div>
+                        <strong style="color: #92400e; font-size: 1rem; display: block; margin-bottom: 4px;">Actualización Obligatoria de Contraseña Requerida</strong>
+                        <p style="color: #b45309; font-size: 0.88rem; margin: 0; line-height: 1.5;">
+                            Su contraseña de acceso institucional expira el día <strong>{{ session('password_warning_date') }}</strong> (en {{ session('password_warning_days') }} días). Para evitar la suspensión de su sesión, le sugerimos renovarla de forma segura y sin fricciones a través de su correo institucional.
+                        </p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <form action="{{ route('password.request-renewal') }}" method="POST" style="margin: 0;">
+                        @csrf
+                        <button type="submit" class="btn-primary-caj" style="padding: 10px 18px; font-size: 0.85rem; background-color: #d97706; width: auto; font-weight: 700; border-radius: 6px; cursor: pointer;">
+                            Renovar contraseña ahora ✉️
+                        </button>
+                    </form>
+                </div>
+            </div>
+            @endif
+
             @if (session('success'))
             <div class="form-group-item" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-size: 0.9rem;">
                 <strong>Éxito:</strong> {{ session('success') }}

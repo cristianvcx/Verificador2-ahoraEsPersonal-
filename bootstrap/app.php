@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnforcePasswordRenewal;
 use App\Http\Middleware\EnsureUserHasRole;
 use App\Http\Middleware\ManageEditModeTimeout;
 use Illuminate\Foundation\Application;
@@ -19,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->web(append: [
             ManageEditModeTimeout::class,
+            EnforcePasswordRenewal::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
