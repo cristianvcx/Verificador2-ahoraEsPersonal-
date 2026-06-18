@@ -46,8 +46,19 @@
                     <input type="hidden" name="token" value="{{ request()->route('token') }}">
 
                     <div class="form-group-item-caj">
-                        <label for="email">Correo Institucional</label>
-                        <input type="email" id="email" name="email" class="form-input-control-caj" value="{{ old('email', request()->email) }}" required readonly>
+                        <label for="email" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            <span>Correo Institucional</span>
+                            <span style="font-size: 0.72rem; background-color: #f1f5f9; color: #64748b; padding: 2px 6px; border-radius: 4px; font-weight: 600;">🔒 No editable</span>
+                        </label>
+                        <input type="email" 
+                               id="email" 
+                               name="email" 
+                               class="form-input-control-caj" 
+                               value="{{ old('email', request()->email) }}" 
+                               style="background-color: #f1f5f9; color: #64748b; border-color: #cbd5e1; cursor: not-allowed; font-weight: 500; pointer-events: none;"
+                               required 
+                               readonly
+                               tabindex="-1">
                         @error('email')
                         <span style="color: #ef3340; font-size: 0.85rem; font-weight: 600; display: block; margin-top: 6px;">
                             ⚠️ {{ $message }}
