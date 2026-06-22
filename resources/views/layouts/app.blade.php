@@ -159,15 +159,15 @@
             @endif
 
             @if (session('success'))
-            <div class="form-group-item" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-size: 0.9rem;">
-                <strong>Éxito:</strong> {{ session('success') }}
-            </div>
+                <x-alert type="success" title="Éxito">
+                    {{ session('success') }}
+                </x-alert>
             @endif
 
             @if (session('error'))
-            <div class="form-group-item" style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-size: 0.9rem;">
-                <strong>Error:</strong> {{ session('error') }}
-            </div>
+                <x-alert type="error" title="Error">
+                    {{ session('error') }}
+                </x-alert>
             @endif
 
             @yield('content')
