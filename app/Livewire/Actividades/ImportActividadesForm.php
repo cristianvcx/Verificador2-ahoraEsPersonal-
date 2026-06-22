@@ -2,16 +2,11 @@
 
 namespace App\Livewire\Actividades;
 
-use App\Mail\NuevasActividadesPendientes;
 use App\Models\Actividad;
-use App\Models\CargaExcel;
 use App\Models\Unidad;
 use App\Services\ExcelImporterService;
-use App\Services\ExcelService;
-use App\Services\MailService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -85,50 +80,6 @@ class ImportActividadesForm extends Component
         }
     }
 
-    private function normalizarTexto(string $texto): string
-    {
-        return ExcelService::normalizarTexto($texto);
-    }
-
-    private function obtenerMapaUnidadesNormalizado(): array
-    {
-        // Cruzar con la tabla users para obtener el nombre de la unidad operativa (users.name)
-        $unidadesMap = Unidad::query()
-            ->join('users', 'unidad.user_id', '=', 'users.id')
-            ->pluck('unidad.id', 'users.name')
-            ->toArray();
-
-        $resultado = [];
-
-        foreach ($unidadesMap as $nombre => $id) {
-            $resultado[$this->normalizarTexto($nombre)] = $id;
-        }
-
-        return $resultado;
-    }
-
-    private function obtenerRedirecciones(): array
-    {
-        return [
-            $this->normalizarTexto('PMA LOS ANGELES') => $this->normalizarTexto('PMA CONCEPCIÓN'),
-        ];
-    }
-
-    private function resolverUnidadId(
-        string $unidadNombre,
-        array $mapaNormalizado
-    ): ?int {
-        $unidadNombreNorm = $this->normalizarTexto($unidadNombre);
-
-        $redirecciones = $this->obtenerRedirecciones();
-
-        if (isset($redirecciones[$unidadNombreNorm])) {
-            $unidadNombreNorm = $redirecciones[$unidadNombreNorm];
-        }
-
-        return $mapaNormalizado[$unidadNombreNorm] ?? null;
-    }
-
     public function rules()
     {
         return [
@@ -148,7 +99,9 @@ class ImportActividadesForm extends Component
         $this->warnings = [];
         $this->todoDuplicado = false;
         $this->existingRowsComparison = [];
-        $mapaNormalizado = $this->obtenerMapaUnidadesNormalizado();
+
+        $importer = app(ExcelImporterService::class);
+        $mapaNormalizado = $importer->obtenerMapaUnidadesNormalizado();
 
         // Filtrar las filas pertenecientes al periodo seleccionado
         $periodRows = [];
@@ -194,7 +147,7 @@ class ImportActividadesForm extends Component
 
             // Validar correspondencia territorial de la unidad
             $unidadNombreRaw = trim($row['UNIDAD'] ?? '');
-            $unidadIdAsignada = $this->resolverUnidadId(
+            $unidadIdAsignada = $importer->resolverUnidadId(
                 $unidadNombreRaw,
                 $mapaNormalizado
             );
@@ -377,14 +330,10 @@ class ImportActividadesForm extends Component
             }
 
             $allRows = $data['allRows'] ?? [];
-            $finalHash = $data['hash'] ?? $this->fileHash;
-
-            // Colección para registrar los IDs únicos de las unidades que reciben actividades en este lote
-            $unidadesAfectadas = [];
 
             // Filtrar en el servidor las filas válidas correspondientes al periodo seleccionado
             $validRows = [];
-            $mapaNormalizado = $this->obtenerMapaUnidadesNormalizado();
+            $mapaNormalizado = $importer->obtenerMapaUnidadesNormalizado();
 
             $incomingCods = array_filter(array_map(fn ($row) => trim((string) ($row['COD'] ?? '')), $allRows));
             $existingCods = Actividad::query()->whereIn('COD', $incomingCods)->pluck('COD')->toArray();
@@ -418,7 +367,7 @@ class ImportActividadesForm extends Component
 
                 // Validar correspondencia territorial de la unidad
                 $unidadNombreRaw = trim($row['UNIDAD'] ?? '');
-                $unidadIdAsignada = $this->resolverUnidadId($unidadNombreRaw, $mapaNormalizado);
+                $unidadIdAsignada = $importer->resolverUnidadId($unidadNombreRaw, $mapaNormalizado);
                 if ($unidadIdAsignada === null) {
                     continue;
                 }
@@ -426,79 +375,13 @@ class ImportActividadesForm extends Component
                 $validRows[] = $row;
             }
 
-            DB::transaction(function () use ($validRows, &$unidadesAfectadas) {
-
-                // Registrar lote de control Excel
-                $carga = CargaExcel::create([
-                    'user_id' => Auth::id(),
-                    'nombre_archivo' => $this->originalFileName,
-                    'total_filas' => $this->totalRows,
-                    'estado' => 'PROCESADA',
-                ]);
-
-                // Cachear catálogo de unidades para emparejamiento veloz O(1) con normalización
-                $mapaNormalizado = $this->obtenerMapaUnidadesNormalizado();
-
-                $actividadesParaInsertar = [];
-
-                foreach ($validRows as $row) {
-                    $unidadNombreRaw = trim($row['UNIDAD'] ?? '');
-                    $unidadIdAsignada = $this->resolverUnidadId(
-                        $unidadNombreRaw,
-                        $mapaNormalizado
-                    );
-
-                    if (! $unidadIdAsignada) {
-                        continue;
-                    }
-
-                    // Formatear array de atributos crudos
-                    $actividadData = Actividad::fromExcelRow(
-                        $row,
-                        $carga->carga_id,
-                        $unidadIdAsignada
-                    );
-
-                    // Estampar marcas de tiempo requeridas para Bulk Insert síncrono
-                    $actividadData['created_at'] = now();
-                    $actividadData['updated_at'] = now();
-
-                    $actividadesParaInsertar[] = $actividadData;
-
-                    // Registrar de forma única la unidad afectada si fue emparejada
-                    if (! in_array($unidadIdAsignada, $unidadesAfectadas)) {
-                        $unidadesAfectadas[] = $unidadIdAsignada;
-                    }
-                }
-
-                // Inserción masiva en base de datos en un solo viaje redondo de red
-                if (! empty($actividadesParaInsertar)) {
-                    Actividad::insert($actividadesParaInsertar);
-                }
-            });
-
-            // Cargar la relación 'user' para acceder al correo electrónico de las unidades afectadas
-            $unidades = Unidad::query()
-                ->with('user')
-                ->whereIn('id', $unidadesAfectadas)
-                ->get();
-
-            // Filtrar unidades válidas y agruparlas por el email de su usuario operador asociado
-            $unidadesAgrupadas = $unidades->filter(function ($u) {
-                return $u->user && ! empty($u->user->email);
-            })->groupBy(function ($u) {
-                return $u->user->email;
-            });
-
-            foreach ($unidadesAgrupadas as $correoDestinatario => $grupoUnidades) {
-                // Seleccionar la primera unidad del grupo como representante para la construcción de la plantilla
-                $unidadRepresentante = $grupoUnidades->first();
-                MailService::sendSafe(
-                    $correoDestinatario,
-                    new NuevasActividadesPendientes($unidadRepresentante),
-                    ['unidad_id' => $unidadRepresentante->id]
-                );
-            }
+            // Delegar almacenamiento, transaccionalidad y despacho de notificaciones al Servicio de Importación
+            $importer->storeImportedRows(
+                $validRows,
+                Auth::id(),
+                $this->originalFileName,
+                $this->totalRows
+            );
 
             // Limpieza inmediata de la caché de importación para liberar memoria del servidor
             $cacheKey = 'excel_import_'.Auth::id();
