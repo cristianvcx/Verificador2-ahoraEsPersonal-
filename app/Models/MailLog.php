@@ -111,7 +111,7 @@ class MailLog extends Model
 
             Mail::to($this->recipient)->send($mailable);
             $this->update([
-                'status' => 'SENT',
+                'status' => MailStatus::Sent,
                 'attempts' => $this->attempts + 1,
                 'error_message' => null,
             ]);
@@ -119,7 +119,7 @@ class MailLog extends Model
             return true;
         } catch (\Throwable $e) {
             $this->update([
-                'status' => 'FAILED',
+                'status' => MailStatus::Failed,
                 'attempts' => $this->attempts + 1,
                 'error_message' => $e->getMessage(),
             ]);
