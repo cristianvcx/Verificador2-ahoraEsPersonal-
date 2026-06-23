@@ -281,25 +281,7 @@
 
    <!-- PASO 3: CUENTA REGRESIVA DE ENVÍO -->
     @if($step === 3)
-    <div x-data="{ 
-            timeLeft: 10, 
-            timerInterval: null,
-            init() {
-                this.timeLeft = 10;
-                this.timerInterval = setInterval(() => {
-                    if (this.timeLeft > 1) {
-                        this.timeLeft--;
-                    } else {
-                        clearInterval(this.timerInterval);
-                        $wire.set('step', 4); // Transicionar directamente al Paso 4 (Procesamiento/Envío)
-                    }
-                }, 1000);
-            },
-            cancel() {
-                clearInterval(this.timerInterval);
-                $wire.cancelSend();
-            }
-        }" style="text-align: center; padding: 30px 0;">
+    <div x-data="timerComponent" style="text-align: center; padding: 30px 0;">
 
         <h3 style="color: #0d1b2a; font-size: 1.6rem; margin-bottom: 10px;">Enviando Notificaciones Automáticas</h3>
         <p style="color: #475569; font-size: 0.95rem; margin-bottom: 30px;">
