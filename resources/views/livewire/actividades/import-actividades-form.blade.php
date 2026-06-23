@@ -311,7 +311,7 @@
             <div style="text-align: center; margin-bottom: 30px;">
                 <div class="animate-spin" style="font-size: 3.5rem; display: inline-block; margin-bottom: 12px;">⏳</div>
                 <h3 style="color: #0F69C4; font-size: 1.5rem; margin: 0; font-weight: 700;">Enviando correos y Procesando registros</h3>
-                <p style="color: #64748b; font-size: 0.88rem; margin-top: 6px;">El servidor se encuentra despachando los correos electrónicos y registrando las actividades. Por favor, no cierre esta pestaña.</p>
+                <p style="color: #64748b; font-size: 0.88rem; margin-top: 6px;">El servidor se encuentra despachando los correos electrónicos y registrando las actividades. Por favor, <strong style="text-decoration: underline;">no cierre esta pestaña.</strong></p>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 20px;">
