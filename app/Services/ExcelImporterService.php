@@ -38,9 +38,14 @@ class ExcelImporterService
 
     private function obtenerRedirecciones(): array
     {
-        return [
-            $this->normalizarTexto('PMA LOS ANGELES') => $this->normalizarTexto('PMA CONCEPCIÓN'),
-        ];
+        $redirecciones = config('excel_ingestion.redirecciones', []);
+        $resultado = [];
+
+        foreach ($redirecciones as $origen => $destino) {
+            $resultado[$this->normalizarTexto($origen)] = $this->normalizarTexto($destino);
+        }
+
+        return $resultado;
     }
 
     public function resolverUnidadId(
