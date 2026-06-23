@@ -2,7 +2,9 @@
 
 use App\Enums\UserRole;
 use App\Http\Controllers\ActividadController;
+use App\Http\Controllers\AuditorDashboardController;
 use App\Http\Controllers\DescargaVerificadorController;
+use App\Http\Controllers\DirectorDashboardController;
 use App\Mail\NuevasActividadesPendientes;
 use App\Mail\PasswordRenewalMail;
 use App\Models\Actividad;
@@ -17,7 +19,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuditorDashboardController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -176,134 +177,10 @@ Route::middleware(['auth'])->group(function () {
     // Rutas exclusivas del Auditor (Dashboard con estadísticas de solo lectura)
     Route::middleware(['role:auditor'])->group(function () {
         Route::get('/auditor/dashboard', AuditorDashboardController::class)->name('auditor.dashboard');
-
+    });
     // Rutas exclusivas del Director Regional
     Route::middleware(['role:director'])->group(function () {
-        Route::get('/director/dashboard', function () {
-            // Control dinámico de vistas y filtros temporales para el Director
-            $view = request('view', 'mes'); // 'mes', 'ano' o 'global'
-
-            $currentMonth = (int) date('m');
-            $currentYear = (int) date('Y');
-
-            $selectedMonth = (int) request('mes', $currentMonth);
-            $selectedYear = (int) request('ano', $currentYear);
-
-            $user = Auth::user();
-            $region = Region::where('user_id', $user->id)->first();
-
-            // 1. Estadísticas operacionales restringidas de acuerdo a la vista y selectores usando el scope unificado
-            $queryCargadas = Actividad::query()->where('estado', 'CARGADA')->forUser($user);
-            $queryVerificadas = Actividad::query()->where('estado', 'VERIFICADA')->forUser($user);
-
-            if ($view !== 'global') {
-                $queryCargadas->where('AÑO', $selectedYear);
-                $queryVerificadas->where('AÑO', $selectedYear);
-
-                if ($view === 'mes') {
-                    $queryCargadas->where('MES', $selectedMonth);
-                    $queryVerificadas->where('MES', $selectedMonth);
-                }
-            }
-
-            $totalCargadas = $queryCargadas->count();
-            $totalVerificadas = $queryVerificadas->count();
-            $totalActividades = $totalCargadas + $totalVerificadas;
-            $porcentajeVerificacion = $totalActividades > 0 ? round(($totalVerificadas / $totalActividades) * 100, 1) : 0;
-
-            // 2. Catálogo de unidades asignadas ordenadas por menor avance a mayor avance (Excluyendo unidades sin actividades)
-            $unidadesEstadisticas = Unidad::query()
-                ->with(['user'])
-                ->where('region_id', $region?->id)
-                ->get()
-                ->map(function ($unidad) use ($selectedYear, $selectedMonth, $view) {
-                    $cargadas = Actividad::where('unidad_id_asignada', $unidad->id)
-                        ->where('estado', 'CARGADA')
-                        ->when($view !== 'global', function ($q) use ($selectedYear) {
-                            $q->where('AÑO', $selectedYear);
-                        })
-                        ->when($view === 'mes', function ($q) use ($selectedMonth) {
-                            $q->where('MES', $selectedMonth);
-                        })
-                        ->count();
-
-                    $verificadas = Actividad::where('unidad_id_asignada', $unidad->id)
-                        ->where('estado', 'VERIFICADA')
-                        ->when($view !== 'global', function ($q) use ($selectedYear) {
-                            $q->where('AÑO', $selectedYear);
-                        })
-                        ->when($view === 'mes', function ($q) use ($selectedMonth) {
-                            $q->where('MES', $selectedMonth);
-                        })
-                        ->count();
-
-                    $total = $cargadas + $verificadas;
-
-                    if ($total === 0) {
-                        return null;
-                    }
-
-                    $avance = $verificadas === 0 ? 0 : round(($verificadas / $total) * 100, 1);
-
-                    // Recuperar únicamente las actividades verificadas con archivos asociados que corresponden al periodo actual
-                    $actividadesVerificadas = Actividad::with(['archivos'])
-                        ->where('unidad_id_asignada', $unidad->id)
-                        ->where('estado', 'VERIFICADA')
-                        ->when($view !== 'global', function ($q) use ($selectedYear) {
-                            $q->where('AÑO', $selectedYear);
-                        })
-                        ->when($view === 'mes', function ($q) use ($selectedMonth) {
-                            $q->where('MES', $selectedMonth);
-                        })
-                        ->orderBy('FECHA', 'desc')
-                        ->get();
-
-                    return [
-                        'id' => $unidad->id,
-                        'nombre' => $unidad->user->name ?? 'Unidad sin nombre',
-                        'email' => $unidad->user->email ?? '',
-                        'cargadas' => $cargadas,
-                        'verificadas' => $verificadas,
-                        'total' => $total,
-                        'avance' => $avance,
-                        'actividades_verificadas' => $actividadesVerificadas,
-                    ];
-                })
-                ->filter() // Filtrar nulos (unidades con 0 actividades totales en el periodo)
-                ->sortBy('avance')
-                ->values();
-
-            // 3. Lista de actividades vigentes de sus unidades para el periodo seleccionado usando el scope unificado
-            $queryActividades = Actividad::with(['archivos', 'unidadAsignada'])
-                ->where('activo', true)
-                ->forUser($user);
-
-            if ($view !== 'global') {
-                $queryActividades->where('AÑO', $selectedYear);
-
-                if ($view === 'mes') {
-                    $queryActividades->where('MES', $selectedMonth);
-                }
-            }
-
-            $actividades = $queryActividades->orderBy('FECHA', 'desc')
-                ->paginate(15);
-
-            return view('director.dashboard', compact(
-                'region',
-                'totalCargadas',
-                'totalVerificadas',
-                'totalActividades',
-                'porcentajeVerificacion',
-                'unidadesEstadisticas',
-                'actividades',
-                'view',
-                'currentMonth',
-                'currentYear',
-                'selectedMonth',
-                'selectedYear'
-            ));
-        })->name('director.dashboard');
+        Route::get('/director/dashboard', DirectorDashboardController::class)->name('director.dashboard');
 
         // Acción de renotificación regional asíncrona
         Route::post('/director/unidades/{unidad}/renotificar', function (Unidad $unidad) {
