@@ -9,7 +9,3 @@ Artisan::command('inspire', function () {
 
 Schedule::command('actividades:send-weekly-reminders')
     ->fridays()->withoutOverlapping();
-
-Schedule::command('livewire:clear-tmp')
-    ->daily()
-    ->withoutOverlapping();

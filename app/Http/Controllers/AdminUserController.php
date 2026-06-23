@@ -36,7 +36,7 @@ class AdminUserController extends Controller
      */
     public function crearRegion(Request $request)
     {
-        if (!session('modo_edicion')) {
+        if (! session('modo_edicion')) {
             abort(403, 'Acción bloqueada. Debe activar el Modo Edición.');
         }
 
@@ -44,7 +44,7 @@ class AdminUserController extends Controller
             'region_nombre' => 'required|string|max:50',
             'director_nombre' => 'required|string|max:255',
             'director_email' => 'required|email|unique:users,email',
-            'region_id' => 'nullable|integer|unique:region,id',
+            'region_id' => 'integer|unique:region,id',
         ]);
 
         DB::transaction(function () use ($request) {
@@ -58,7 +58,7 @@ class AdminUserController extends Controller
             ]);
 
             Region::create([
-                'id' => $request->region_id ?: null,
+                'id' => $request->region_id,
                 'region_nombre' => $request->region_nombre,
                 'user_id' => $user->id,
             ]);
@@ -72,7 +72,7 @@ class AdminUserController extends Controller
      */
     public function crearUnidad(Request $request)
     {
-        if (!session('modo_edicion')) {
+        if (! session('modo_edicion')) {
             abort(403, 'Acción bloqueada. Debe activar el Modo Edición.');
         }
 
@@ -108,7 +108,7 @@ class AdminUserController extends Controller
      */
     public function crearUsuario(Request $request)
     {
-        if (!session('modo_edicion')) {
+        if (! session('modo_edicion')) {
             abort(403, 'Acción bloqueada. Debe activar el Modo Edición.');
         }
 
@@ -162,7 +162,7 @@ class AdminUserController extends Controller
      */
     public function toggleUsuario(User $user)
     {
-        if (!session('modo_edicion')) {
+        if (! session('modo_edicion')) {
             abort(403, 'Acción bloqueada. Debe activar el Modo Edición para realizar modificaciones en las unidades.');
         }
 
@@ -171,7 +171,7 @@ class AdminUserController extends Controller
         }
 
         $user->update([
-            'activo' => !$user->activo,
+            'activo' => ! $user->activo,
         ]);
 
         $statusText = $user->activo ? 'habilitada' : 'deshabilitada';

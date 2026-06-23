@@ -1,4 +1,4 @@
-<div x-data="{ advancedOpen: false }" @if(Auth::user()->rol === 'auditor') wire:poll.600s @endif>
+<div x-data="{ advancedOpen: false }" @if(Auth::user()->rol === \App\Enums\UserRole::Auditor) wire:poll.600s @endif>
     <!-- 1. Filtros Básicos y Avanzados -->
     @include('livewire.actividades.partials.filtros')
 

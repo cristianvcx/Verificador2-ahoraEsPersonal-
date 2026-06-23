@@ -24,7 +24,7 @@
             <div style="display: flex; align-items: center; gap: 20px;">
             <div class="user-display-profile-badge" style="color: #ffffff; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
                 <span style="width: 8px; height: 8px; background-color: #2b8a3e; border-radius: 50%; display: inline-block;"></span>
-                @if(Auth::user()->rol === 'admin')
+                @if(Auth::user()->rol === \App\Enums\UserRole::Admin)
                 <span style="background-color: #ef3340; color: #ffffff; font-size: 0.75rem; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-right: 4px;">ADMIN</span>
                 @endif
                 <span style="font-weight: 500;">{{ Auth::user()->name }}</span>
@@ -45,13 +45,13 @@
         <aside>
             <div class="menu-sidebar-left">
                 <div class="sidebar-title">
-                    @if(Auth::user()->rol === 'admin')
+                    @if(Auth::user()->rol === \App\Enums\UserRole::Admin)
                     Panel Central
-                    @elseif(Auth::user()->rol === 'cargador')
+                    @elseif(Auth::user()->rol ===\App\Enums\UserRole::Cargador)
                     Módulo Importación
-                    @elseif(Auth::user()->rol === 'unidad')
+                    @elseif(Auth::user()->rol === \App\Enums\UserRole::Unidad)
                     Menú Unidad
-                    @elseif(Auth::user()->rol === 'director')
+                    @elseif(Auth::user()->rol === \App\Enums\UserRole::Director)
                     Menú Dirección
                     @else
                     Menú Consultas
@@ -59,20 +59,20 @@
                 </div>
                 <ul>
                     <!-- Enlace dinámico al Dashboard según Rol -->
-                    @if(Auth::user()->rol === 'admin')
+                    @if(Auth::user()->rol === \App\Enums\UserRole::Admin)
                     <li>
                         <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                             Dashboard Principal
                         </a>
                     </li>
-                    @elseif(Auth::user()->rol === 'auditor')
+                    @elseif(Auth::user()->rol === \App\Enums\UserRole::Auditor)
                     <li>
                         <a href="{{ route('auditor.dashboard') }}" class="{{ request()->routeIs('auditor.dashboard') ? 'active' : '' }}">
                             Dashboard Auditoría
                         </a>
                     </li>
 
-                    @elseif(Auth::user()->rol === 'director')
+                    @elseif(Auth::user()->rol === \App\Enums\UserRole::Director)
                     <li>
                         <a href="{{ route('director.dashboard') }}" class="{{ request()->routeIs('director.dashboard') ? 'active' : '' }}">
                             Dashboard Regional
@@ -81,7 +81,7 @@
                     @endif
 
                     <!-- Secciones exclusivas de Administración -->
-                    @if(Auth::user()->rol === 'admin')
+                    @if(Auth::user()->rol === \App\Enums\UserRole::Admin)
                     <li>
                         <a href="{{ route('admin.usuarios') }}" class="{{ request()->routeIs('admin.usuarios') ? 'active' : '' }}">
                             Usuarios
@@ -90,7 +90,7 @@
                     @endif
 
                     <!-- Historial de Correos (Admin) y Correos Fallidos (Auditor) con indicador dinámico -->
-                    @if(Auth::user()->rol === 'admin' || Auth::user()->rol === 'auditor')
+                    @if(Auth::user()->rol === \App\Enums\UserRole::Admin || Auth::user()->rol === \App\Enums\UserRole::Auditor)
                         @php
                             $pendingMailsCount = \App\Models\MailLog::whereIn('status', ['PENDING', 'FAILED'])->count();
                             $hasPendingMails = $pendingMailsCount > 0;
@@ -101,7 +101,7 @@
                                class="{{ $routeActive ? 'active' : '' }}"
                                style="@if($hasPendingMails && !$routeActive) background-color: rgba(239, 51, 64, 0.05); color: #ef3340 !important; font-weight: 700;  @endif display: flex; justify-content: space-between; align-items: center; width: 100%; box-sizing: border-box; transition: all 0.2s ease;">
                                 <span>
-                                    {{ Auth::user()->rol === 'admin' ? 'Historial de Correos' : 'Correos Fallidos' }}
+                                    {{ Auth::user()->rol === \App\Enums\UserRole::Admin ? 'Historial de Correos' : 'Correos Fallidos' }}
                                 </span>
                                 <span style="background-color: {{ $hasPendingMails ? '#ef3340' : '#cbd5e1' }}; color: #ffffff; padding: 2px 7px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; margin-left: auto; transition: all 0.2s ease;">
                                     {{ $pendingMailsCount }}
@@ -111,7 +111,7 @@
                     @endif
 
                     <!-- Enlaces dinámicos centralizados por Rol -->
-                    @if(Auth::user()->rol === 'admin' || Auth::user()->rol === 'cargador')
+                    @if(Auth::user()->rol === \App\Enums\UserRole::Admin || Auth::user()->rol ===\App\Enums\UserRole::Cargador)
                     <li>
                         <a href="{{ route('actividades.importar') }}" class="{{ request()->routeIs('actividades.importar') ? 'active' : '' }}">
                             Importar Planilla
@@ -120,7 +120,7 @@
                     @endif
                     
 
-                    @if(Auth::user()->rol === 'unidad')
+                    @if(Auth::user()->rol === \App\Enums\UserRole::Unidad)
                     <li>
                         <a href="{{ route('unidad.dashboard') }}" class="{{ request()->routeIs('unidad.dashboard') ? 'active' : '' }}">
                             Verificar Pendientes
