@@ -78,8 +78,7 @@
             <div>
                 <button type="button" 
                         wire:click="verificarActividad" 
-                        class="btn-primary-caj" 
-                        style="padding: 12px 24px;" 
+                        class="btn-dashboard-primary" 
                         wire:loading.attr="disabled" 
                         wire:target="verificarActividad">
                     <span wire:loading.remove wire:target="verificarActividad">Guardar Verificador</span>

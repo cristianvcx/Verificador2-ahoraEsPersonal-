@@ -121,8 +121,7 @@
                         </div>
                         <button type="button" 
                                 wire:click="adjuntarVerificadorAdministrativo({{ $act->actividad_id }})" 
-                                class="btn-primary-caj" 
-                                style="padding: 10px 20px; font-size: 0.85rem;"
+                                class="btn-dashboard-primary" 
                                 wire:loading.attr="disabled"
                                 wire:target="nuevosVerificadores">
                             Adjuntar Respaldos

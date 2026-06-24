@@ -16,10 +16,13 @@
             #eef4ff
         );
     min-height:100vh;
+    display:flex;
+    flex-direction:column;
 }
 
 .layout-dashboard-main{
     display:flex;
+    flex:1 0 auto;
     align-items:flex-start;
     gap:40px;
     width:100%;

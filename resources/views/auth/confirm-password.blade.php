@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="form-group-item-caj" style="margin-top: 25px; display: flex; gap: 15px; flex-direction: row-reverse;">
-                        <button type="submit" class="btn-primary-caj" style="flex: 1; padding: 12px;">
+                        <button type="submit" class="btn-dashboard-primary">
                             Confirmar Contraseña
                         </button>
                         <a href="{{ route('admin.dashboard') }}" class="btn-acc" style="flex: 1; text-align: center; padding: 12px; border: 1px solid #cbd5e1; text-decoration: none; font-size: 0.95rem; font-weight: 600; border-radius: 6px;">

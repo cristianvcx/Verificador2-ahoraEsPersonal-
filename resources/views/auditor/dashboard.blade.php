@@ -83,7 +83,7 @@
             </div>
 
             <div style="display: flex; gap: 10px;">
-                <button type="submit" class="btn-primary-caj" style="padding: 10px 20px; font-size: 0.9rem;">
+                <button type="submit" class="btn-dashboard-primary">
                     Filtrar 🔍
                 </button>
                 @if($selectedMonth !== $currentMonth || $selectedYear !== $currentYear)

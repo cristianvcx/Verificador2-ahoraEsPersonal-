@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Establecer Nueva Contraseña - Verificador de Actividades</title>
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    @vite([
+        'resources/scss/app.scss',
+        'resources/js/app.js'
+    ])
     <!-- Alpine.js inyectado de forma segura para dar soporte reactivo e interactivo en tiempo real -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
@@ -195,7 +198,7 @@
                         <input type="password" id="password_confirmation" name="password_confirmation" class="form-input-control-caj" placeholder="Repita la contraseña" required autocomplete="new-password">
                     </div>
 
-                    <div class="form-group-item-caj" style="margin-top: 25px;">
+                    <div class="form-group-item-caj">
                         <button type="submit" class="btn-primary-caj">
                             Restablecer Contraseña
                         </button>

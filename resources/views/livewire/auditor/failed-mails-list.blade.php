@@ -34,8 +34,7 @@
             <div style="display: flex; gap: 10px;">
                 <button type="button" 
                         wire:click="resendAll" 
-                        class="btn-primary-caj" 
-                        style="padding: 12px 24px; font-size: 0.9rem; background-color: #2b8a3e; border: none; display: inline-flex; align-items: center; gap: 8px;"
+                        class="btn-dashboard-primary" 
                         wire:loading.attr="disabled"
                         wire:target="resendAll">
                     <span wire:loading.remove wire:target="resendAll">🔄 Reintentar Todos los Pendientes</span>
@@ -221,8 +220,7 @@
                                                         <div style="padding: 12px 20px; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px; background-color: #f8fafc; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; flex-shrink: 0;">
                                                             <button type="button" 
                                                                     @click="navigator.clipboard.writeText(errorText); alert('Mensaje de error copiado al portapapeles')" 
-                                                                    class="btn-primary-caj" 
-                                                                    style="padding: 8px 16px; font-size: 0.8rem; background-color: #0F69C4;">
+                                                                    class="btn-dashboard-primary">
                                                                 📋 Copiar Mensaje Técnico
                                                             </button>
                                                             <button type="button" 

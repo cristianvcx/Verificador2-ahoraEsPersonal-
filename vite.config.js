@@ -9,7 +9,6 @@ export default defineConfig({
             input: [
                 "resources/scss/app.scss",
                 "resources/js/app.js",
-                "resources/js/passkeys.js",
             ],
             refresh: true,
             fonts: [
