@@ -98,8 +98,7 @@
         <div x-show="!isUploading" style="margin-top: 25px; display: flex; justify-content: flex-end;" x-cloak>
             <button type="button" 
                     wire:click="uploadFile" 
-                    class="btn-primary-caj" 
-                    style="padding: 12px 24px;" 
+                    class="btn-dashboard-primary" 
                     wire:loading.attr="disabled" 
                     wire:target="excelFile, uploadFile">
                 <span wire:loading.remove wire:target="uploadFile">Procesar Planilla</span>
@@ -274,8 +273,7 @@
             </button>
             <button type="button" 
                     wire:click="startCountdown" 
-                    class="btn-primary-caj" 
-                    style="padding: 12px 24px; background-color: #2b8a3e;"
+                    class="btn-dashboard.primary" 
                     wire:loading.attr="disabled"
                     @if($totalRows === 0 || $todoDuplicado) disabled @endif
                     wire:target="startCountdown, resetForm">
@@ -304,7 +302,7 @@
         </p>
 
         <div style="display: flex; justify-content: center;">
-            <button type="button" @click="cancel" class="btn-primary-caj" style="background-color: #ef3340; padding: 14px 40px; font-weight: 700;">
+            <button type="button" @click="cancel" class="btn-dashboard-primary">
                 ⛔ CANCELAR OPERACIÓN
             </button>
         </div>
@@ -360,7 +358,7 @@
         </p>
 
         <div style="display: flex; justify-content: center; gap: 15px;">
-            <button type="button" wire:click="resetForm" class="btn-primary-caj" style="padding: 12px 30px;">
+            <button type="button" wire:click="resetForm" class="btn-dashboard-primary">
                 Cargar Nueva Planilla
             </button>
         </div>

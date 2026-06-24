@@ -80,8 +80,8 @@
             </div>
 
             <div class="estadistica-actions">
-                <button type="submit" class="btn-filter-dashboard">
-                    Filtrar 
+                <button type="submit" class="btn-dashboard-primary">
+                    Filtrar
                 </button>
                 @if($selectedMonth !== $currentMonth || $selectedYear !== $currentYear)
                 <a href="{{ route('director.dashboard', ['view' => $view, 'mes' => $currentMonth, 'ano' => $currentYear]) }}" class="btn-acc estadistica-btn-reset">

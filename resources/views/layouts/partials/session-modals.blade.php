@@ -12,7 +12,7 @@
             <button id="caj-session-logout-btn" type="button" class="btn-acc" style="padding: 10px 18px; font-size: 0.85rem; border-color: #cbd5e1; border-radius: 6px; cursor: pointer; background: #f8fafc; color: #475569;">
                 Cerrar sesión ahora
             </button>
-            <button id="caj-session-extend-btn" type="button" class="btn-primary-caj" style="padding: 10px 20px; font-size: 0.85rem; border-radius: 6px; cursor: pointer; height: auto;">
+            <button id="caj-session-extend-btn" type="button" class="btn-dashboard-primary">
                 Sí, seguir activo
             </button>
         </div>
@@ -27,7 +27,7 @@
         <p style="color: #64748b; font-size: 0.9rem; line-height: 1.6; margin: 0 0 25px 0;">
             Su sesión de acceso a la Intranet CAJBIOBIO ha expirado debido a inactividad prolongada. Por favor, vuelva a ingresar sus credenciales para continuar.
         </p>
-        <button id="caj-session-relogin-btn" type="button" class="btn-primary-caj" style="padding: 12px 30px; font-size: 0.9rem; border-radius: 6px; cursor: pointer; width: 100%;">
+        <button id="caj-session-relogin-btn" type="button" class="btn-dashboard-primary">
             Ir al Inicio de Sesión
         </button>
     </div>

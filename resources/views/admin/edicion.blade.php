@@ -35,8 +35,8 @@
             <input type="text" name="search" id="search" value="{{ $search }}" class="form-input-control-caj" placeholder="Ej: Los Ángeles, Concepción, auditor, etc." style="width: 100%;">
         </div>
         <div style="display: flex; gap: 10px;">
-            <button type="submit" class="btn-dashboard-primary" style="padding: 12px 24px; font-size: 0.9rem;">
-                 Filtrar
+            <button type="submit" class="btn-dashboard-primary">
+                Filtrar
             </button>
             @if($search)
             <a href="{{ route('admin.usuarios') }}" class="btn-acc" style="text-align: center; padding: 12px 20px; text-decoration: none; border-color: #cbd5e1; font-weight: 600; font-size: 0.9rem; border-radius: 6px; display: inline-block;">
@@ -93,7 +93,7 @@
                 </select>
             </div>
             <div>
-                <button type="submit" class="btn-primary-caj" style="width: 100%; height: 48px; border-radius: 6px; font-size: 0.9rem;">
+                <button type="submit" class="btn-dashboard-primary" style="width: 100%; height: 48px; border-radius: 6px; font-size: 0.9rem;">
                     Crear Unidad
                 </button>
             </div>
@@ -121,7 +121,7 @@
                 <input type="email" name="director_email" id="director_email" class="form-input-control-caj" required placeholder="Ej: director.biobio@cajbiobio.cl">
             </div>
             <div>
-                <button type="submit" class="btn-primary-caj" style="width: 100%; height: 48px; border-radius: 6px; font-size: 0.9rem;">
+                <button type="submit" class="btn-dashboard-primary" style="width: 100%; height: 48px; border-radius: 6px; font-size: 0.9rem;">
                     Crear Región
                 </button>
             </div>
@@ -150,7 +150,7 @@
                 </select>
             </div>
             <div>
-                <button type="submit" class="btn-primary-caj" style="width: 100%; height: 48px; border-radius: 6px; font-size: 0.9rem;">
+                <button type="submit" class="btn-dashboard-primary">
                     Crear Usuario
                 </button>
             </div>
