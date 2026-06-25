@@ -12,7 +12,17 @@
     font-weight:700;
     font-size:1rem;
     transition:all .25s ease;
-    cursor:pointer;
+    &[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: linear-gradient(
+            135deg,
+            #7aaad6,
+            #6699aa
+        );
+        cursor: url('button.svg'), pointer;
+        pointer-events: none;
+    }
 }
 
 .btn-primary-caj:hover{
@@ -52,3 +62,4 @@
     cursor:not-allowed;
     box-shadow:none;
 }
+
