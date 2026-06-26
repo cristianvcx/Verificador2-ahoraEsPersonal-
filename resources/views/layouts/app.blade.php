@@ -49,30 +49,24 @@
                     Menú Intranet
                 </div>
                 <ul>
-                    <!-- Enlaces Dinámicos de Dashboards basados en Permisos Reales -->
-                    @can('usuarios.crear')
+                    <!-- Enlace Único Dinámico al Dashboard Adaptable -->
                     <li>
-                        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                            Dashboard Principal
+                        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                            @can('usuarios.crear')
+                                Dashboard Principal
+                            @else
+                                @can('historial.ver-global')
+                                    Dashboard Auditoría
+                                @else
+                                    @can('historial.ver-regional')
+                                        Dashboard Regional
+                                    @else
+                                        Dashboard Unidad
+                                    @endcan
+                                @endcan
+                            @endcan
                         </a>
                     </li>
-                    @else
-                        @can('historial.ver-global')
-                        <li>
-                            <a href="{{ route('auditor.dashboard') }}" class="{{ request()->routeIs('auditor.dashboard') ? 'active' : '' }}">
-                                Dashboard Auditoría
-                            </a>
-                        </li>
-                        @endcan
-
-                        @can('historial.ver-regional')
-                        <li>
-                            <a href="{{ route('director.dashboard') }}" class="{{ request()->routeIs('director.dashboard') ? 'active' : '' }}">
-                                Dashboard Regional
-                            </a>
-                        </li>
-                        @endcan
-                    @endcan
 
                     @can('usuarios.ver-catalogo')
                     <li>
