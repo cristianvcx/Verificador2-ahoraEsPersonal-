@@ -222,10 +222,13 @@ class ConsultaList extends PaginatedComponent
     public function render()
     {
         $user = Auth::user();
-        $userRol = $user->rol;
 
-        // Si es Cargador, se muestra únicamente su historial de cargas agrupadas
-        if ($userRol === UserRole::Cargador) {
+        $canViewHistory = $user->hasPermissionTo('historial.ver-global') || 
+                          $user->hasPermissionTo('historial.ver-regional') || 
+                          $user->hasPermissionTo('historial.ver-unidad');
+
+        // Si el usuario no tiene permisos para ver historiales generales pero sí cuenta con el de importar (Cargador puro)
+        if (!$canViewHistory && $user->hasPermissionTo('actividades.importar')) {
             $cargasAgrupadas = CargaExcel::where('user_id', $user->id)
                 ->with(['actividades' => function ($q) {
                     $q->where('activo', true);

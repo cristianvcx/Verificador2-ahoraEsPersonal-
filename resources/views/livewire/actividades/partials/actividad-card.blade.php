@@ -85,14 +85,16 @@
                                     </td>
                                     <td style="text-align: right;">
                                         <a href="{{ route('archivos.descargar', $archivo->archivo_id) }}" style="font-weight: 700; color: #0F69C4; margin-right: 15px;">Descargar</a>
-                                        @if(Auth::user()->rol === \App\Enums\UserRole::Admin && session('modo_edicion'))
-                                        <button type="button" 
-                                                wire:click="eliminarArchivo({{ $archivo->archivo_id }})" 
-                                                wire:confirm="¿Está seguro de que desea eliminar permanentemente este archivo verificador de forma administrativa?"
-                                                style="background: none; border: none; color: #ef3340; font-weight: 700; cursor: pointer; padding: 0;">
-                                            Eliminar 🗑️
-                                        </button>
-                                        @endif
+                                        @can('actividades.eliminar-verificador')
+                                            @if(session('modo_edicion'))
+                                            <button type="button" 
+                                                    wire:click="eliminarArchivo({{ $archivo->archivo_id }})" 
+                                                    wire:confirm="¿Está seguro de que desea eliminar permanentemente este archivo verificador de forma administrativa?"
+                                                    style="background: none; border: none; color: #ef3340; font-weight: 700; cursor: pointer; padding: 0;">
+                                                Eliminar 🗑️
+                                            </button>
+                                            @endif
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach
@@ -104,8 +106,9 @@
                 @endif
 
                 <!-- Formulario Administrativo para Adjuntar Nuevos Verificadores -->
-                @if(Auth::user()->rol === \App\Enums\UserRole::Admin && session('modo_edicion'))
-                    <div style="margin-top: 20px; background-color: rgba(15, 105, 196, 0.02); border: 1px dashed #0F69C4; padding: 20px; border-radius: 8px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; flex-wrap: wrap;">
+                @can('actividades.adjuntar-administrativo')
+                    @if(session('modo_edicion'))
+                        <div style="margin-top: 20px; background-color: rgba(15, 105, 196, 0.02); border: 1px dashed #0F69C4; padding: 20px; border-radius: 8px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; flex-wrap: wrap;">
                         <div>
                             <label for="nuevosVerificadores-{{ $act->actividad_id }}" style="font-size: 0.85rem; font-weight: 700; color: #334155; display: block; margin-bottom: 6px;">
                                 Adjuntar archivos respaldatorios adicionales administrativamente
@@ -132,15 +135,19 @@
                     </div>
 
                     <!-- Botón Administrativo para Desactivar Actividad -->
-                    <div style="margin-top: 20px; border-top: 1px dashed #cbd5e1; padding-top: 15px; display: flex; justify-content: flex-end;">
-                        <button type="button" 
-                                wire:click="desactivarActividad({{ $act->actividad_id }})" 
-                                wire:confirm="¿Está seguro de que desea desactivar de forma permanente esta actividad del sistema?"
-                                class="btn-acc" 
-                                style="border-color: #ef3340; color: #ef3340 !important; background-color: rgba(239, 51, 64, 0.02); font-weight: 700; padding: 8px 16px; font-size: 0.8rem; border-radius: 4px; cursor: pointer;">
-                            Desactivar Actividad 🛑
-                        </button>
-                    </div>
+                    @can('actividades.desactivar')
+                        @if(session('modo_edicion'))
+                        <div style="margin-top: 20px; border-top: 1px dashed #cbd5e1; padding-top: 15px; display: flex; justify-content: flex-end;">
+                            <button type="button" 
+                                    wire:click="desactivarActividad({{ $act->actividad_id }})" 
+                                    wire:confirm="¿Está seguro de que desea desactivar de forma permanente esta actividad del sistema?"
+                                    class="btn-acc" 
+                                    style="border-color: #ef3340; color: #ef3340 !important; background-color: rgba(239, 51, 64, 0.02); font-weight: 700; padding: 8px 16px; font-size: 0.8rem; border-radius: 4px; cursor: pointer;">
+                                Desactivar Actividad 🛑
+                            </button>
+                        </div>
+                        @endif
+                    @endcan
                 @endif
             </div>
         @endif

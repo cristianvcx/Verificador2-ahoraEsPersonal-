@@ -46,52 +46,44 @@
         <aside>
             <div class="menu-sidebar-left">
                 <div class="sidebar-title">
-                    @if(Auth::user()->rol === \App\Enums\UserRole::Admin)
-                    Panel Central
-                    @elseif(Auth::user()->rol ===\App\Enums\UserRole::Cargador)
-                    Módulo Importación
-                    @elseif(Auth::user()->rol === \App\Enums\UserRole::Unidad)
-                    Menú Unidad
-                    @elseif(Auth::user()->rol === \App\Enums\UserRole::Director)
-                    Menú Dirección
-                    @else
-                    Menú Consultas
-                    @endif
+                    Menú Intranet
                 </div>
                 <ul>
-                    <!-- Enlace dinámico al Dashboard según Rol -->
-                    @if(Auth::user()->rol === \App\Enums\UserRole::Admin)
+                    <!-- Enlaces Dinámicos de Dashboards basados en Permisos Reales -->
+                    @can('usuarios.crear')
                     <li>
                         <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                             Dashboard Principal
                         </a>
                     </li>
-                    @elseif(Auth::user()->rol === \App\Enums\UserRole::Auditor)
-                    <li>
-                        <a href="{{ route('auditor.dashboard') }}" class="{{ request()->routeIs('auditor.dashboard') ? 'active' : '' }}">
-                            Dashboard Auditoría
-                        </a>
-                    </li>
+                    @else
+                        @can('historial.ver-global')
+                        <li>
+                            <a href="{{ route('auditor.dashboard') }}" class="{{ request()->routeIs('auditor.dashboard') ? 'active' : '' }}">
+                                Dashboard Auditoría
+                            </a>
+                        </li>
+                        @endcan
 
-                    @elseif(Auth::user()->rol === \App\Enums\UserRole::Director)
-                    <li>
-                        <a href="{{ route('director.dashboard') }}" class="{{ request()->routeIs('director.dashboard') ? 'active' : '' }}">
-                            Dashboard Regional
-                        </a>
-                    </li>
-                    @endif
+                        @can('historial.ver-regional')
+                        <li>
+                            <a href="{{ route('director.dashboard') }}" class="{{ request()->routeIs('director.dashboard') ? 'active' : '' }}">
+                                Dashboard Regional
+                            </a>
+                        </li>
+                        @endcan
+                    @endcan
 
-                    <!-- Secciones exclusivas de Administración -->
-                    @if(Auth::user()->rol === \App\Enums\UserRole::Admin)
+                    @can('usuarios.ver-catalogo')
                     <li>
                         <a href="{{ route('admin.usuarios') }}" class="{{ request()->routeIs('admin.usuarios') ? 'active' : '' }}">
                             Usuarios
                         </a>
                     </li>
-                    @endif
+                    @endcan
 
-                    <!-- Historial de Correos (Admin) y Correos Fallidos (Auditor) con indicador dinámico -->
-                    @if(Auth::user()->rol === \App\Enums\UserRole::Admin || Auth::user()->rol === \App\Enums\UserRole::Auditor)
+                    <!-- Historial y logs de correspondencia -->
+                    @can('correos.ver-historial')
                         @php
                             $pendingMailsCount = \App\Models\MailLog::whereIn('status', ['PENDING', 'FAILED'])->count();
                             $hasPendingMails = $pendingMailsCount > 0;
@@ -102,38 +94,40 @@
                                class="{{ $routeActive ? 'active' : '' }}"
                                style="@if($hasPendingMails && !$routeActive) background-color: rgba(239, 51, 64, 0.05); color: #ef3340 !important; font-weight: 700;  @endif display: flex; justify-content: space-between; align-items: center; width: 100%; box-sizing: border-box; transition: all 0.2s ease;">
                                 <span>
-                                    {{ Auth::user()->rol === \App\Enums\UserRole::Admin ? 'Historial de Correos' : 'Correos Fallidos' }}
+                                    Historial de Correos
                                 </span>
                                 <span style="background-color: {{ $hasPendingMails ? '#ef3340' : '#cbd5e1' }}; color: #ffffff; padding: 2px 7px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; margin-left: auto; transition: all 0.2s ease;">
                                     {{ $pendingMailsCount }}
                                 </span>
                             </a>
                         </li>
-                    @endif
+                    @endcan
 
-                    <!-- Enlaces dinámicos centralizados por Rol -->
-                    @if(Auth::user()->rol === \App\Enums\UserRole::Admin || Auth::user()->rol ===\App\Enums\UserRole::Cargador)
+                    @can('actividades.importar')
                     <li>
                         <a href="{{ route('actividades.importar') }}" class="{{ request()->routeIs('actividades.importar') ? 'active' : '' }}">
                             Importar Planilla
                         </a>
                     </li>
-                    @endif
-                    
+                    @endcan
 
-                    @if(Auth::user()->rol === \App\Enums\UserRole::Unidad)
-                    <li>
-                        <a href="{{ route('unidad.dashboard') }}" class="{{ request()->routeIs('unidad.dashboard') ? 'active' : '' }}">
-                            Verificar Pendientes
-                        </a>
-                    </li>
-                    @endif
+                    @can('actividades.verificar')
+                        @if(!Gate::allows('usuarios.crear') && !Gate::allows('historial.ver-regional') && !Gate::allows('historial.ver-global'))
+                        <li>
+                            <a href="{{ route('unidad.dashboard') }}" class="{{ request()->routeIs('unidad.dashboard') ? 'active' : '' }}">
+                                Verificar Pendientes
+                            </a>
+                        </li>
+                        @endif
+                    @endcan
 
+                    @if(Gate::allows('historial.ver-global') || Gate::allows('historial.ver-regional') || Gate::allows('historial.ver-unidad'))
                     <li>
                         <a href="{{ route('actividades.historial') }}" class="{{ request()->routeIs('actividades.historial') ? 'active' : '' }}">
                             Historial de Actividades
                         </a>
                     </li>
+                    @endif
                 </ul>
             </div>
         </aside>
