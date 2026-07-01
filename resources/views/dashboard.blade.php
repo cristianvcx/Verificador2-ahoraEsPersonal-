@@ -96,8 +96,7 @@
 
 <!-- Bloque: Auditoría / Regiones Desplegables (Widget de Supervisión Global) -->
 @can('historial.ver-global')
-<div style="background-color: #ffffff; border: 1px solid rgba(226, 232, 240, 0.8); border-radius: 8px; padding: 25px; margin-bottom: 35px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);" 
-     x-data="{ activeRegion: null }">
+<div style="background-color: #ffffff; border: 1px solid rgba(226, 232, 240, 0.8); border-radius: 8px; padding: 25px; margin-bottom: 35px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
     <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 1.15rem; color: #0d1b2a; font-weight: 700; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
         <span> Avance y Desempeño Territorial por Región</span>
     </h3>
@@ -115,12 +114,12 @@
             </thead>
             <tbody>
                 @foreach($regionesEstadisticas as $stat)
-                <tr style="border-bottom: 1px solid #e2e8f0; cursor: pointer; transition: background-color 0.15s ease;" 
-                    @click="activeRegion = (activeRegion === {{ $stat['id'] }} ? null : {{ $stat['id'] }})"
-                    :style="activeRegion === {{ $stat['id'] }} ? 'background-color: rgba(15, 105, 196, 0.02);' : ''">
-                    <td style="padding: 14px 16px; font-weight: 700; color: #0F69C4; font-size: 0.9rem;">
+                <tr class="js-region-toggle" 
+                    data-target="region-detail-{{ $stat['id'] }}"
+                    style="border-bottom: 1px solid #e2e8f0; cursor: pointer; transition: background-color 0.15s ease;">
+                    <td style="padding: 14px 16px; font-weight: 700; color: #0F69C4; font-size: 0.9rem;" title="expandir unidades">
+                        <span class="js-accordion-icon" >▼</span>
                         {{ $stat['nombre'] }} 
-                        <span style="font-size: 0.72rem; color: #64748b; font-weight: normal; display: block; margin-top: 2px;">Haga clic para expandir unidades 📂</span>
                     </td>
                     <td style="padding: 14px 16px; font-size: 0.85rem; color: #475569;">{{ $stat['director'] }}</td>
                     <td style="padding: 14px 16px; font-size: 0.85rem; color: #334155; text-align: center; font-weight: 600;">{{ $stat['unidades_count'] }}</td>
@@ -136,14 +135,12 @@
                     </td>
                 </tr>
 
-                <tr x-show="activeRegion === {{ $stat['id'] }}" 
-                    x-transition 
-                    style="background-color: #f8fafc;"
-                    x-cloak>
+                <tr id="region-detail-{{ $stat['id'] }}" 
+                    style="background-color: #f8fafc; display: none;">
                     <td colspan="6" style="padding: 25px; border-bottom: 1px solid #cbd5e1;">
                         <div style="background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);">
                             <h4 style="margin-top: 0; margin-bottom: 20px; color: #0d1b2a; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
-                                🏢 Unidades Operativas - Región {{ $stat['nombre'] }}
+                                Unidades Operativas - Región {{ $stat['nombre'] }}
                             </h4>
                             <x-unidades-list :unidades="$stat['unidades']" />
                         </div>

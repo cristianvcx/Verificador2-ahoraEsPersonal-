@@ -11,61 +11,51 @@ $alDiaCount = $unidadesColl->where('status', 'al_dia')->count();
 $sinActividadesCount = $unidadesColl->where('status', 'sin_actividades')->count();
 @endphp
 
-<div x-data="{ 
-    search: '', 
-    currentFilter: 'all',
-    matchesFuzzy(name, status) {
-        // Normalización Fuzzy: Eliminar acentos y mayúsculas
-        const query = this.search.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        const normName = name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        const matchText = normName.includes(query);
-        
-        if (!matchText) return false;
-        if (this.currentFilter === 'all') return true;
-        return status === this.currentFilter;
-    }
-}" style="width: 100%;">
+<div data-unit-container data-current-filter="all" style="width: 100%;">
 
-    <!-- Barra de Búsqueda Fuzzy e Input Reactivo -->
+    <!-- Barra de Búsqueda e Input JS -->
     <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;">
         <div style="flex: 1; min-width: 280px;">
             <input type="text" 
-                   x-model="search" 
-                   class="form-input-control-caj" 
+                   class="form-input-control-caj js-unit-search" 
                    placeholder="🔍 Buscar unidad (coincidencia aproximada en memoria instantánea)..." 
                    style="width: 100%; height: 42px; border-radius: 8px; border: 1px solid #cbd5e1; padding: 0 16px; font-size: 0.9rem;">
         </div>
 
-        <!-- Botonera de Filtros con Contadores Instantáneos en Frontend -->
+        <!-- Botonera de Filtros JS -->
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <button type="button" 
-                    @click="currentFilter = 'all'" 
-                    :style="currentFilter === 'all' ? 'background-color: #0F69C4; color: #ffffff;' : 'background-color: #f8fafc; color: #475569; border: 1px solid #cbd5e1;'"
-                    style="border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.8rem; height: 42px; transition: all 0.15s ease;">
+                    class="js-unit-filter-btn active-filter"
+                    data-filter="all"
+                    data-active-color="#0F69C4"
+                    style="background-color: #0F69C4; color: #ffffff; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.8rem; height: 42px; transition: all 0.15s ease;">
                 Todos ({{ $totalCount }})
             </button>
             <button type="button" 
-                    @click="currentFilter = 'pendientes'" 
-                    :style="currentFilter === 'pendientes' ? 'background-color: #ef3340; color: #ffffff;' : 'background-color: #f8fafc; color: #475569; border: 1px solid #cbd5e1;'"
-                    style="border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.8rem; height: 42px; transition: all 0.15s ease;">
+                    class="js-unit-filter-btn"
+                    data-filter="pendientes"
+                    data-active-color="#ef3340"
+                    style="background-color: #f8fafc; color: #475569; border: 1px solid #cbd5e1; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.8rem; height: 42px; transition: all 0.15s ease;">
                 Pendientes ({{ $pendientesCount }})
             </button>
             <button type="button" 
-                    @click="currentFilter = 'al_dia'" 
-                    :style="currentFilter === 'al_dia' ? 'background-color: #2b8a3e; color: #ffffff;' : 'background-color: #f8fafc; color: #475569; border: 1px solid #cbd5e1;'"
-                    style="border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.8rem; height: 42px; transition: all 0.15s ease;">
+                    class="js-unit-filter-btn"
+                    data-filter="al_dia"
+                    data-active-color="#2b8a3e"
+                    style="background-color: #f8fafc; color: #475569; border: 1px solid #cbd5e1; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.8rem; height: 42px; transition: all 0.15s ease;">
                 Al día ({{ $alDiaCount }})
             </button>
             <button type="button" 
-                    @click="currentFilter = 'sin_actividades'" 
-                    :style="currentFilter === 'sin_actividades' ? 'background-color: #64748b; color: #ffffff;' : 'background-color: #f8fafc; color: #475569; border: 1px solid #cbd5e1;'"
-                    style="border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.8rem; height: 42px; transition: all 0.15s ease;">
+                    class="js-unit-filter-btn"
+                    data-filter="sin_actividades"
+                    data-active-color="#64748b"
+                    style="background-color: #f8fafc; color: #475569; border: 1px solid #cbd5e1; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.8rem; height: 42px; transition: all 0.15s ease;">
                 Sin actividades ({{ $sinActividadesCount }})
             </button>
         </div>
     </div>
 
-    <!-- Catálogo de Unidades Normalizado -->
+    <!-- Tabla JS -->
     <div style="overflow-x: auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;">
         <table class="table-custom-data" style="width: 100%; border-collapse: collapse; min-width: 700px;">
             <thead>
@@ -79,9 +69,10 @@ $sinActividadesCount = $unidadesColl->where('status', 'sin_actividades')->count(
             </thead>
             <tbody>
                 @foreach($unidades as $stat)
-                    <tr x-show="matchesFuzzy('{{ $stat['nombre'] }}', '{{ $stat['status'] }}')" 
-                        style="border-bottom: 1px solid #e2e8f0; transition: all 0.1s ease;"
-                        x-cloak>
+                    <tr data-unit-row 
+                        data-unit-name="{{ $stat['nombre'] }}" 
+                        data-unit-status="{{ $stat['status'] }}"
+                        style="border-bottom: 1px solid #e2e8f0; transition: all 0.1s ease;">
                         <td style="padding: 14px 16px; font-weight: 700; color: #0F69C4; font-size: 0.9rem;">
                             {{ $stat['nombre'] }}
                             <span style="display: block; font-size: 0.75rem; color: #64748b; font-weight: normal; margin-top: 2px;">{{ $stat['email'] }}</span>
@@ -90,7 +81,7 @@ $sinActividadesCount = $unidadesColl->where('status', 'sin_actividades')->count(
                         <td style="padding: 14px 16px; font-size: 0.85rem; color: #2b8a3e; text-align: center; font-weight: 600;">{{ $stat['verificadas'] }}</td>
                         <td style="padding: 14px 16px; text-align: right;">
                             @if($stat['status'] === 'sin_actividades')
-                                <span style="font-size: 0.8rem; font-weight: 600; color: #64748b; font-style: italic;">Sin actividades asignadas</span>
+                                <span style="font-size: 0.8rem; font-weight: 600; color: #64748b; font-style: italic;">Sin actividades</span>
                             @else
                                 <div style="display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
                                     <span style="font-size: 0.8rem; font-weight: 700; color: #0d1b2a;">{{ $stat['avance'] }}%</span>
