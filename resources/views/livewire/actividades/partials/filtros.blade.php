@@ -56,17 +56,6 @@ $isAdmin = $isAdmin ?? false;
                 @endforeach
             </select>
         </div>
-
-        <div class="form-group-item" style="margin: 0;">
-            <label for="tipo" style="font-size: 0.8rem; font-weight: 600; color: #475569; display: block; margin-bottom: 6px;">Tipo Actividad</label>
-            <select wire:model.live="tipo" id="tipo" class="form-select-control" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1px solid #dee2e6; border-radius: 4px;">
-                <option value="">Todos los tipos...</option>
-                <option value="Capacitación Interna">Capacitación Interna</option>
-                <option value="Reunión Bilateral">Reunión Bilateral</option>
-                <option value="Auditoría de Control">Auditoría de Control</option>
-                <option value="Despliegue en Terreno">Despliegue en Terreno</option>
-            </select>
-        </div>
         @endif
     </div>
 

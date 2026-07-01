@@ -73,8 +73,12 @@ $sinActividadesCount = $unidadesColl->where('status', 'sin_actividades')->count(
                         data-unit-name="{{ $stat['nombre'] }}" 
                         data-unit-status="{{ $stat['status'] }}"
                         style="border-bottom: 1px solid #e2e8f0; transition: all 0.1s ease;">
-                        <td style="padding: 14px 16px; font-weight: 700; color: #0F69C4; font-size: 0.9rem;">
-                            {{ $stat['nombre'] }}
+                        <td style="padding: 14px 16px; font-size: 0.9rem;">
+                            <a href="{{ route('actividades.historial', ['uf' => $stat['id']]) }}" 
+                               title="ir al historial de la unidad"
+                               style="font-weight: 700; color: #0F69C4; text-decoration: none; display: inline-block; outline: none; border-bottom: 1px dashed rgba(15, 105, 196, 0.3);">
+                                {{ $stat['nombre'] }}
+                            </a>
                             <span style="display: block; font-size: 0.75rem; color: #64748b; font-weight: normal; margin-top: 2px;">{{ $stat['email'] }}</span>
                         </td>
                         <td style="padding: 14px 16px; font-size: 0.85rem; color: #ef3340; text-align: center; font-weight: 600;">{{ $stat['cargadas'] }}</td>
@@ -92,11 +96,30 @@ $sinActividadesCount = $unidadesColl->where('status', 'sin_actividades')->count(
                             @endif
                         </td>
                         <td style="padding: 14px 16px; text-align: right;">
-                            <a href="{{ route('actividades.historial', ['uf' => $stat['id']]) }}" 
-                               class="btn-acc" 
-                               style="padding: 6px 12px; font-size: 0.8rem; font-weight: 700; text-decoration: none; border-color: #0F69C4; color: #0F69C4 !important; background-color: rgba(15, 105, 196, 0.02); border-radius: 4px; display: inline-block; text-align: center;">
-                                Historial
-                            </a>
+                            @if($stat['status'] === 'pendientes')
+                                @php
+                                    // Determinar la ruta según el permiso del usuario logueado
+                                    $notifyRoute = '#';
+                                    if(Auth::user()->hasPermissionTo('historial.ver-global')) {
+                                        $notifyRoute = route('auditor.unidades.renotificar', $stat['id']);
+                                    } elseif(Auth::user()->hasPermissionTo('historial.ver-regional')) {
+                                        $notifyRoute = route('director.unidades.renotificar', $stat['id']);
+                                    }
+                                @endphp
+                                
+                                @if($notifyRoute !== '#')
+                                    <form action="{{ $notifyRoute }}" method="POST" style="margin: 0;" onsubmit="this.querySelector('button').disabled = true; this.querySelector('button').innerHTML = '... ⏳';">
+                                        @csrf
+                                        <button type="submit" 
+                                                class="btn-acc" 
+                                                style="padding: 6px 12px; font-size: 0.8rem; font-weight: 700; border-color: #ef3340; color: #ef3340 !important; background-color: rgba(239, 51, 64, 0.02); border-radius: 4px; cursor: pointer; transition: all 0.15s ease;">
+                                            Notificar ✉️
+                                        </button>
+                                    </form>
+                                @endif
+                            @else
+                                <span style="font-size: 0.75rem; color: #94a3b8; font-style: italic; font-weight: 600;">Sin pendientes</span>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
