@@ -105,56 +105,50 @@
 
     <!-- PASO 2: PREVISUALIZACIÓN DE FILAS -->
     @if($step === 2)
-    <div x-data="importSummary(@js($validRows ?? []))"
+    <div x-data="importSummary(@js($validRows ?? []))">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #cbd5e1; padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
             <h3 style="margin: 0; color: #0F69C4; font-size: 1.4rem;">{{ $originalFileName }}</h3>
 
             <!-- Bloque de Contadores (Para ser estilizado) -->
-            <div class="import-stats-container">
-                <p>Total de Actividades por Categorías</p>
+            <div class="section-wrapper">
+                <p class="section-title">Total de Actividades por Categorías</p>
                 
-                <div class="stats-grid">
+                <div class="dashboard-summary">
                     <!-- Categoría: Tipo Actividad -->
-                    <div class="stat-box">
-                        <h4>Tipo Actividad</h4>
-                        <ul>
-                            <div x-for="(count, name) in stats.tipos" :key="name">
-                                <li>
-                                    <h1 x-text="name"></h1>
-                                    <strong x-text="count"></strong>
-                                </li>
+                    <div class="summary-card">
+                        <h4 class="summary-header">Tipo Actividad</h4>
+                        <template class="summary-body" x-for="(count, name) in stats.tipos" :key="name">
+                            <div class="summary-row">
+                                <span x-text="name"></span>
+                                <strong x-text="count"></strong>
                             </div>
-                        </ul>
+                        </template>
                     </div>
 
                     <!-- Categoría: Sub Tipo Actividad -->
-                    <div class="stat-box">
-                        <h4>Sub Tipo Actividad</h4>
-                        <ul>
-                            <template x-for="(count, name) in stats.subtipos" :key="name">
-                                <li>
-                                    <span x-text="name"></span>
-                                    <strong x-text="count"></strong>
-                                </li>
-                            </template>
-                        </ul>
+                    <div class="summary-card">
+                        <h4 class="summary-header">Sub Tipo Actividad</h4>
+                        <template class="summary-body" x-for="(count, name) in stats.subtipos" :key="name">
+                            <div class="summary-row">
+                                <span x-text="name"></span>
+                                <strong x-text="count"></strong>
+                            </div>
+                        </template>
                     </div>
 
                     <!-- Categoría: Tipo Unidad -->
-                    <div class="stat-box">
-                        <h4>Tipo Unidad</h4>
-                        <ul>
-                            <template x-for="(count, name) in stats.unidades" :key="name">
-                                <li>
-                                    <span x-text="name"></span>
-                                    <strong x-text="count"></strong>
-                                </li>
-                            </template>
-                        </ul>
+                    <div class="summary-card">
+                        <h4 class="summary-header">Tipo Unidad</h4>                        
+                        <template class="summary-body" x-for="(count, name) in stats.unidades" :key="name">
+                            <div class="summary-row">
+                                <span x-text="name"></span>
+                                <strong x-text="count"></strong>
+                            </div>
+                        </template>
                     </div>
                 </div>
 
-                <p>A continuación se presenta una muestra de los registros contenidos en el archivo Excel correspondientes al período seleccionado.</p>
+                <p class="section-footer">A continuación se presenta una muestra de los registros contenidos en el archivo Excel correspondientes al período seleccionado.</p>
             </div>
             <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                 @if($omittedRows > 0)
