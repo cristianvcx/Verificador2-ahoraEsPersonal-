@@ -359,14 +359,20 @@ class ImportActividadesForm extends Component
                         break;
                     }
                 }
-                if ($hasError) continue;
+                if ($hasError) {
+                    continue;
+                }
 
                 $codRaw = trim((string) ($row['COD'] ?? ''));
-                if ($codRaw !== '' && isset($existingCodsMap[$codRaw])) continue;
+                if ($codRaw !== '' && isset($existingCodsMap[$codRaw])) {
+                    continue;
+                }
 
                 $unidadNombreRaw = trim($row['UNIDAD'] ?? '');
                 $unidadIdAsignada = $importer->resolverUnidadId($unidadNombreRaw, $mapaNormalizado);
-                if ($unidadIdAsignada === null) continue;
+                if ($unidadIdAsignada === null) {
+                    continue;
+                }
 
                 $validRows[] = $row;
             }
@@ -398,8 +404,30 @@ class ImportActividadesForm extends Component
         $this->reset(['excelFile', 'step', 'headers', 'previewRows', 'warnings', 'totalRows', 'tempFilePath', 'originalFileName', 'countdown', 'isCountingDown', 'periodoSeleccionado', 'periodosDisponibles']);
     }
 
-    public function render()
+    public function render(ExcelImporterService $importer)
     {
-        return view('livewire.actividades.import-actividades-form');
+        $validRows = [];
+
+        // Si estamos en el paso de previsualización o superior, calculamos las filas válidas para el frontend
+        if ($this->step >= 2) {
+            $cacheKey = 'excel_import_'.Auth::id();
+            $data = Cache::get($cacheKey);
+
+            if ($data && isset($data['allRows'])) {
+                foreach ($data['allRows'] as $row) {
+                    $rowMes = isset($row['MES']) ? (int) $row['MES'] : null;
+                    $rowAno = isset($row['AÑO']) ? (int) $row['AÑO'] : null;
+
+                    // Solo enviamos al frontend las filas que coinciden con el periodo seleccionado
+                    if ($rowMes === $this->mesEstadistico && $rowAno === $this->anoEstadistico) {
+                        $validRows[] = $row;
+                    }
+                }
+            }
+        }
+
+        return view('livewire.actividades.import-actividades-form', [
+            'validRows' => $validRows,
+        ]);
     }
 }
