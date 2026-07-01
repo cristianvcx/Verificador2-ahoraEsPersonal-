@@ -69,7 +69,7 @@ $isAdmin = $isAdmin ?? false;
             <span wire:loading.remove wire:target="$refresh"> Actualizar Datos</span>
             <span wire:loading wire:target="$refresh">⏳ Actualizando...</span>
         </button>
-        <button type="button" wire:click="$set('buscar', ''); $set('ano', ''); $set('mes', ''); $set('director_filtro', ''); $set('tipo', ''); $set('actividad_id', ''); $set('unidad_filtro', '');" class="btn-secondary" style="padding: 8px 16px; font-size: 0.85rem; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; background: transparent;">
+        <button type="button" wire:click="$set('buscar', ''); $set('ano', ''); $set('director_filtro', ''); $set('tipo', ''); $set('actividad_id', ''); $set('unidad_filtro', '');" class="btn-secondary" style="padding: 8px 16px; font-size: 0.85rem; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; background: transparent;">
             Limpiar Filtros
         </button>
     </div>
