@@ -132,7 +132,7 @@
                     <form action="{{ route('password.request-renewal') }}" method="POST" style="margin: 0;">
                         @csrf
                         <button type="submit" class="btn-dashboard-primary">
-                            Renovar contraseña ahora ✉️
+                            Renovar contraseña ahora 
                         </button>
                     </form>
                 </div>

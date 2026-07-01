@@ -115,7 +115,7 @@ $sinActividadesCount = $unidadesColl->where('status', 'sin_actividades')->count(
                                                 class="btn-acc" 
                                                 style="padding: 6px 12px; font-size: 0.8rem; font-weight: 700; border-radius: 4px; cursor: pointer; transition: all 0.15s ease;
                                                        {{ $isNotifiedToday ? 'border-color: #64748b; color: #64748b !important; background-color: #f1f5f9;' : 'border-color: #ef3340; color: #ef3340 !important; background-color: rgba(239, 51, 64, 0.02);' }}">
-                                            {{ $isNotifiedToday ? 'Ya notificada' : 'Notificar' }} ✉️
+                                            {{ $isNotifiedToday ? 'Ya notificada' : 'Notificar' }} 
                                         </button>
                                     </form>
                                 @endif
