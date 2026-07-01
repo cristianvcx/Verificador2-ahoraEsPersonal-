@@ -494,12 +494,24 @@ nav.nav-pagination {
     padding:24px;
 }
 
-.section-wrapper{
-    max-width:auto;
-    background:#eaf0f8;
-    border:1px solid #dfe6ef;
-    border-radius:12px;
-    padding:24px;
+.content-with-summary{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.content-with-summary > .section-wrapper{
+    order: 2;              // esto hace que las tarjetas se vayan al lado derecho
+    flex: 1 1 300px;
+    max-width: none;
+    margin: 0;
+}
+
+.content-with-summary > *:not(.section-wrapper){
+    order: 1;               // todo lo demás (la tabla) queda a la izquierda
+    flex: 1 1 60%;
+    min-width: 0;
 }
 
 .dashboard-summary{
@@ -555,7 +567,7 @@ nav.nav-pagination {
     font-size:15px;
     font-weight:700;
     color:#0f2a4a;
-    margin-top:18px;
+    margin-top:10px;
 }
 
 .section-footer{
